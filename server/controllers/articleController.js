@@ -80,7 +80,7 @@ const updateCost = async (req, res) => {
 
 const deleteArticleById = async (req, res) => {
   try {
-    const articleId = req.params.debtId;
+    const articleId = req.params.articleId;
     const deletedArticle = await Article.findByIdAndDelete(articleId);
     if (!deletedArticle) {
       return res.status(404).json({ error: "Article not found" });
@@ -88,6 +88,19 @@ const deleteArticleById = async (req, res) => {
     res.status(200).json({ message: "Article deleted successfully" });
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+};
+
+const deleteArticleByCode = async (req, res) => {
+  try {
+    const articleCode = req.body;
+    const deletedArticle = await Article.deleteOne({ code: articleCode });
+    if (!deletedArticle) {
+      return res.status(404).json({ error: "Article not found" });
+    }
+    res.status(200).json({ message: "Article deleted successfully" });
+  } catch (err) {
+    console.error(err);
   }
 };
 
@@ -99,4 +112,5 @@ module.exports = {
   getAllArticles,
   updateCost,
   deleteArticleById,
+  deleteArticleByCode,
 };
