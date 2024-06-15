@@ -1,13 +1,12 @@
 
 import {Route, Routes, BrowserRouter as Router} from "react-router-dom"
-
-import SafeRoute from "./components/SafeRoute/SafeRoute.js";
+import LoginForm from "./pages/login/login";
 
 function App() {
   return (
       <Router>
           <Routes>
-           
+            <Route path="/" element={<div><LoginForm /></div>} />
           </Routes>
       </Router>
   );
