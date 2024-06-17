@@ -3,15 +3,15 @@ import "./login-styles.css";
 
 function LoginForm() {
   return (
-    <div class="container">
-      <div class="heading">Sign In</div>
-      <form class="form" action="">
+    <div className="container">
+      <div className="heading">Sign In</div>
+      <form className="form" action="">
         <input
           placeholder="E-mail"
           id="email"
           name="email"
           type="email"
-          class="input"
+          className="input"
           required=""
         />
         <input
@@ -19,51 +19,51 @@ function LoginForm() {
           id="password"
           name="password"
           type="password"
-          class="input"
+          className="input"
           required=""
         />
-        <span class="forgot-password">
+        <span className="forgot-password">
           <a href="#">Forgot Password ?</a>
         </span>
-        <input value="Sign In" type="submit" class="login-button" />
+        <input value="Sign In" type="submit" className="login-button" />
       </form>
-      <div class="social-account-container">
-        <span class="title">Or Sign in with</span>
-        <div class="social-accounts">
-          <button class="social-button google">
+      <div className="social-account-container">
+        <span className="title">Follow us</span>
+        <div className="social-accounts">
+          <button className="social-button google">
             <svg
               viewBox="0 0 488 512"
               height="1em"
               xmlns="http://www.w3.org/2000/svg"
               class="svg"
             >
-              <path d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
+              <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"></path>
             </svg>
           </button>
-          <button class="social-button apple">
-            <svg
-              viewBox="0 0 384 512"
-              height="1em"
-              xmlns="http://www.w3.org/2000/svg"
-              class="svg"
-            >
-              <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"></path>
-            </svg>
-          </button>
-          <button class="social-button twitter">
+          <button className="social-button apple">
             <svg
               viewBox="0 0 512 512"
               height="1em"
               xmlns="http://www.w3.org/2000/svg"
-              class="svg"
+              className="svg"
             >
-              <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path>
+              <path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"></path>
+            </svg>
+          </button>
+          <button className="social-button twitter">
+            <svg
+              viewBox="0 0 512 512"
+              height="1em"
+              xmlns="http://www.w3.org/2000/svg"
+              className="svg"
+            >
+              <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"></path>
             </svg>
           </button>
         </div>
       </div>
-      <span class="agreement">
-        <a href="#">Learn user licence agreement</a>
+      <span className="agreement">
+        <a href="#">APPA softwares product</a>
       </span>
     </div>
   );
