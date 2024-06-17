@@ -232,3 +232,26 @@
         transform: translateY(0);
     }
 }
+
+@media screen and (max-width: 1300px) {
+  .container {
+    height: 465px;
+    width: 350px;
+  }
+
+  .social-account-container{
+    margin-top: 10px;
+  }
+
+  .shoes{
+    font-size: 75pt;
+  }
+
+  .durres {
+    font-size: 105pt;
+  }
+
+  .frosted-glass{
+    width: 80vw;
+  }
+}
