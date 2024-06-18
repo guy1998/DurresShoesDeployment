@@ -15,10 +15,9 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
-import logo from "../assets/images/Epoka_wATER_fILTERTS-removebg-preview.png"
+import logo from "../assets/images/app_logo.png"
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "../assets/theme/index.js";
-import "./styles/page_model.css";
 import Configurator from "../components/Configurator/index.js"
 
 // Material Dashboard 2 React Dark Mode themes
@@ -85,7 +84,7 @@ function PageModel(props){
                     brandName="Epoka filters"
                     routes={props.routes.map(route=>{
                       let new_route = {...route}
-                      new_route['route'] = props.prefix + route.route;
+                      new_route['route'] = "/app" + route.route;
                       return new_route
                     })}
                     onMouseEnter={()=>console.log("Something")}

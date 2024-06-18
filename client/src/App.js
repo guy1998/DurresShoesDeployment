@@ -1,14 +1,19 @@
 
 import {Route, Routes, BrowserRouter as Router} from "react-router-dom"
-import LoginForm from "./pages/login/login";
+import LoginPage from "./pages/login";
+import AdminView from "./pages/admin"
+import "./App.css"
 
 function App() {
   return (
+    <div className="app">
       <Router>
           <Routes>
-            <Route path="/" element={<div><LoginForm /></div>} />
+            <Route path="/auth/login" element={<LoginPage />} />
+            <Route path="/app*" element={<AdminView />}/>
           </Routes>
       </Router>
+    </div>
   );
 }
 

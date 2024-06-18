@@ -33,12 +33,12 @@ export default styled(Drawer)(({ theme, ownerState }) => {
   if (transparentSidenav) {
     backgroundValue = transparent.main;
   } else if (whiteSidenav) {
-    backgroundValue = white.main;
+    backgroundValue = '#F4F4F4';
   }
 
   // styles for the sidenav when miniSidenav={false}
   const drawerOpenStyles = () => ({
-    background: backgroundValue,
+    background: '#F4F4F4',
     transform: "translateX(0)",
     transition: transitions.create("transform", {
       easing: transitions.easing.sharp,

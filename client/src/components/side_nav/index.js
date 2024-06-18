@@ -14,7 +14,6 @@ Coded by www.creative-tim.com
 */
 
 import { useEffect } from "react";
-import {logout} from "../../scripts/login-scripts.js";
 import {useNavigate} from "react-router-dom";
 import {useSnackbar} from "notistack";
 
@@ -183,7 +182,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           variant="gradient"
           color={sidenavColor}
           fullWidth
-          onClick={()=>logout(navigator, notification)}
+          onClick={()=>console.log('logging out')}
         >
           <Icon>logout</Icon>
           Log-out
