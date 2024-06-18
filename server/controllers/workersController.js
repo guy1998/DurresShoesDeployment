@@ -55,6 +55,15 @@ const getWorkerBySurname = async (req, res) => {
   }
 };
 
+const getAllWorkers = async (req, res) => {
+  try {
+    const workers = await Worker.find();
+    res.status(200).json(workers);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 const updateCostPerDay = async (req, res) => {
   try {
     const { workerId, newCost } = req.body;
@@ -90,4 +99,5 @@ module.exports = {
   getWorkerBySurname,
   updateCostPerDay,
   deleteWorkerById,
+  getAllWorkers,
 };

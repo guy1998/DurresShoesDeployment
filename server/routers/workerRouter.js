@@ -30,6 +30,12 @@ router.get("/getBySurname", (req, res) => {
   });
 });
 
+router.get("/allWorkers", (req, res) => {
+  login_controller.authorize(req, res, () => {
+    workerController.getAllWorkers(req, res);
+  });
+});
+
 router.put("/updateCost", (req, res) => {
   login_controller.authorize(req, res, () => {
     workerController.updateCostPerDay(req, res);
