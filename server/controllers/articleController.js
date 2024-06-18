@@ -17,7 +17,7 @@ async function createArticle(req, res) {
 
 const getArticleById = async (req, res) => {
   try {
-    const articleId = req.params.debtId;
+    const articleId = req.params.articleId;
     const article = await Article.findById(articleId);
     if (!article) {
       return res.status(404).json({ error: "Article not found" });
@@ -30,7 +30,7 @@ const getArticleById = async (req, res) => {
 
 const getArticleByCode = async (req, res) => {
   try {
-    const code = req.body;
+    const { code } = req.body;
     const article = await Article.find({ code: code });
     if (!article) {
       return res.status(404).json({ err: "Article not found" });
@@ -43,8 +43,8 @@ const getArticleByCode = async (req, res) => {
 
 const getArticleByCost = async (req, res) => {
   try {
-    const cost = req.body;
-    const article = await Article.find({ cost: cost });
+    const { cost } = req.body;
+    const article = await Article.find({ costPerArticle: cost });
     if (!article) {
       return res.status(404).json({ err: "Article not found" });
     }
@@ -67,7 +67,7 @@ const updateCost = async (req, res) => {
   try {
     const { itemId, cost } = req.body;
     const updatedItem = await Article.findByIdAndUpdate(itemId, {
-      cost: cost,
+      costPerArticle: cost,
     });
     if (!updatedItem) {
       return res.status(404).json({ error: "Item not found" });
@@ -93,8 +93,8 @@ const deleteArticleById = async (req, res) => {
 
 const deleteArticleByCode = async (req, res) => {
   try {
-    const articleCode = req.body;
-    const deletedArticle = await Article.deleteOne({ code: articleCode });
+    const { code } = req.body;
+    const deletedArticle = await Article.deleteOne({ code: code });
     if (!deletedArticle) {
       return res.status(404).json({ error: "Article not found" });
     }

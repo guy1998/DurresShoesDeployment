@@ -6,7 +6,7 @@ const get_username_and_role_from_token = (token) => {
   return { username: decoded.username, role: decoded.role };
 };
 
-const token_issue = (user) => { 
+const token_issue = (user) => {
   const accessToken = jwt.sign(
     { id: user._id, username: user.username, role: user.status },
     process.env.JWT_KEY,
@@ -101,13 +101,13 @@ const get_role_from_token = (req) => {
 
 async function createUser(req, res) {
   try {
-    const { username, Password, status, firstName, lastName } = req.body;
+    const { username, Password, status, name, surname } = req.body;
     const newUser = new User({
-      username,
-      Password,
-      status,
-      firstName,
-      lastName,
+      username: username,
+      Password: Password,
+      status: status,
+      name: name,
+      surname: surname,
     });
     await newUser.save();
     res.status(201).json(newUser);

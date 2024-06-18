@@ -1,4 +1,4 @@
-const Workers = require("../models/workers");
+const Worker = require("../models/workers");
 
 const createWorker = async (req, res) => {
   try {
@@ -18,7 +18,7 @@ const createWorker = async (req, res) => {
 
 const getWorkerByName = async (req, res) => {
   try {
-    const name = req.body;
+    const { name } = req.body;
     const worker = await Worker.find({ name: name });
     if (!worker) {
       return res.status(404).json({ error: "Worker not found" });
@@ -44,8 +44,8 @@ const getWorkerById = async (req, res) => {
 
 const getWorkerBySurname = async (req, res) => {
   try {
-    const workerSurname = req.body;
-    const worker = await Worker.find({ surname: workerSurname });
+    const { surname } = req.body;
+    const worker = await Worker.find({ surname: surname });
     if (!worker) {
       return res.status(404).json({ error: "Worker not found" });
     }
@@ -64,7 +64,7 @@ const updateCostPerDay = async (req, res) => {
     if (!updatedWorker) {
       return res.status(404).json({ error: "Worker not found" });
     }
-    res.status(200).json(updatedItem);
+    res.status(200).json(updatedWorker);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
