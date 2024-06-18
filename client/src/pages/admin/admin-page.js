@@ -20,7 +20,7 @@ function AdminPage(){
     return (
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/app/dashboard" />} />
+        {/* <Route path="*" element={<Navigate to="/app/dashboard" />} /> */}
       </Routes>
     );
 }

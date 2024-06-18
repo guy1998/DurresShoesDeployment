@@ -9,12 +9,11 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import MDButton from "../../../../components/MDButton";
 
-function EmployeesCreateContent() {
+function ProductCreateContent() {
 
   const navigator = useNavigate();
   const [cost, setCost] = useState(0);
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('')
+  const [code, setCode] = useState('');
 
   const updateCost = (event)=>{
     if(!event.target.value)
@@ -47,26 +46,17 @@ function EmployeesCreateContent() {
           margin: "5px auto 15px auto",
         }}
       >
-        <h3>Create a new worker</h3>
+        <h3>Create a new product</h3>
       </div>
       <div style={{ width: "90%", margin: "0 auto" }}>
         <TextField
           id="outlined-basic"
-          label="Name"
+          label="Product code"
           variant="outlined"
           fullWidth
           style={{ margin: "10px 0" }}
-          value={name}
-          onChange={(event)=>setName(event.target.value)}
-        />
-        <TextField
-          id="outlined-basic"
-          label="Surname"
-          variant="outlined"
-          fullWidth
-          style={{ margin: "10px 0" }}
-          value={surname}
-          onChange={(event)=>setSurname(event.target.value)}
+          value={code}
+          onChange={(event)=>setCode(event.target.value)}
         />
         <FormControl fullWidth style={{ margin: "10px 0" }}>
           <InputLabel htmlFor="outlined-adornment-amount">Cost</InputLabel>
@@ -93,7 +83,7 @@ function EmployeesCreateContent() {
             Confirm
         </MDButton>
         <MDButton color="primary" onClick={()=>{
-            navigator("/app/employees")
+            navigator("/app/products")
         }}>
             <Icon style={{ marginRight: "5px" }}>close</Icon>
             Cancel
@@ -103,4 +93,4 @@ function EmployeesCreateContent() {
   );
 }
 
-export default EmployeesCreateContent;
+export default ProductCreateContent;
