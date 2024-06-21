@@ -2,10 +2,9 @@ const Article = require("../models/article");
 
 async function createArticle(req, res) {
   try {
-    const { code, quantity, costPerArticle } = req.body;
+    const { code, costPerArticle } = req.body;
     const newArticle = new Article({
       code: code,
-      quantity: quantity,
       costPerArticle: costPerArticle,
     });
     const savedArticle = await newArticle.save();

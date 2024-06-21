@@ -8,6 +8,7 @@ const logInRouter = require("./routers/loginRouter.js");
 const signUpRouter = require("./routers/signUpRouter.js");
 const articleRouter = require("./routers/articleRouter.js");
 const employerRouter = require("./routers/workerRouter.js");
+const dailyStatisticRouter = require("./routers/dailyStatisticRouter.js");
 
 const allowedOrigins = ["https://localhost:3000", "postman://app"];
 
@@ -29,6 +30,7 @@ app.use(
 app.use("/signUp", signUpRouter);
 app.use("/article", articleRouter);
 app.use("/employers", employerRouter);
+app.use("/dailyStatistics", dailyStatisticRouter);
 
 const options = {
   key: fs.readFileSync("./localhost.key"),

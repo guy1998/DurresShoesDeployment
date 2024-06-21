@@ -3,7 +3,6 @@ const { Schema } = mongoose;
 
 const articleSchema = new Schema({
   code: { type: String, required: true },
-  quantity: { type: Number, required: true },
   costPerArticle: { type: Number, required: true },
 });
 
