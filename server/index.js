@@ -30,19 +30,13 @@ app.use("/signUp", signUpRouter);
 app.use("/article", articleRouter);
 app.use("/employers", employerRouter);
 
-const options = {
-  key: fs.readFileSync("./localhost.key"),
-  cert: fs.readFileSync("./localhost.crt"),
-};
-
-const port = 5443;
-const server = https.createServer(options, app);
+const port = 8003;
 
 connectToDb(async (err) => {
   if (err) {
     console.log("Sth went wrong with the server");
   } else {
-    server.listen(port, () => {
+    app.listen(port, () => {
       console.log(`Listening to HTTPS on port ${port}`);
     });
   }
