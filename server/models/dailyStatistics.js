@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const dailyStatisticsSchema = new Schema(
   {
     products: [{ code: String, quantity: Number, cost: Decimal128 }],
-    profit: { type: Number, required: true },
+    profit: { type: Decimal128, required: true },
     productionCost: { type: Decimal128, required: true },
     earned: { type: Number, required: true },
   },

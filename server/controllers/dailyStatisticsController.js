@@ -2,9 +2,10 @@ const DailyStatistics = require("../models/dailyStatistics");
 const Workers = require("../models/workers");
 const Article = require("../models/article");
 const articleController = require("../controllers/articleController");
+const { Decimal128 } = require("mongodb");
 
 const getTotalWorkersCost = async () => {
-  const workers = await Workers.find();
+  const workers = await Workers.find({});
   const totalWorkersCost = workers.reduce(
     (total, worker) => total + worker.costPerDay,
     0
@@ -27,17 +28,18 @@ const createDailyStatistic = async (req, res) => {
 
     const newDailyStatistic = new DailyStatistics({
       products: products.map((product) => ({
-        code: product.code, 
+        code: product.code,
         quantity: product.quantity,
-        cost: product.cost,
+        cost: Decimal128.fromString(product.cost.toString()),
       })),
       productionCost: Decimal128.fromString(productionCost.toString()),
-      profit: profit,
+      profit: Decimal128.fromString(profit.toString()),
       earned: totalEarned,
     });
     const savedStatistic = await newDailyStatistic.save();
     res.status(201).json(savedStatistic);
   } catch (err) {
+    console.log(err.message);
     res.status(400).json({ error: err.message });
   }
 };
@@ -81,8 +83,9 @@ const getAllStatistics = async (req, res) => {
 
 const getStatisticByProfit = async (req, res) => {
   try {
-    const profit = req.body;
-    const statistic = await DailyStatistics.find({ profit: profit });
+    const { profit } = req.body;
+    const profitDecimal = Decimal128.fromString(profit.toString());
+    const statistic = await DailyStatistics.find({ profit: profitDecimal });
     if (!statistic) {
       return res.status(404).json({ error: "Statistic not found" });
     }
@@ -112,7 +115,7 @@ const getStatisticByTimeRange = async (req, res) => {
 const deleteStatisticById = async (req, res) => {
   try {
     const statisticId = req.params.statisticId;
-    const deletedStatistic = await Article.findByIdAndDelete(statisticId);
+    const deletedStatistic = await DailyStatistics.findByIdAndDelete(statisticId);
     if (!deletedStatistic) {
       return res.status(404).json({ error: "Statistic not found" });
     }
