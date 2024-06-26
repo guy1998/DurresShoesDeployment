@@ -15,7 +15,7 @@ import {
   numberInputClasses,
 } from "@mui/base/Unstable_NumberInput";
 import { styled } from "@mui/system";
-import { NumericFormat } from "react-number-format";
+//import { NumericFormat } from "react-number-format";
 
 const CustomNumberInput = React.forwardRef((props, ref) => {
   return (
