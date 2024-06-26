@@ -9,6 +9,7 @@ const signUpRouter = require("./routers/signUpRouter.js");
 const articleRouter = require("./routers/articleRouter.js");
 const employerRouter = require("./routers/workerRouter.js");
 const dailyStatisticRouter = require("./routers/dailyStatisticRouter.js");
+const monthlyStatisticsRouter = require("./routers/monthlyStatisticsRouter.js");
 
 const allowedOrigins = ["https://localhost:3000", "postman://app"];
 
@@ -31,6 +32,7 @@ app.use("/signUp", signUpRouter);
 app.use("/article", articleRouter);
 app.use("/employers", employerRouter);
 app.use("/dailyStatistics", dailyStatisticRouter);
+app.use("/monthlyStatistics", monthlyStatisticsRouter);
 
 const port = 8003;
 
