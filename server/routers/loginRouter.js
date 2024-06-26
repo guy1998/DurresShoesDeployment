@@ -25,4 +25,8 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/logout", async (req, res) => {
+  await login_controller.logOut(res);
+});
+
 module.exports = app;

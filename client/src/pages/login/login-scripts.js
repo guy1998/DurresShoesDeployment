@@ -1,4 +1,4 @@
-const url = 'http://localhost:8003/login/login'
+const url = 'http://localhost:8003/login/'
 
 const verifyCredentials = (username, password, notification)=>{
     if(username && password)
@@ -12,7 +12,7 @@ const verifyCredentials = (username, password, notification)=>{
 export const login = async (username, password, notification, navigation)=>{
     const verified = verifyCredentials(username, password, notification);
     if(verified){
-        const response = await fetch(url, {
+        const response = await fetch(`${url}login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -26,5 +26,16 @@ export const login = async (username, password, notification, navigation)=>{
             const message = await response.json();
             notification.add(message, { variant: "error" });
         }
+    }
+}
+
+export const logout = async (notification, navigator)=>{
+    const response = await fetch(`${url}logout`, {
+        method: "POST",
+        credentials: "include"
+    })
+    if (response.status === 200) {
+        notification.add('Logging out...', { variant: 'info' });
+        navigator('/auth/login');
     }
 }

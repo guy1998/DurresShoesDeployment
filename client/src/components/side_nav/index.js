@@ -39,7 +39,7 @@ import SidenavCollapse from "./SidenavCollapse";
 
 // Custom styles for the Sidenav
 import SidenavRoot from "./SidenavRoot";
-import sidenavLogoLabel from "./styles/sidenav";
+import { logout } from "../../pages/login/login-scripts";
 
 // Material Dashboard 2 React context
 import {
@@ -182,7 +182,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
           variant="gradient"
           color={sidenavColor}
           fullWidth
-          onClick={()=>console.log('logging out')}
+          onClick={()=>logout(notification, navigator)}
         >
           <Icon>logout</Icon>
           Log-out

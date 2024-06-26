@@ -36,7 +36,7 @@ const tokenRefresher = (refreshToken) => {
   if (checkToken.result) {
     return {
       result: true,
-      content: jwt.sign(checkToken.payload, process.env.JWT_KEY, {
+      content: jwt.sign({ id: checkToken.payload.id, name: checkToken.payload.name, surname: checkToken.payload.surname }, process.env.JWT_KEY, {
         expiresIn: 900,
       }),
     };
@@ -131,6 +131,7 @@ async function logOut(res) {
     secure: true,
     sameSite: "none"
 });
+  res.status(200).json("Logging out");
 }
 
 async function deleteUser(userId) {
