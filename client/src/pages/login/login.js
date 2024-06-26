@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 import "./login-styles.css";
+import { login } from "./login-scripts";
 
 function LoginForm() {
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const notification = { add: enqueueSnackbar, close: closeSnackbar };
+  const navigation = useNavigate();
+
   return (
     <div className="container">
       <div className="heading">Sign In</div>
       <form className="form" action="">
         <input
-          placeholder="E-mail"
+          placeholder="Username"
           id="email"
           name="email"
-          type="email"
           className="input"
           required=""
+          value={username}
+          onChange={(event)=>setUsername(event.target.value)}
         />
         <input
           placeholder="Password"
@@ -21,11 +32,16 @@ function LoginForm() {
           type="password"
           className="input"
           required=""
+          value={password}
+          onChange={(event)=>setPassword(event.target.value)}
         />
         <span className="forgot-password">
           <a href="#">Forgot Password ?</a>
         </span>
-        <input value="Sign In" type="submit" className="login-button" />
+        <input value="Sign In" type="submit" className="login-button" onClick={(event)=>{
+          event.preventDefault();
+          login(username, password, notification, navigation);
+        }}/>
       </form>
       <div className="social-account-container">
         <span className="title">Follow us</span>

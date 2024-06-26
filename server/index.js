@@ -10,7 +10,7 @@ const articleRouter = require("./routers/articleRouter.js");
 const employerRouter = require("./routers/workerRouter.js");
 const dailyStatisticRouter = require("./routers/dailyStatisticRouter.js");
 
-const allowedOrigins = ["https://localhost:3000", "postman://app"];
+const allowedOrigins = ["http://localhost:3000", "postman://app"];
 
 app.use(
   cors({
@@ -31,6 +31,7 @@ app.use("/signUp", signUpRouter);
 app.use("/article", articleRouter);
 app.use("/employers", employerRouter);
 app.use("/dailyStatistics", dailyStatisticRouter);
+app.use('/login', logInRouter);
 
 const port = 8003;
 

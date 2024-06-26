@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const login_controller = require("../controllers/userProxy");
+const login_controller = require("../controllers/UserProxy");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 
@@ -12,11 +12,11 @@ app.post("/login", async (req, res) => {
     req.body.username,
     req.body.password
   );
-  if (login_result.token_obj) {
+  if (login_result.token_obj.accessToken) {
     res.cookie("tokenCookie", login_result.token_obj, {
       maxAge: 3600000,
       httpOnly: true,
-      secure: true, //when true it implies https
+      secure: false, //when true it implies https
       sameSite: "none",
     });
     res.status(200).json("User authenticated successfully!");

@@ -1,19 +1,16 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-
-const get_username_and_role_from_token = (token) => {
-  const decoded = jwt.verify(token, process.env.JWT_KEY);
-  return { username: decoded.username, role: decoded.role };
-};
+require('dotenv').config();
+const { passwordVerifier } = require("../utils/security-ground");
 
 const token_issue = (user) => {
   const accessToken = jwt.sign(
-    { id: user._id, username: user.username, role: user.status },
+    { id: user._id, name: user.name, surname: user.surname },
     process.env.JWT_KEY,
     { expiresIn: 900 }
   );
   const refreshToken = jwt.sign(
-    { id: user._id, username: user.username, role: user.status },
+    { id: user._id, name: user.name, surname: user.surname },
     process.env.JWT_KEY,
     { expiresIn: "1h" }
   );
@@ -55,7 +52,6 @@ const authorize = (req, res, action) => {
   if (tokens) {
     const checkAccess = tokenChecker(tokens.accessToken);
     if (checkAccess.result) {
-      const { id, username, role } = checkAccess.payload;
       action();
     } else {
       const refreshAccess = tokenRefresher(tokens.refreshToken);
@@ -69,7 +65,7 @@ const authorize = (req, res, action) => {
           {
             maxAge: 3600000,
             httpOnly: true,
-            secure: true,
+            secure: false,
             sameSite: "none",
           }
         );
@@ -83,28 +79,12 @@ const authorize = (req, res, action) => {
   }
 };
 
-const get_id_from_token = (req) => {
-  const decoded = jwt.verify(
-    req.cookies.tokenCookie.accessToken,
-    process.env.JWT_KEY
-  );
-  return decoded.id;
-};
-
-const get_role_from_token = (req) => {
-  const decoded = jwt.verify(
-    req.cookies.tokenCookie.accessToken,
-    process.env.JWT_KEY
-  );
-  return decoded.role;
-};
-
 async function createUser(req, res) {
   try {
-    const { username, Password, status, name, surname } = req.body;
+    const { username, password, status, name, surname } = req.body;
     const newUser = new User({
       username: username,
-      Password: Password,
+      password: password,
       status: status,
       name: name,
       surname: surname,
@@ -112,6 +92,7 @@ async function createUser(req, res) {
     await newUser.save();
     res.status(201).json(newUser);
   } catch (error) {
+    console.log(error)
     res.status(400).json({ error: error.message });
   }
 }
@@ -119,7 +100,7 @@ async function createUser(req, res) {
 const verify_credentials = async (username, password) => {
   const user = await User.findOne({ username: username });
   if (user) {
-    if (user.Password === password) return { code: 1, user: user };
+    if (passwordVerifier(user.password, password)) return { code: 1, user: user };
     else return { code: 3, user: {} };
   } else {
     return { code: 2, user: {} };
@@ -143,21 +124,28 @@ async function getUserByUsername(username) {
   return user;
 }
 
-async function logOut(userId) {}
+async function logOut(res) {
+  res.cookie("tokenCookie", "", {
+    expires: new Date(0),
+    httpOnly: true,
+    secure: true,
+    sameSite: "none"
+});
+}
 
 async function deleteUser(userId) {
   const user = await User.findById(userId);
   await User.deleteOne();
 }
 
-function editUser(userId, newInfo) {
+async function editUser(userId, newInfo) {
   const response = { result: true, message: "Edited successfully!" };
-  User.findOneAndUpdate({ _id: userId }, { ...newInfo }, (err) => {
-    if (err) {
-      response["result"] = false;
-      response["message"] = "Unable to edit due to an error!";
-    }
-  });
+  try {
+    await User.findOneAndUpdate({ _id: userId }, { ...newInfo });
+  } catch (err) {
+    response.result = false;
+    response.message = "Unable to edit due to an error!";
+  }
   return response;
 }
 
@@ -165,15 +153,14 @@ async function changePassword(userId, newPassword, oldPassword) {
   const user = await User.findById(userId);
   const response = { result: true, message: "Edited successfully!" };
   if (user) {
-    if (oldPassword === user.Password) {
+    if (passwordVerifier(user.password, oldPassword)) {
       if (newPassword !== oldPassword) {
-        User.findOneAndUpdate({ _id: userId }, { newPassword }, (err) => {
-          if (err) {
-            response["result"] = false;
-            response["message"] = "Unable to update due to an error!";
-          }
-        });
-        return response;
+        try{
+          await User.findOneAndUpdate({ _id: userId }, { password: newPassword });
+        } catch(err){
+          response["result"] = false;
+          response["message"] = "Unable to update due to an error!";
+        }
       } else {
         response["result"] = false;
         response["message"] = "New password same with old password";
@@ -186,6 +173,7 @@ async function changePassword(userId, newPassword, oldPassword) {
     response["result"] = false;
     response["message"] = "User does not exist!";
   }
+  return response
 }
 
 module.exports = {
@@ -198,7 +186,4 @@ module.exports = {
   getUserByUsername,
   login_process,
   authorize,
-  get_username_and_role_from_token,
-  get_id_from_token,
-  get_role_from_token,
 };
