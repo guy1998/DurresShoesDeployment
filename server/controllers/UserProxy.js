@@ -128,7 +128,7 @@ async function logOut(res) {
   res.cookie("tokenCookie", "", {
     expires: new Date(0),
     httpOnly: true,
-    secure: true,
+    secure: false,
     sameSite: "none"
 });
   res.status(200).json("Logging out");

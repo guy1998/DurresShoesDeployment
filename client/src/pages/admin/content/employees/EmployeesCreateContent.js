@@ -2,16 +2,20 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"
 import { Icon } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { useSnackbar } from "notistack";
 import MDBox from "../../../../components/MDBox";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import MDButton from "../../../../components/MDButton";
+import { addEmployee } from "./scripts/employee-scripts";
 
 function EmployeesCreateContent() {
 
   const navigator = useNavigate();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const notification = { add: enqueueSnackbar, close: closeSnackbar };
   const [cost, setCost] = useState(0);
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('')
@@ -88,7 +92,13 @@ function EmployeesCreateContent() {
         borderTop: "2px solid gainsboro",
         height: "70px"
       }}>
-        <MDButton style={{ marginRight: "8px" }} color="info">
+        <MDButton style={{ marginRight: "8px" }} color="info" onClick={()=>{
+          addEmployee(notification, navigator, {
+            name,
+            surname,
+            costPerDay: cost
+          })
+        }}>
             <Icon style={{ marginRight: "5px" }}>check</Icon>
             Confirm
         </MDButton>

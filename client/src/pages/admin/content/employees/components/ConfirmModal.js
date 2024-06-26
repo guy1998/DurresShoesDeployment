@@ -39,7 +39,10 @@ function ConfirmModal({ confirmAction }) {
             Are you sure?
           </Typography>
           <div style={{ display: "flex", justifyContent: "space-between", margin: "15px auto", width: "56%" }}>
-            <MDButton color="info" onClick={confirmAction}>
+            <MDButton color="info" onClick={()=>{
+              confirmAction();
+              handleClose();
+            }}>
                 <Icon style={{ marginRight: "5px" }}>check</Icon>
                 Yes
             </MDButton>

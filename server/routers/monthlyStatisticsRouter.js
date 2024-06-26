@@ -3,8 +3,10 @@ const router = express();
 const monthlyStatisticsController = require("../controllers/monthlyStatisticsController");
 const login_controller = require("../controllers/userProxy");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 router.use(bodyParser.json());
+router.use(cookieParser());
 
 router.post("/create", (req, res) => {
   login_controller.authorize(req, res, () => {

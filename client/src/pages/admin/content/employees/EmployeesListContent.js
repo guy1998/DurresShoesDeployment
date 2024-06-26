@@ -5,30 +5,14 @@ import MDTypography from "../../../../components/MDTypography";
 import DataTable from "../../../../components/Tables/DataTable";
 import { useSnackbar } from "notistack";
 import MDButton from "../../../../components/MDButton";
-import { faker } from '@faker-js/faker';
 import { useNavigate } from "react-router-dom"
 import ConfirmModal from "./components/ConfirmModal";
 
-// import { getEmployees } from "./scripts/employee-scripts";
-
-function generateRandomWorker() {
-    return {
-      name: faker.name.firstName(),
-      surname: faker.name.lastName(),
-      costPerDay: faker.datatype.number({ min: 100, max: 1000 })
-    };
-}
-
-export const getEmployees = ()=>{
-    const workers = [];
-    for (let i = 0; i < 20; i++) {
-        workers.push(generateRandomWorker());
-    }
-    return workers;
-}
+import { getEmployees, deleteEmployee } from "./scripts/employee-scripts";
 
 function EmployeesListContent(){
-    const [employees, setEmployees] = useState(getEmployees());
+    const [employees, setEmployees] = useState([]);
+    const [employeesUpdated, setEmployeesUpdated] = useState(false);
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const notification = {add: enqueueSnackbar, close: closeSnackbar};
     const navigate = useNavigate();
@@ -49,11 +33,13 @@ function EmployeesListContent(){
             actions: (
                 <MDBox style={{ display: "flex" }}>
                     <MDButton style={{backgroundColor: 'lightgreen', color: "white", marginRight: "5px"}} onClick={()=>{
-                        navigate('/app/employees/edit/random-id')
+                        navigate(`/app/employees/edit/${employee._id}`)
                     }}>
                         <Icon>edit</Icon>
                     </MDButton>
-                    <ConfirmModal confirmAction={()=>{}}/>
+                    <ConfirmModal confirmAction={()=>{
+                        deleteEmployee(notification, navigate, employee._id, setEmployeesUpdated)
+                    }}/>
                 </MDBox>
             )
         }
@@ -64,12 +50,12 @@ function EmployeesListContent(){
         { Header: 'Actions', accessor: 'actions', align: 'center' },
     ]
 
-    // useEffect(()=>{
-    //     getEmployees().then(data=>{
-    //         if(data)
-    //             setEmployees(data)
-    //     })
-    // }, [])
+    useEffect(()=>{
+        getEmployees(notification, navigate).then(data=>{
+            if(data)
+                setEmployees(data)
+        })
+    }, [employeesUpdated])
 
     return (
         <Card>

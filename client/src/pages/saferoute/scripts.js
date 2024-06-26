@@ -8,7 +8,6 @@ export const authorize = async (navigator, pathname)=>{
         },
         credentials: "include"
     });
-    console.log("status" + response.status)
     if(response.status === 401) {
         if (!pathname.includes('/auth/login')) navigator('/auth/login');
     } else if(response.status === 200){

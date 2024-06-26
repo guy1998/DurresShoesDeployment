@@ -60,6 +60,7 @@ const getAllWorkers = async (req, res) => {
     const workers = await Worker.find();
     res.status(200).json(workers);
   } catch (err) {
+    console.log(err)
     res.status(400).json({ error: err.message });
   }
 };
@@ -78,6 +79,22 @@ const updateCostPerDay = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+const updateWorker = async (req, res)=>{
+  try{
+    const { workerId, newInfo } = req.body;
+    const updatedWorker = await Worker.findByIdAndUpdate(workerId, {
+      ...newInfo
+    });
+    if (!updatedWorker) {
+      res.status(404).json({ error: "Worker not found" });
+    } else {
+      res.status(200).json(updatedWorker);
+    }
+  } catch(err) {
+    res.status(400).json({ error: err.message });
+  }
+}
 
 const deleteWorkerById = async (req, res) => {
   try {
@@ -100,4 +117,5 @@ module.exports = {
   updateCostPerDay,
   deleteWorkerById,
   getAllWorkers,
+  updateWorker
 };

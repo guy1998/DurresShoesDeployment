@@ -3,8 +3,10 @@ const router = express();
 const workerController = require("../controllers/workersController");
 const login_controller = require("../controllers/userProxy");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 
 router.use(bodyParser.json());
+router.use(cookieParser());
 
 router.post("/create", (req, res) => {
   login_controller.authorize(req, res, () => {
@@ -18,7 +20,7 @@ router.get("/getByName", (req, res) => {
   });
 });
 
-router.get("/getById/:workerID", (req, res) => {
+router.get("/getById/:workerId", (req, res) => {
   login_controller.authorize(req, res, () => {
     workerController.getWorkerById(req, res);
   });
@@ -42,8 +44,14 @@ router.put("/updateCost", (req, res) => {
   });
 });
 
+router.put("/updateEmployee", (req, res) => {
+  login_controller.authorize(req, res, () => {
+    workerController.updateWorker(req, res);
+  });
+});
+
 router.delete("/deleteById/:workerId", (req, res) => {
-  login_controller.authorize.authorize(req, res, () => {
+  login_controller.authorize(req, res, () => {
     workerController.deleteWorkerById(req, res);
   });
 });

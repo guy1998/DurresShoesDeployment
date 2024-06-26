@@ -87,8 +87,8 @@ function PageModel(props){
                       new_route['route'] = "/app" + route.route;
                       return new_route
                     })}
-                    onMouseEnter={()=>console.log("Something")}
-                    onMouseLeave={()=>console.log("Something")}
+                    onMouseEnter={()=>{}}
+                    onMouseLeave={()=>{}}
                   />
                   <Configurator />
                   {configsButton}
