@@ -77,6 +77,21 @@ const updateCost = async (req, res) => {
   }
 };
 
+const updateProduct = async (req, res)=>{
+  try {
+    const { itemId, newInfo } = req.body;
+    const updatedItem = await Article.findByIdAndUpdate(itemId, {
+      ...newInfo
+    });
+    if (!updatedItem) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+    res.status(200).json(updatedItem);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+}
+
 const deleteArticleById = async (req, res) => {
   try {
     const articleId = req.params.articleId;
@@ -112,4 +127,5 @@ module.exports = {
   updateCost,
   deleteArticleById,
   deleteArticleByCode,
+  updateProduct
 };

@@ -44,7 +44,13 @@ router.put("/updateCost", (req, res) => {
   });
 });
 
-router.delete("/deleteById:articleId", (req, res) => {
+router.put("/updateProduct", (req, res)=>{
+  login_controller.authorize(req, res, ()=>{
+    articleController.updateProduct(req, res);
+  })
+})
+
+router.delete("/deleteById/:articleId", (req, res) => {
   login_controller.authorize(req, res, () => {
     articleController.deleteArticleById(req, res);
   });

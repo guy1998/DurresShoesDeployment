@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Icon } from "@mui/material";
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
@@ -7,44 +7,11 @@ import { useSnackbar } from "notistack";
 import MDButton from "../../../../components/MDButton";
 import { useNavigate } from "react-router-dom"
 import ConfirmModal from "./components/ConfirmModal";
-
-const generateRandomCode = (length) => {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
-};
-
-const getRandomInt = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-const getRandomFloat = (min, max, decimals = 2) => {
-  const factor = Math.pow(10, decimals);
-  return Math.round((Math.random() * (max - min) + min) * factor) / factor;
-};
-
-const generateRandomArticle = () => {
-  return {
-    code: generateRandomCode(8), 
-    quantity: getRandomInt(1, 100), 
-    costPerArticle: getRandomFloat(1, 100, 2), 
-  };
-};
-
-const generateRandomArticles = (count) => {
-  const articles = [];
-  for (let i = 0; i < count; i++) {
-    articles.push(generateRandomArticle());
-  }
-  return articles;
-};
+import { getProducts, deleteProduct } from "./scripts/product-scripts";
 
 function ProductListContent() {
-  const [articles, setArticles] = useState(generateRandomArticles(20));
+  const [articles, setArticles] = useState([]);
+  const [articlesUpdated, setArticlesUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
   const navigate = useNavigate();
@@ -57,7 +24,6 @@ function ProductListContent() {
           </MDTypography>
         </MDBox>
       ),
-      quantity: <MDTypography>{article.quantity}</MDTypography>,
       cost: <MDTypography>{`${article.costPerArticle} Lek`}</MDTypography>,
       actions: (
         <MDBox style={{ display: "flex" }}>
@@ -68,29 +34,30 @@ function ProductListContent() {
               marginRight: "5px",
             }}
             onClick={() => {
-              navigate("/app/products/edit/random-id");
+              navigate("/app/products/edit/" + article._id);
             }}
           >
             <Icon>edit</Icon>
           </MDButton>
-          <ConfirmModal confirmAction={() => {}} />
+          <ConfirmModal confirmAction={() => {
+            deleteProduct(notification, navigate, article._id, setArticlesUpdated);
+          }} />
         </MDBox>
       ),
     };
   });
   const columns = [
     { Header: "Product code", accessor: "name", align: "left" },
-    { Header: "Quantity", accessor: 'quantity', align: "center"},
     { Header: "Cost per article", accessor: "cost", align: "center" },
     { Header: "Actions", accessor: "actions", align: "center" },
   ];
 
-  // useEffect(()=>{
-  //     getEmployees().then(data=>{
-  //         if(data)
-  //             setEmployees(data)
-  //     })
-  // }, [])
+  useEffect(()=>{
+      getProducts(notification, navigate).then(data=>{
+          if(data)
+              setArticles(data)
+      })
+  }, [articlesUpdated])
 
   return (
     <Card>
