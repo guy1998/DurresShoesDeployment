@@ -5,7 +5,7 @@ import MDTypography from "../../../../components/MDTypography";
 import DataTable from "../../../../components/Tables/DataTable";
 import { useSnackbar } from "notistack";
 import MDButton from "../../../../components/MDButton";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import ConfirmModal from "./components/ConfirmModal";
 import { getProducts, deleteProduct } from "./scripts/product-scripts";
 
@@ -28,9 +28,8 @@ function ProductListContent() {
       actions: (
         <MDBox style={{ display: "flex" }}>
           <MDButton
+            color="success"
             style={{
-              backgroundColor: "lightgreen",
-              color: "white",
               marginRight: "5px",
             }}
             onClick={() => {
@@ -39,9 +38,16 @@ function ProductListContent() {
           >
             <Icon>edit</Icon>
           </MDButton>
-          <ConfirmModal confirmAction={() => {
-            deleteProduct(notification, navigate, article._id, setArticlesUpdated);
-          }} />
+          <ConfirmModal
+            confirmAction={() => {
+              deleteProduct(
+                notification,
+                navigate,
+                article._id,
+                setArticlesUpdated
+              );
+            }}
+          />
         </MDBox>
       ),
     };
@@ -52,12 +58,12 @@ function ProductListContent() {
     { Header: "Actions", accessor: "actions", align: "center" },
   ];
 
-  useEffect(()=>{
-      getProducts(notification, navigate).then(data=>{
-          if(data)
-              setArticles(data)
-      })
-  }, [articlesUpdated])
+  useEffect(() => {
+    getProducts(notification, navigate).then((data) => {
+      if (data) setArticles(data);
+    });
+    setArticlesUpdated(false);
+  }, [articlesUpdated]);
 
   return (
     <Card>

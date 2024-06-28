@@ -25,7 +25,7 @@ function ConfirmModal({ confirmAction }) {
 
   return (
     <div>
-      <MDButton onClick={handleOpen} style={{ backgroundColor: "red", color: "white" }}>
+      <MDButton onClick={handleOpen} color="primary">
         <Icon>delete</Icon>
       </MDButton>
       <Modal

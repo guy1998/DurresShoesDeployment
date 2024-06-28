@@ -8,92 +8,17 @@ import MDButton from "../../../../components/MDButton";
 import { useNavigate } from "react-router-dom"
 import ConfirmModal from "./components/ConfirmModal";
 import ViewProductsModal from "./components/ViewProductsModal";
+import { getAllFinancials } from "./scripts/financial-scripts";
 
-const generateStats = ()=>{
-    const dailyStatistics1 = {
-        products: [
-          {
-            code: 'A001',
-            quantity: 100,
-            costPerArticle: 5.00
-          },
-          {
-            code: 'A002',
-            quantity: 200,
-            costPerArticle: 3.50
-          }
-        ],
-        profit: 1500.00,
-        productionCost: 800.00,
-        date: new Date()
-      };
-      
-      const dailyStatistics2 = {
-        products: [
-          {
-            code: 'B001',
-            quantity: 150,
-            costPerArticle: 7.00
-          },
-          {
-            code: 'B002',
-            quantity: 100,
-            costPerArticle: 2.50
-          },
-          {
-            code: 'B003',
-            quantity: 50,
-            costPerArticle: 4.00
-          },
-          {
-            code: 'B001',
-            quantity: 150,
-            costPerArticle: 7.00
-          },
-          {
-            code: 'B002',
-            quantity: 100,
-            costPerArticle: 2.50
-          },
-          {
-            code: 'B003',
-            quantity: 50,
-            costPerArticle: 4.00
-          }
-        ],
-        profit: 2000.00,
-        productionCost: 1000.00,
-        date: new Date()
-      };
-      
-      const dailyStatistics3 = {
-        products: [
-          {
-            code: 'C001',
-            quantity: 300,
-            costPerArticle: 6.00
-          },
-          {
-            code: 'C002',
-            quantity: 400,
-            costPerArticle: 1.50
-          }
-        ],
-        profit: 2500.00,
-        productionCost: 1200.00,
-        date: new Date()
-      };
-
-      const stats = [];
-      stats.push(dailyStatistics1);
-      stats.push(dailyStatistics2)
-      stats.push(dailyStatistics3);
-      return stats;
+const checkIfToday = (stats)=>{
+  const today = new Date().toISOString().split('T')[0];
+  return stats.some(stat => {
+    return stat.date.slice(0, 10) === today;
+  });
 }
 
-
 function FinancialListContent(){
-    const [stats, setStats] = useState(generateStats());
+    const [stats, setStats] = useState([]);
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const notification = {add: enqueueSnackbar, close: closeSnackbar};
     const navigate = useNavigate();
@@ -102,18 +27,18 @@ function FinancialListContent(){
             date: (
                 <MDBox>
                     <MDTypography fontSize="13pt" fontWeight="bold">
-                        {stat.date.toDateString()}
+                        {stat.date.slice(0, 10)}
                     </MDTypography>
                 </MDBox>
             ),
             profit: (
                 <MDTypography>
-                    {`${stat.profit} Lek`}
+                    {`${stat.profit.$numberDecimal} Lek`}
                 </MDTypography>
             ),
             cost: (
                 <MDTypography>
-                    {`${stat.productionCost} Lek`}
+                    {`${stat.productionCost.$numberDecimal} Lek`}
                 </MDTypography>
             ),
             actions: (
@@ -131,12 +56,12 @@ function FinancialListContent(){
         { Header: 'Actions', accessor: 'actions', align: 'center' },
     ]
 
-    // useEffect(()=>{
-    //     getEmployees().then(data=>{
-    //         if(data)
-    //             setEmployees(data)
-    //     })
-    // }, [])
+    useEffect(()=>{
+        getAllFinancials(notification, navigate).then(data=>{
+            if(data)
+                setStats(data)
+        })
+    }, [])
 
     return (
         <Card>
@@ -156,7 +81,11 @@ function FinancialListContent(){
                     Financial reports
                 </MDTypography>
                 <MDButton onClick={()=>{
+                  if(checkIfToday(stats)){
+                    notification.add("A report has already been issued today!", { variant: "info" });
+                  } else {
                     navigate("/app/financial/create")
+                  }
                 }}>
                     <Icon style={{ marginRight: "5px" }}>analytics</Icon>
                     Create new

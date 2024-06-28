@@ -36,7 +36,7 @@ function ViewProductsModal({ products }) {
         </MDBox>
       ),
       quantity: <MDTypography>{`${product.quantity}`}</MDTypography>,
-      price: <MDTypography>{`${product.costPerArticle} Lek`}</MDTypography>,
+      price: <MDTypography>{`${product.cost.$numberDecimal} Lek`}</MDTypography>,
     };
   });
   const columns = [

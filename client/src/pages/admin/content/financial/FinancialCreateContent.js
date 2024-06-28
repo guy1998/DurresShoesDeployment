@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Icon, Menu } from "@mui/material";
+import { Card, CircularProgress, Icon, Menu } from "@mui/material";
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 import DataTable from "../../../../components/Tables/DataTable";
@@ -15,7 +15,8 @@ import {
   numberInputClasses,
 } from "@mui/base/Unstable_NumberInput";
 import { styled } from "@mui/system";
-//import { NumericFormat } from "react-number-format";
+import { getProducts } from "../products/scripts/product-scripts";
+import { getProductionCost, createStatistic } from "./scripts/financial-scripts";
 
 const CustomNumberInput = React.forwardRef((props, ref) => {
   return (
@@ -40,60 +41,17 @@ const CustomNumberInput = React.forwardRef((props, ref) => {
   );
 });
 
-const calculateEarned = (products)=>{
-    return products.reduce((acc, product)=>{
-        return acc + product.costPerArticle * product.quantity
-    }, 0)
-}
-const getProducts = () => {
-  return [
-    {
-      code: "A001",
-      costPerArticle: 5.0,
-    },
-    {
-      code: "A002",
-      costPerArticle: 3.5,
-    },
-    {
-      code: "B001",
-      costPerArticle: 7.0,
-    },
-    {
-      code: "B002",
-      costPerArticle: 2.5,
-    },
-    {
-      code: "B003",
-      costPerArticle: 4.0,
-    },
-    {
-      code: "B004",
-      costPerArticle: 7.0,
-    },
-    {
-      code: "B005",
-      costPerArticle: 2.5,
-    },
-    {
-      code: "B006",
-      costPerArticle: 4.0,
-    },
-    {
-      code: "C001",
-      costPerArticle: 6.0,
-    },
-    {
-      code: "C002",
-      costPerArticle: 1.5,
-    },
-  ];
+const calculateEarned = (products) => {
+  return products.reduce((acc, product) => {
+    return acc + product.costPerArticle * product.quantity;
+  }, 0);
 };
 
 function FinancialCreateContent() {
-  const [products, setProducts] = useState(getProducts());
+  const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [tempCode, setTempCode] = useState("");
+  const [productionCost, setProductionCost] = useState(0);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
   const navigate = useNavigate();
@@ -174,15 +132,24 @@ function FinancialCreateContent() {
         const newlySelectedProducts = [...selectedProducts, selected];
         setSelectedProducts(newlySelectedProducts);
       }
+    } else {
+      setTempCode('default')
     }
   };
 
-  // useEffect(()=>{
-  //     getEmployees().then(data=>{
-  //         if(data)
-  //             setEmployees(data)
-  //     })
-  // }, [])
+  useEffect(() => {
+    getProducts(notification, navigate).then((data) => {
+      if (data) setProducts(data);
+    });
+    getProductionCost(notification, navigate).then((data) => {
+      if (data) setProductionCost(data);
+      else
+        notification.add(
+          "It seems like there is no information regarding employees and their cost yet. Update employees to continue",
+          { variant: "info" }
+        );
+    });
+  }, []);
 
   return (
     <MDBox>
@@ -218,7 +185,7 @@ function FinancialCreateContent() {
               value={tempCode}
               onChange={onSelectProduct}
             >
-              <MenuItem keyt={"default"} value={""}></MenuItem>
+              <MenuItem key={"default"} value={""}>None</MenuItem>
               {products.map((product) => {
                 return (
                   <MenuItem key={product.code} value={product.code}>
@@ -256,23 +223,56 @@ function FinancialCreateContent() {
           backgroundColor: "white",
           boxShadow:
             "0px 5px 15px rgba(0, 0, 0, 0.2), 0px 1px 15px rgba(0, 0, 0, 0.)",
-            marginTop: "10px",
-            borderRadius: "10px",
-            padding: "0 40px 0 20px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center"
+          marginTop: "10px",
+          borderRadius: "10px",
+          padding: "0 40px 0 20px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
-        <MDBox>
-            <MDTypography>Total earned: { calculateEarned(selectedProducts) }</MDTypography>
-            <MDTypography>Total expense: 100</MDTypography>
-            <MDTypography>Total profit: { calculateEarned(selectedProducts) - 100}</MDTypography>
-        </MDBox>
-        <MDButton color="info">
-            <Icon style={{ marginRight: "5px" }}>check</Icon>
-            Confirm
-        </MDButton>
+        {productionCost ? (
+          <>
+            <MDBox>
+              <MDTypography>
+                Total earned: {calculateEarned(selectedProducts)}
+              </MDTypography>
+              <MDTypography>Total expense: {productionCost}</MDTypography>
+              <MDTypography>
+                Total profit: {calculateEarned(selectedProducts) - 100}
+              </MDTypography>
+            </MDBox>
+            <MDButton
+              color="info"
+              onClick={() => {
+                if (selectedProducts.length) {
+                  createStatistic(notification, navigate, selectedProducts);
+                } else {
+                  notification.add("Please select products to proceed!", {
+                    variant: "info",
+                  });
+                }
+              }}
+            >
+              <Icon style={{ marginRight: "5px" }}>check</Icon>
+              Confirm
+            </MDButton>
+          </>
+        ) : (
+          <div
+            style={{
+              width: "90%",
+              margin: "0 auto",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {" "}
+            <CircularProgress />{" "}
+          </div>
+        )}
       </MDBox>
     </MDBox>
   );
