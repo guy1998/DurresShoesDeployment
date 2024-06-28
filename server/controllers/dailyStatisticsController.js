@@ -96,10 +96,11 @@ const getStatisticByProfit = async (req, res) => {
 
 const getStatisticByTimeRange = async (req, res) => {
   try {
-    const { startDate } = req.body;
+    const { startDate, endDate } = req.body;
     const statistic = await DailyStatistics.find({
       createdAt: {
         $gte: new Date(startDate),
+        $lte: new Date(endDate)
       },
     });
     if (!statistic) {
