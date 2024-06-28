@@ -14,17 +14,14 @@ Coded by www.creative-tim.com
 */
 
 import { useState, useEffect } from "react";
-
-// react-github-btn
-import GitHubButton from "react-github-btn";
+import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 // @mui material components
 import Divider from "@mui/material/Divider";
 import Switch from "@mui/material/Switch";
-import IconButton from "@mui/material/IconButton";
-import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
-
+import { TextField } from "@mui/material";
 // @mui icons
 import TwitterIcon from "@mui/icons-material/Twitter";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -48,8 +45,28 @@ import {
   setDarkMode,
 } from "../../context";
 
+import { getUserInfo, editUser } from "./scripts/user-scripts.js";
+import ChangePasswordModal from "./ChangePasswordModal.js";
+
+const checkForChanges = (edited, user) => {
+  return (
+    edited.name !== user.name ||
+    edited.surname !== user.surname ||
+    edited.username !== user.username
+  );
+};
+
 function Configurator() {
   const [controller, dispatch] = useMaterialUIController();
+  const [user, setUser] = useState(null);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const notification = { add: enqueueSnackbar, close: closeSnackbar };
+  const navigate = useNavigate();
+  const [edited, setEdited] = useState({
+    name: "",
+    surname: "",
+    username: "",
+  });
   const {
     openConfigurator,
     fixedNavbar,
@@ -59,7 +76,14 @@ function Configurator() {
     darkMode,
   } = controller;
   const [disabled, setDisabled] = useState(false);
-  const sidenavColors = ["primary", "dark", "info", "success", "warning", "error"];
+  const sidenavColors = [
+    "primary",
+    "dark",
+    "info",
+    "success",
+    "warning",
+    "error",
+  ];
 
   // Use the useEffect hook to change the button state for the sidenav type based on window size.
   useEffect(() => {
@@ -73,6 +97,14 @@ function Configurator() {
 
     // Call the handleDisabled function to set the state with the initial value.
     handleDisabled();
+
+    //get the user info
+    getUserInfo(notification, navigator).then((data) => {
+      if (data) {
+        setUser(data);
+        setEdited({ ...data });
+      }
+    });
 
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleDisabled);
@@ -118,11 +150,15 @@ function Configurator() {
     palette: { white, gradients, background },
   }) => ({
     height: pxToRem(39),
-    background: darkMode ? white.main : linearGradient(gradients.dark.main, gradients.dark.state),
+    background: darkMode
+      ? white.main
+      : linearGradient(gradients.dark.main, gradients.dark.state),
     color: darkMode ? background.sidenav : white.main,
 
     "&:hover, &:focus, &:focus:not(:hover)": {
-      background: darkMode ? white.main : linearGradient(gradients.dark.main, gradients.dark.state),
+      background: darkMode
+        ? white.main
+        : linearGradient(gradients.dark.main, gradients.dark.state),
       color: darkMode ? background.sidenav : white.main,
     },
   });
@@ -162,9 +198,7 @@ function Configurator() {
       <Divider />
 
       <MDBox pt={0.5} pb={3} px={3}>
-        <MDBox>
-          
-        </MDBox>
+        <MDBox></MDBox>
 
         <MDBox mt={3} lineHeight={1}>
           <MDTypography variant="h6">General information</MDTypography>
@@ -175,15 +209,79 @@ function Configurator() {
           <MDBox
             sx={{
               display: "flex",
+              flexDirection: "column",
               mt: 2,
               mr: 1,
             }}
           >
-            
+            <TextField
+              variant="outlined"
+              label="Name"
+              value={edited?.name}
+              onChange={(event) =>
+                setEdited({ ...edited, name: event.target.value })
+              }
+              sx={{ marginBottom: "15px", marginTop: "15px" }}
+            />
+            <TextField
+              variant="outlined"
+              label="Surname"
+              value={edited?.surname}
+              onChange={(event) =>
+                setEdited({ ...edited, surname: event.target.value })
+              }
+              sx={{ marginBottom: "15px" }}
+            />
+            <TextField
+              variant="outlined"
+              label="Username"
+              value={edited?.username}
+              onChange={(event) =>
+                setEdited({ ...edited, username: event.target.value })
+              }
+              sx={{ marginBottom: "15px" }}
+            />
+            <MDButton
+              color="info"
+              onClick={() => {
+                if (checkForChanges(edited, user)) {
+                  editUser(notification, navigate, edited, () => {
+                    setUser({ ...edited });
+                  });
+                } else {
+                  notification.add("No changes detected!", { variant: "info" });
+                }
+              }}
+            >
+              <Icon sx={{ marginRight: "5px" }}>check</Icon>
+              Confirm
+            </MDButton>
           </MDBox>
         </MDBox>
         <Divider />
-        <MDBox display="flex" justifyContent="space-between" alignItems="center" lineHeight={1}>
+        <MDBox mt={3} lineHeight={1}>
+          <MDTypography variant="h6">Credentials</MDTypography>
+          <MDTypography variant="button" color="text">
+            Edit your password
+          </MDTypography>
+          <MDBox
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              mt: 2,
+              mr: 1,
+            }}
+          >
+            <ChangePasswordModal />
+          </MDBox>
+        </MDBox>
+        <Divider />
+        <MDBox
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          lineHeight={1}
+        >
           <MDTypography variant="h6">Light / Dark</MDTypography>
 
           <Switch checked={darkMode} onChange={handleDarkMode} />

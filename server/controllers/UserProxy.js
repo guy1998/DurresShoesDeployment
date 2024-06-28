@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
-const { passwordVerifier } = require("../utils/security-ground");
+const { passwordVerifier, passwordHasher } = require("../utils/security-ground");
 
 const token_issue = (user) => {
   const accessToken = jwt.sign(
@@ -47,6 +47,12 @@ const tokenRefresher = (refreshToken) => {
   }
 };
 
+const retrieve_id = (req)=>{
+  const access_token = req.cookies.tokenCookie.accessToken;
+  const decoded = jwt.verify(access_token, process.env.JWT_KEY);
+  return decoded.id;
+}
+
 const authorize = (req, res, action) => {
   const tokens = req.cookies ? req.cookies.tokenCookie : undefined;
   if (tokens) {
@@ -90,10 +96,10 @@ async function createUser(req, res) {
       surname: surname,
     });
     await newUser.save();
-    res.status(201).json(newUser);
+    // res.status(201).json(newUser);
   } catch (error) {
     console.log(error)
-    res.status(400).json({ error: error.message });
+    // res.status(400).json({ error: error.message });
   }
 }
 
@@ -154,10 +160,12 @@ async function changePassword(userId, newPassword, oldPassword) {
   const user = await User.findById(userId);
   const response = { result: true, message: "Edited successfully!" };
   if (user) {
+    console.log(oldPassword);
+    console.log(newPassword)
     if (passwordVerifier(user.password, oldPassword)) {
       if (newPassword !== oldPassword) {
         try{
-          await User.findOneAndUpdate({ _id: userId }, { password: newPassword });
+          await User.findOneAndUpdate({ _id: userId }, { password: passwordHasher(newPassword) });
         } catch(err){
           response["result"] = false;
           response["message"] = "Unable to update due to an error!";
@@ -177,6 +185,17 @@ async function changePassword(userId, newPassword, oldPassword) {
   return response
 }
 
+const serveMyInfo = async (req, res)=>{
+  try {
+    const user = await User.findById(retrieve_id(req));
+    if(!user)
+      throw new Error("User does not exist!");
+    res.status(200).json({ username: user.username, name: user.name, surname: user.surname });
+  } catch(err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
 module.exports = {
   logOut,
   deleteUser,
@@ -187,4 +206,6 @@ module.exports = {
   getUserByUsername,
   login_process,
   authorize,
+  serveMyInfo,
+  retrieve_id
 };
