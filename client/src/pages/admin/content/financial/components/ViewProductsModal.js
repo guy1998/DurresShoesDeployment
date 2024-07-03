@@ -6,8 +6,11 @@ import MDBox from "../../../../../components/MDBox";
 import MDTypography from "../../../../../components/MDTypography";
 import DataTable from "../../../../../components/Tables/DataTable";
 import MDButton from "../../../../../components/MDButton";
+import { useMaterialUIController } from "../../../../../context";
 
 function ViewProductsModal({ products }) {
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -47,7 +50,7 @@ function ViewProductsModal({ products }) {
 
   return (
     <div>
-      <MDButton color="light" style={{ marginRight: "5px" }} onClick={handleOpen}>
+      <MDButton color={darkMode ? 'dark' :"light"} style={{ marginRight: "5px" }} onClick={handleOpen}>
         <Icon style={{ marginRight: "5px" }}>manage_search</Icon>
         View products
       </MDButton>

@@ -8,12 +8,15 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
+import { useMaterialUIController } from "../../../../context";
 import MDButton from "../../../../components/MDButton";
 import { createProduct } from "./scripts/product-scripts";
 
 function ProductCreateContent() {
 
   const navigator = useNavigate();
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
   const [cost, setCost] = useState(0);
@@ -36,7 +39,7 @@ function ProductCreateContent() {
         margin: "0 auto",
         width: "70%",
         height: "90%",
-        backgroundColor: "#F4F4F4",
+        backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.08)' :"#F4F4F4",
         borderRadius: "15px",
         boxShadow:
           "0px 10px 15px rgba(0, 0, 0, 0.3), 0px 15px 30px rgba(0, 0, 0, 0.22)",
@@ -48,6 +51,7 @@ function ProductCreateContent() {
           width: "90%",
           borderBottom: "2px solid gainsboro",
           margin: "5px auto 15px auto",
+          color: darkMode ? 'white' : 'black'
         }}
       >
         <h3>Create a new product</h3>

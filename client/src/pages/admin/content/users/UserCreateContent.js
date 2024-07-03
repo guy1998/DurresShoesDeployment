@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import { useSnackbar } from "notistack";
 import MDBox from "../../../../components/MDBox";
 import MDButton from "../../../../components/MDButton";
+import { useMaterialUIController } from "../../../../context";
 import { addUser } from "./scripts/user-scripts";
 
 function UserCreateContent() {
@@ -12,6 +13,8 @@ function UserCreateContent() {
   const navigator = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -24,7 +27,7 @@ function UserCreateContent() {
         margin: "0 auto",
         width: "70%",
         height: "90%",
-        backgroundColor: "#F4F4F4",
+        backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.08)' :"#F4F4F4",
         borderRadius: "15px",
         boxShadow:
           "0px 10px 15px rgba(0, 0, 0, 0.3), 0px 15px 30px rgba(0, 0, 0, 0.22)",
@@ -36,17 +39,18 @@ function UserCreateContent() {
           width: "90%",
           borderBottom: "2px solid gainsboro",
           margin: "5px auto 15px auto",
+          color: darkMode ? 'white' : 'black'
         }}
       >
         <h3>Create a new user</h3>
       </div>
-      <div style={{ width: "90%", margin: "0 auto" }}>
+      <div style={{ width: "90%", margin: "0 auto" }} >
         <TextField
           id="outlined-basic"
           label="Name"
           variant="outlined"
           fullWidth
-          style={{ margin: "10px 0" }}
+          style={{ margin: "10px 0"}}
           value={name}
           onChange={(event)=>setName(event.target.value)}
         />

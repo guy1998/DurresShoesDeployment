@@ -15,6 +15,7 @@ import {
   numberInputClasses,
 } from "@mui/base/Unstable_NumberInput";
 import { styled } from "@mui/system";
+import { useMaterialUIController } from "../../../../context";
 import { getProducts } from "../products/scripts/product-scripts";
 import { getProductionCost, createStatistic } from "./scripts/financial-scripts";
 
@@ -48,6 +49,8 @@ const calculateEarned = (products) => {
 };
 
 function FinancialCreateContent() {
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [tempCode, setTempCode] = useState("");
@@ -234,12 +237,12 @@ function FinancialCreateContent() {
         {productionCost ? (
           <>
             <MDBox>
-              <MDTypography>
+              <MDTypography color='black'>
                 Total earned: {calculateEarned(selectedProducts)}
               </MDTypography>
-              <MDTypography>Total expense: {productionCost}</MDTypography>
-              <MDTypography>
-                Total profit: {calculateEarned(selectedProducts) - 100}
+              <MDTypography color='black'>Total expense: {productionCost}</MDTypography>
+              <MDTypography color='black'>
+                Total profit: {calculateEarned(selectedProducts) - productionCost}
               </MDTypography>
             </MDBox>
             <MDButton

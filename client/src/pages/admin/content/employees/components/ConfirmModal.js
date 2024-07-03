@@ -3,9 +3,12 @@ import MDButton from "../../../../../components/MDButton";
 import { Icon } from "@mui/material";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { useMaterialUIController } from "../../../../../context";
 import Modal from '@mui/material/Modal';
 
 function ConfirmModal({ confirmAction }) {
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -16,7 +19,7 @@ function ConfirmModal({ confirmAction }) {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 400,
-    bgcolor: "background.paper",
+    bgcolor: darkMode ? 'rgba(255, 255, 255, 0.08)' : "background.paper",
     border: "2px solid #000",
     borderRadius: "10px",
     boxShadow: 24,

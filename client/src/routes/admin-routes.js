@@ -1,5 +1,4 @@
 import Icon from "@mui/material/Icon";
-import Test from "../components/test";
 import EmployeesContent from "../pages/admin/content/employees/index.js"
 import DashboardContent from "../pages/admin/content/dashboard/index.js";
 import ProductContent from "../pages/admin/content/products/index.js";

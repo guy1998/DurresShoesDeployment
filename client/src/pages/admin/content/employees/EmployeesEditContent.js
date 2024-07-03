@@ -10,9 +10,12 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import MDButton from "../../../../components/MDButton";
+import { useMaterialUIController } from "../../../../context";
 import { getEmployeeInfo, editEmployee } from "./scripts/employee-scripts";
 
 function EmployeesEditContent() {
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
   const navigator = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = {add: enqueueSnackbar, close: closeSnackbar};
@@ -49,7 +52,7 @@ function EmployeesEditContent() {
         margin: "0 auto",
         width: "70%",
         height: "90%",
-        backgroundColor: "#F4F4F4",
+        backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.08)' :"#F4F4F4",
         borderRadius: "15px",
         boxShadow:
           "0px 10px 15px rgba(0, 0, 0, 0.3), 0px 15px 30px rgba(0, 0, 0, 0.22)",
@@ -61,6 +64,7 @@ function EmployeesEditContent() {
           width: "90%",
           borderBottom: "2px solid gainsboro",
           margin: "5px auto 15px auto",
+          color: darkMode ? 'white' : 'black'
         }}
       >
         <h3>Edit worker</h3>
