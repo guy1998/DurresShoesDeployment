@@ -21,7 +21,6 @@ const createReportBarChartData = async (notification, navigator) => {
   const data = await getWeeklyStats(notification, navigator);
   const labels = getLabels();
   let count = 0;
-  console.log(data);
   const reportDataset = labels.map((label) => {
     if (count < data.length && data[count].date.slice(0, 10) === label) {
       return data[count++].profit.$numberDecimal;

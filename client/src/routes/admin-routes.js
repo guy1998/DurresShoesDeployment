@@ -4,6 +4,7 @@ import EmployeesContent from "../pages/admin/content/employees/index.js"
 import DashboardContent from "../pages/admin/content/dashboard/index.js";
 import ProductContent from "../pages/admin/content/products/index.js";
 import FinancialContent from "../pages/admin/content/financial/index.js";
+import UserContent from "../pages/admin/content/users/index.js";
 
 const routes = [
   {
@@ -37,6 +38,14 @@ const routes = [
     icon: <Icon fontSize="small">analytics</Icon>,
     route: "/financial*",
     component: <FinancialContent />,
+  },
+  {
+    type: "collapse",
+    name: "User management",
+    key: "user",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/user*",
+    component: <UserContent />,
   },
 ];
 

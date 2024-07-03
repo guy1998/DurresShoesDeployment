@@ -5,9 +5,9 @@ const { passwordHasher } = require("../utils/security-ground");
 const userSchema = new Schema({
   name: { type: String, required: true },
   surname: { type: String, required: true },
-  username: { type: String, required: true },
+  username: { type: String, required: true, unique: 'true' },
   password: { type: String, required: true },
-  status: { type: String, enum: ['active', 'banned'], required: true },
+  status: { type: String, enum: ['active', 'banned'], required: true, default: 'active' },
 });
 
 userSchema.pre("save", async function (next) {

@@ -88,6 +88,10 @@ const authorize = (req, res, action) => {
 async function createUser(req, res) {
   try {
     const { username, password, status, name, surname } = req.body;
+    const exists = await User.find({username: username});
+    if(exists.length){
+      throw new Error('This user already exist!');
+    }
     const newUser = new User({
       username: username,
       password: password,
@@ -96,17 +100,16 @@ async function createUser(req, res) {
       surname: surname,
     });
     await newUser.save();
-    // res.status(201).json(newUser);
+    res.status(201).json(newUser);
   } catch (error) {
-    console.log(error)
-    // res.status(400).json({ error: error.message });
+    res.status(400).json({ message: error.message });
   }
 }
 
 const verify_credentials = async (username, password) => {
   const user = await User.findOne({ username: username });
   if (user) {
-    if (passwordVerifier(user.password, password)) return { code: 1, user: user };
+    if (passwordVerifier(user.password, password) && user.status === 'active') return { code: 1, user: user };
     else return { code: 3, user: {} };
   } else {
     return { code: 2, user: {} };
@@ -160,8 +163,6 @@ async function changePassword(userId, newPassword, oldPassword) {
   const user = await User.findById(userId);
   const response = { result: true, message: "Edited successfully!" };
   if (user) {
-    console.log(oldPassword);
-    console.log(newPassword)
     if (passwordVerifier(user.password, oldPassword)) {
       if (newPassword !== oldPassword) {
         try{
@@ -196,6 +197,16 @@ const serveMyInfo = async (req, res)=>{
   }
 }
 
+const getUsers = async (req, res)=>{
+  try {
+    const excludedId = retrieve_id(req);
+    const users = await User.find({_id: { $ne: excludedId }}).select('_id name surname username status').exec();
+    res.status(200).json(users);
+  } catch(err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
 module.exports = {
   logOut,
   deleteUser,
@@ -207,5 +218,6 @@ module.exports = {
   login_process,
   authorize,
   serveMyInfo,
-  retrieve_id
+  retrieve_id,
+  getUsers
 };
