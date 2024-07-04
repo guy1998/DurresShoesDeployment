@@ -14,6 +14,12 @@ router.post("/create", (req, res) => {
   });
 });
 
+router.put('/edit', (req, res)=>{
+  login_controller.authorize(req, res, ()=>{
+    dailyStatisticController.editDailyStatistics(req, res);
+  })
+})
+
 router.get("/statistics/:statisticId", (req, res) => {
   login_controller.authorize(req, res, () => {
     dailyStatisticController.getStatisticById(req, res);

@@ -4,6 +4,7 @@ import ContentModel from "../../../content_model.js";
 import MDBox from "../../../../components/MDBox/index.js";
 import FinancialListContent from "./FinancialListContent.js";
 import FinancialCreateContent from "./FinancialCreateContent.js";
+import FinancialEditContent from "./FinancialEditContent.js";
 
 function FinancialContent(){
     return (
@@ -12,6 +13,7 @@ function FinancialContent(){
                 <Routes>
                     <Route path="/" element={<FinancialListContent />} />
                     <Route path="/create" element={<FinancialCreateContent />} />
+                    <Route path="/edit/:id" element={<FinancialEditContent />} />
                 </Routes>
             </MDBox>
         </ContentModel>

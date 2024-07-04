@@ -8,7 +8,7 @@ import MDButton from "../../../../components/MDButton";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "./components/ConfirmModal";
 import ViewProductsModal from "./components/ViewProductsModal";
-import { getAllFinancials } from "./scripts/financial-scripts";
+import { getAllFinancials, deleteStat } from "./scripts/financial-scripts";
 
 const checkIfToday = (stats) => {
   const now = new Date();
@@ -21,9 +21,15 @@ const checkIfToday = (stats) => {
   });
 };
 
+const sortByDate = (stats)=>{
+  stats.sort((a, b) => new Date(b.date.slice(0, 10)) - new Date(a.date.slice(0, 10)));
+  return stats
+}
+
 function FinancialListContent() {
   const isMobile = useMediaQuery('(max-width: 599px)')
   const [stats, setStats] = useState([]);
+  const [statsUpdated, setStatsUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
   const navigate = useNavigate();
@@ -47,7 +53,14 @@ function FinancialListContent() {
       actions: (
         <MDBox style={{ display: "flex" }}>
           <ViewProductsModal products={stat.products} />
-          <ConfirmModal confirmAction={() => {}} />
+          <MDButton color='success' style={{ marginRight: '5px'}} onClick={()=>{
+            navigate('/app/financial/edit/' + stat._id);
+          }}>
+            <Icon>edit</Icon>
+          </MDButton>
+          <ConfirmModal confirmAction={() => {
+            deleteStat(notification, navigate, stat._id, setStatsUpdated);
+          }} />
         </MDBox>
       ),
     };
@@ -61,9 +74,10 @@ function FinancialListContent() {
 
   useEffect(() => {
     getAllFinancials(notification, navigate).then((data) => {
-      if (data) setStats(data);
+      if (data) setStats(sortByDate(data));
     });
-  }, []);
+    setStatsUpdated(false);
+  }, [statsUpdated]);
 
   return (
     <Card>

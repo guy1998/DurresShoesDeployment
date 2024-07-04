@@ -46,6 +46,51 @@ export const createStatistic = async (notification, navigator, products)=>{
     }
 }
 
+export const editStatistic = async (notification, navigator, products, statId)=>{
+  const response = await fetch(`${url}edit`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ products, statId }),
+    credentials: "include",
+  });
+  if (response.status === 200) {
+    notification.add("Statistic was added successfully!", {
+      variant: "success",
+    });
+    navigator("/app/financial");
+  } else if (response.status === 401) {
+    logout(notification, navigator);
+  } else {
+    notification.add("The server could not handle the request!", {
+      variant: "error",
+    });
+  }
+}
+
+export const getStatisticById = async (notification, navigator, statId)=>{
+  const response = await fetch(`${url}statistics/${statId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+  let data = null;
+  if (response.status === 200) {
+    data = await response.json();
+  } else if (response.status === 401) {
+    logout(notification, navigator);
+  } else {
+    notification.add("The stat does not exist!", {
+      variant: "error",
+    });
+    navigator("/app/financial");
+  }
+  return data;
+}
+
 export const getProductionCost = async (notification, navigator)=>{
     const response = await fetch(`${url}productionCost`, {
         method: "GET",
@@ -65,4 +110,26 @@ export const getProductionCost = async (notification, navigator)=>{
         });
       }
     return data;
+}
+
+export const deleteStat = async (notification, navigator, statId, dependency)=>{
+  const response = await fetch(`${url}deleteById/${statId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+  if (response.status === 200) {
+    notification.add('Deleted successfully!', { variant: 'success' });
+    dependency(true)
+    navigator('/app/financial')
+  } else if (response.status === 401) {
+    logout(notification, navigator);
+  } else {
+    notification.add("The stat does not exist!", {
+      variant: "error",
+    });
+    navigator("/app/financial");
+  }
 }

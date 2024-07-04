@@ -166,9 +166,10 @@
     width: 100%;
     height: 100%;
     background-image: url('../../assets/images/durres_bg.jpg');
-    /* background-repeat: no-repeat; */
+    background-repeat: no-repeat;
     background-size: 100%;
-    background-position: center;
+    background-position: cover;
+    overflow: scroll;
 }
 
 .frosted-glass {
@@ -237,21 +238,140 @@
   .container {
     height: 465px;
     width: 350px;
+    animation: flyInBottom 1s ease-out forwards; 
   }
 
   .social-account-container{
     margin-top: 10px;
   }
 
-  .shoes{
-    font-size: 75pt;
-  }
-
-  .durres {
-    font-size: 105pt;
-  }
-
   .frosted-glass{
     width: 80vw;
   }
+}
+
+@media screen and (max-width: 599px) {
+
+  .login-page {
+    background-image: url('../../assets/images/mobile_bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .container {
+    height: 465px;
+    width: 300px;
+    margin-top: -100px;
+  }
+
+  .social-account-container{
+    margin-top: 5px;
+  }
+
+  .frosted-glass{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 810px) and (min-width: 600px){
+
+  .login-page {
+    background-image: url('../../assets/images/durres_bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    overflow: scroll;
+  }
+
+  .container {
+    height: 465px;
+    width: 300px;
+    animation: flyIn 1s ease-out forwards; 
+  }
+
+  .social-account-container{
+    margin-top: 5px;
+  }
+
+  .frosted-glass{
+    width: 95vw;
+    height: 20vh;
+  }
+
+  .shoes{
+    font-size: 52pt;
+}
+
+.durres{
+    font-size: 70pt;
+}
+}
+
+@media screen and (max-width: 1080px) and (min-width: 811px){
+
+  .login-page {
+    background-image: url('../../assets/images/durres_bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    overflow: scroll;
+  }
+
+  .container {
+    height: 465px;
+    width: 350px;
+    animation: flyIn 1s ease-out forwards; 
+  }
+
+  .social-account-container{
+    margin-top: 5px;
+  }
+
+  .frosted-glass{
+    width: 95vw;
+    height: 30vh;
+  }
+
+  .shoes{
+    font-size: 70pt;
+}
+
+.durres{
+    font-size: 100pt;
+}
+}
+
+@media screen and (max-width: 1440px) and (min-width: 1080px){
+
+  .login-page {
+    background-image: url('../../assets/images/durres_bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    overflow: scroll;
+  }
+
+  .container {
+    height: 465px;
+    width: 350px;
+    animation: flyIn 1s ease-out forwards; 
+  }
+
+  .social-account-container{
+    margin-top: 5px;
+  }
+
+  .frosted-glass{
+    width: 88vw;
+    height: 30vh;
+  }
+
+  .shoes{
+    font-size: 85pt;
+}
+
+.durres{
+    font-size: 110pt;
+}
 }

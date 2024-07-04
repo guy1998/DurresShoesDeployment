@@ -19,7 +19,7 @@ const getLabels = () => {
   return labels;
 };
 
-const createReportBarChartData = async (notification, navigator) => {
+const createReportBarChartData = async (notification, navigator, isMobile) => {
   const data = await getWeeklyStats(notification, navigator);
   const labels = getLabels();
   let count = 0;
@@ -30,7 +30,7 @@ const createReportBarChartData = async (notification, navigator) => {
       return 0;
     }
   });
-  return { labels: labels, datasets: [{ label: "Dates", data: reportDataset }] };
+  return { labels: labels, datasets: isMobile ? [{ labels: "Dates", data: reportDataset }] : { labels: "Dates", data: reportDataset } };
 };
 
 function BarChart() {
@@ -42,7 +42,7 @@ function BarChart() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    createReportBarChartData(notification, navigate).then((data) => {
+    createReportBarChartData(notification, navigate, isMobile).then((data) => {
       setReportsBarChartData(data);
       setLoading(false);
     });

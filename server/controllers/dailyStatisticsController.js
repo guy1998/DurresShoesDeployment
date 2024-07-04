@@ -43,6 +43,28 @@ const createDailyStatistic = async (req, res) => {
   }
 };
 
+const editDailyStatistics = async (req, res)=>{
+  try{
+    let totalEarned = 0;
+    const { products, statId } = req.body;
+
+    products.forEach((product) => {
+      const cost1 = parseFloat(product.cost.$numberDecimal ? product.cost.$numberDecimal.toString() : product.cost.toString());
+      totalEarned += product.quantity * cost1;
+    });
+    const stat = await DailyStatistics.findById(statId);
+
+    const profit = totalEarned - parseFloat(stat.productionCost.toString());
+    stat.profit = profit;
+    stat.products = products;
+    stat.earned = totalEarned;
+    await stat.save();
+    res.status(200).json('Saved successfully!');
+  } catch(err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
 const getStatisticById = async (req, res) => {
   try {
     const statisticId = req.params.statisticId;
@@ -134,4 +156,5 @@ module.exports = {
   getStatisticByTimeRange,
   deleteStatisticById,
   getTotalWorkersCost,
+  editDailyStatistics
 };

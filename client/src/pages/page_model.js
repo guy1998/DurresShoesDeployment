@@ -79,7 +79,6 @@ function PageModel(props){
               {layout === "dashboard" && (
                 <>
                   <Sidenav
-                    color={'white'}
                     brand={logo}
                     brandName="Epoka filters"
                     routes={props.routes.map(route=>{
