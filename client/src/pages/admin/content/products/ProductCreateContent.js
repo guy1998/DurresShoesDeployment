@@ -7,6 +7,7 @@ import MDBox from "../../../../components/MDBox";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import { useMediaQuery } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useMaterialUIController } from "../../../../context";
 import MDButton from "../../../../components/MDButton";
@@ -15,6 +16,7 @@ import { createProduct } from "./scripts/product-scripts";
 function ProductCreateContent() {
 
   const navigator = useNavigate();
+  const isMobile = useMediaQuery('(max-width: 599px)');
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -37,7 +39,7 @@ function ProductCreateContent() {
     <MDBox
       style={{
         margin: "0 auto",
-        width: "70%",
+        width: isMobile ? "100%" : "70%",
         height: "90%",
         backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.08)' :"#F4F4F4",
         borderRadius: "15px",

@@ -15,7 +15,7 @@ import {
   numberInputClasses,
 } from "@mui/base/Unstable_NumberInput";
 import { styled } from "@mui/system";
-import { useMaterialUIController } from "../../../../context";
+import { useMediaQuery } from "@mui/material";
 import { getProducts } from "../products/scripts/product-scripts";
 import { getProductionCost, createStatistic } from "./scripts/financial-scripts";
 
@@ -49,8 +49,7 @@ const calculateEarned = (products) => {
 };
 
 function FinancialCreateContent() {
-  const [controller] = useMaterialUIController();
-  const { darkMode } = controller;
+  const isMobile = useMediaQuery('(max-width: 599px)')
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [tempCode, setTempCode] = useState("");
@@ -167,13 +166,14 @@ function FinancialCreateContent() {
           borderRadius="lg"
           coloredShadow="info"
           display="flex"
+          flexDirection={isMobile ? "column" : "row"} 
           justifyContent="space-between"
-          alignItems="center"
+          alignItems="flex-start"
         >
           <MDTypography variant="h6" color="white">
             Select products
           </MDTypography>
-          <FormControl style={{ width: "400px", height: "50px" }}>
+          <FormControl style={{ width: isMobile ? "100%": "400px", height: "50px" }}>
             <InputLabel
               id="demo-simple-select-label"
               style={{ color: "white" }}
@@ -184,7 +184,7 @@ function FinancialCreateContent() {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Products"
-              style={{ width: "400px", height: "50px" }}
+              style={{ width: isMobile ? "100%": "400px", height: "50px" }}
               value={tempCode}
               onChange={onSelectProduct}
             >
@@ -228,10 +228,11 @@ function FinancialCreateContent() {
             "0px 5px 15px rgba(0, 0, 0, 0.2), 0px 1px 15px rgba(0, 0, 0, 0.)",
           marginTop: "10px",
           borderRadius: "10px",
-          padding: "0 40px 0 20px",
+          padding: isMobile ? "0 40px 15px 20px" : "0 40px 0 20px",
           display: "flex",
+          flexDirection: isMobile ? "column" : "row", 
           justifyContent: "space-between",
-          alignItems: "center",
+          alignItems: isMobile ? "flex-start" : "center",
         }}
       >
         {productionCost ? (

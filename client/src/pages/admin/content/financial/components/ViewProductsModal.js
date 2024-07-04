@@ -6,9 +6,11 @@ import MDBox from "../../../../../components/MDBox";
 import MDTypography from "../../../../../components/MDTypography";
 import DataTable from "../../../../../components/Tables/DataTable";
 import MDButton from "../../../../../components/MDButton";
+import { useMediaQuery } from "@mui/material";
 import { useMaterialUIController } from "../../../../../context";
 
 function ViewProductsModal({ products }) {
+  const isMobile = useMediaQuery('(max-width: 599px)')
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
   const [open, setOpen] = useState(false);
@@ -20,7 +22,7 @@ function ViewProductsModal({ products }) {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 800,
+    width: isMobile ? "90%" : 800,
     height: 400,
     bgcolor: "background.paper",
     borderRadius: "10px",

@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import MDBox from "../../../../../components/MDBox";
 import ReportsBarChart from "../../../../../components/Charts/BarCharts/ReportsBarChart/index";
+import HorizontalBarChart from "../../../../../components/Charts/BarCharts/HorizontalBarChart";
 import { getWeeklyStats } from "../scripts/stats-scripts";
 import { format, subDays } from "date-fns";
+import { useMediaQuery } from "@mui/material";
 
 const getLabels = () => {
   const today = new Date();
@@ -28,10 +30,11 @@ const createReportBarChartData = async (notification, navigator) => {
       return 0;
     }
   });
-  return { labels: labels, datasets: { labels: "Dates", data: reportDataset } };
+  return { labels: labels, datasets: [{ label: "Dates", data: reportDataset }] };
 };
 
 function BarChart() {
+  const isMobile = useMediaQuery("(max-width: 599px)");
   const [loading, setLoading] = useState(true);
   const [reportsBarChartData, setReportsBarChartData] = useState([]);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -49,20 +52,34 @@ function BarChart() {
     <>
       {!loading ? (
         <MDBox py={3}>
-          <ReportsBarChart
-            color="info"
-            title="Profit statistics"
-            description="This week's performance"
-            date="updated daily"
-            chart={reportsBarChartData}
-            style={{ width: "100%" }}
-          />
+          {!isMobile ? (
+            <ReportsBarChart
+              color="info"
+              title="Profit statistics"
+              description="This week's performance"
+              date="updated daily"
+              chart={reportsBarChartData}
+            />
+          ) : (
+            <HorizontalBarChart
+              color="info"
+              title="Profit statistics"
+              description="This week's performance"
+              date="updated daily"
+              chart={reportsBarChartData}
+            />
+          )}
         </MDBox>
       ) : (
         <MDBox py={3}>
           <Card sx={{ height: "100%" }}>
-            <MDBox height="20.5rem" display='flex' alignItems='center' justifyContent='center'>
-                <CircularProgress />
+            <MDBox
+              height="20.5rem"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <CircularProgress />
             </MDBox>
           </Card>
         </MDBox>

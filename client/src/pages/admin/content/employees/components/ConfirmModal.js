@@ -3,10 +3,12 @@ import MDButton from "../../../../../components/MDButton";
 import { Icon } from "@mui/material";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { useMediaQuery } from "@mui/material";
 import { useMaterialUIController } from "../../../../../context";
 import Modal from '@mui/material/Modal';
 
 function ConfirmModal({ confirmAction }) {
+  const isMobile = useMediaQuery('(max-width: 599px)');
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
   const [open, setOpen] = React.useState(false);
@@ -18,7 +20,7 @@ function ConfirmModal({ confirmAction }) {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: isMobile ? 300 :400,
     bgcolor: darkMode ? 'rgba(255, 255, 255, 0.08)' : "background.paper",
     border: "2px solid #000",
     borderRadius: "10px",
@@ -41,7 +43,7 @@ function ConfirmModal({ confirmAction }) {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Are you sure?
           </Typography>
-          <div style={{ display: "flex", justifyContent: "space-between", margin: "15px auto", width: "56%" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", margin: "15px auto", width: isMobile ? "80%" :"56%" }}>
             <MDButton color="info" onClick={()=>{
               confirmAction();
               handleClose();

@@ -7,6 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import MDBox from "../../../../components/MDBox";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
+import { useMediaQuery } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import MDButton from "../../../../components/MDButton";
@@ -14,6 +15,7 @@ import { useMaterialUIController } from "../../../../context";
 import { getEmployeeInfo, editEmployee } from "./scripts/employee-scripts";
 
 function EmployeesEditContent() {
+  const isMobile = useMediaQuery('(max-width: 599px)');
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
   const navigator = useNavigate();
@@ -50,7 +52,7 @@ function EmployeesEditContent() {
     <MDBox
       style={{
         margin: "0 auto",
-        width: "70%",
+        width: isMobile ? "100%" :"70%",
         height: "90%",
         backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.08)' :"#F4F4F4",
         borderRadius: "15px",

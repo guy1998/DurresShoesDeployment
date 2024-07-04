@@ -4,6 +4,7 @@ import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 import DataTable from "../../../../components/Tables/DataTable";
 import { useSnackbar } from "notistack";
+import { useMediaQuery } from "@mui/material"
 import MDButton from "../../../../components/MDButton";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "./components/ConfirmModal";
@@ -11,6 +12,7 @@ import ConfirmModal from "./components/ConfirmModal";
 import { getEmployees, deleteEmployee } from "./scripts/employee-scripts";
 
 function EmployeesListContent() {
+  const isMobile = useMediaQuery('(max-width: 599px)');
   const [employees, setEmployees] = useState([]);
   const [employeesUpdated, setEmployeesUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -88,8 +90,8 @@ function EmployeesListContent() {
             navigate("/app/employees/create");
           }}
         >
-          <Icon style={{ marginRight: "5px" }}>person_edit</Icon>
-          Create new
+          <Icon style={{ marginRight: "5px" }}>person_add</Icon>
+          { isMobile ? "" : "Create new"}
         </MDButton>
       </MDBox>
       <MDBox pt={3}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Icon } from "@mui/material";
+import { Card, Icon, useMediaQuery } from "@mui/material";
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 import DataTable from "../../../../components/Tables/DataTable";
@@ -22,6 +22,7 @@ const checkIfToday = (stats) => {
 };
 
 function FinancialListContent() {
+  const isMobile = useMediaQuery('(max-width: 599px)')
   const [stats, setStats] = useState([]);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
@@ -93,7 +94,7 @@ function FinancialListContent() {
           }}
         >
           <Icon style={{ marginRight: "5px" }}>analytics</Icon>
-          Create new
+          {isMobile ? "" : "Create new"}
         </MDButton>
       </MDBox>
       <MDBox pt={3}>

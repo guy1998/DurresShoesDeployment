@@ -7,9 +7,11 @@ import { useSnackbar } from "notistack";
 import MDButton from "../../../../components/MDButton";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "./components/ConfirmModal";
+import { useMediaQuery } from "@mui/material";
 import { getUsers, changeUserStatus } from "./scripts/user-scripts";
 
 function UserListContent() {
+  const isMobile = useMediaQuery('(max-width: 599px)')
   const [users, setUsers] = useState([]);
   const [usersUpdated, setUsersUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -69,7 +71,7 @@ function UserListContent() {
           }}
         >
           <Icon style={{ marginRight: "5px" }}>person_add</Icon>
-          Create new
+          {isMobile ? "" : "Create new"}
         </MDButton>
       </MDBox>
       <MDBox pt={3}>

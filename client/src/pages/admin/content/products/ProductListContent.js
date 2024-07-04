@@ -5,12 +5,14 @@ import MDTypography from "../../../../components/MDTypography";
 import DataTable from "../../../../components/Tables/DataTable";
 import { useSnackbar } from "notistack";
 import MDButton from "../../../../components/MDButton";
+import { useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "./components/ConfirmModal";
 import { getProducts, deleteProduct } from "./scripts/product-scripts";
 
 function ProductListContent() {
   const [articles, setArticles] = useState([]);
+  const isMobile = useMediaQuery('(max-width: 599px)');
   const [articlesUpdated, setArticlesUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
@@ -88,7 +90,7 @@ function ProductListContent() {
           }}
         >
           <Icon style={{ marginRight: "5px" }}>category</Icon>
-          Create new
+          { isMobile ? "" : "Create new" }
         </MDButton>
       </MDBox>
       <MDBox pt={3}>

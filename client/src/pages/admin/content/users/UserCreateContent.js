@@ -4,12 +4,14 @@ import { Icon } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useSnackbar } from "notistack";
 import MDBox from "../../../../components/MDBox";
+import { useMediaQuery } from "@mui/material";
 import MDButton from "../../../../components/MDButton";
 import { useMaterialUIController } from "../../../../context";
 import { addUser } from "./scripts/user-scripts";
 
 function UserCreateContent() {
 
+  const isMobile = useMediaQuery('(max-width: 599px)')
   const navigator = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
@@ -25,7 +27,7 @@ function UserCreateContent() {
     <MDBox
       style={{
         margin: "0 auto",
-        width: "70%",
+        width: isMobile ? "100%" : "70%",
         height: "90%",
         backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.08)' :"#F4F4F4",
         borderRadius: "15px",

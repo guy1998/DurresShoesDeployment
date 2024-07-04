@@ -43,9 +43,9 @@ export const getWeeklyStats = async (notification, navigator) => {
       now.getFullYear(),
       now.getMonth(),
       now.getDate(),
-      0,
-      0,
-      0
+      now.getHours(),
+      now.getMinutes(),
+      now.getSeconds()
     )
   );
   const response = await fetch(`${url}timeRange`, {

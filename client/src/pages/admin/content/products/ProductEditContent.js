@@ -6,6 +6,7 @@ import MDBox from "../../../../components/MDBox";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import { useMediaQuery } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useMaterialUIController } from "../../../../context";
@@ -16,6 +17,7 @@ import { editProduct, getProductInfo } from "./scripts/product-scripts";
 function ProductEditContent() {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
+  const isMobile = useMediaQuery('(max-width: 599px)');
   const navigator = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
@@ -47,7 +49,7 @@ function ProductEditContent() {
     <MDBox
       style={{
         margin: "0 auto",
-        width: "70%",
+        width: isMobile ? "100%" : "70%",
         height: "90%",
         backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.08)' :"#F4F4F4",
         borderRadius: "15px",

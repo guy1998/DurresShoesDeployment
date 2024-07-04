@@ -35,8 +35,8 @@ import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
-import MDBox from "../../MDBox";
-import MDTypography from "../../MDTypography";
+import MDBox from "../../../MDBox";
+import MDTypography from "../../../MDTypography";
 
 // HorizontalBarChart configurations
 import configs from "./configs";
