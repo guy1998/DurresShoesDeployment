@@ -35,9 +35,6 @@ function LoginForm() {
           value={password}
           onChange={(event)=>setPassword(event.target.value)}
         />
-        <span className="forgot-password">
-          <a href="#">Forgot Password ?</a>
-        </span>
         <input value="Sign In" type="submit" className="login-button" onClick={(event)=>{
           event.preventDefault();
           login(username, password, notification, navigation);

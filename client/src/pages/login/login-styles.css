@@ -61,18 +61,6 @@
     border-inline: 2px solid #12b1d1;
   }
   
-  .form .forgot-password {
-    display: block;
-    margin-top: 10px;
-    margin-left: 10px;
-  }
-  
-  .form .forgot-password a {
-    font-size: 11px;
-    color: #0099ff;
-    text-decoration: none;
-  }
-  
   .form .login-button {
     display: block;
     width: 100%;
