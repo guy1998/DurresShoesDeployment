@@ -23,9 +23,12 @@ export const getProductsManufactured = async (notification, navigator) => {
   } else if (response.status === 401) {
     logout(notification, navigator);
   } else {
-    notification.add("The server could not handle the request!", {
-      variant: "error",
-    });
+    notification.add(
+      "Il server non è stato in grado di gestire la richiesta!",
+      {
+        variant: "error",
+      }
+    );
   }
   const productsManufactured = data.reduce((acc, stat) => {
     return acc + stat.products.length;
@@ -36,7 +39,7 @@ export const getProductsManufactured = async (notification, navigator) => {
 export const getWeeklyStats = async (notification, navigator) => {
   const now = new Date();
   const firstDay = new Date(
-    Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()-6, 0, 0, 0)
+    Date.UTC(now.getFullYear(), now.getMonth(), now.getDate() - 6, 0, 0, 0)
   );
   const lastDay = new Date(
     Date.UTC(
@@ -62,9 +65,12 @@ export const getWeeklyStats = async (notification, navigator) => {
   } else if (response.status === 401) {
     logout(notification, navigator);
   } else {
-    notification.add("The server could not handle the request!", {
-      variant: "error",
-    });
+    notification.add(
+      "Il server non è stato in grado di gestire la richiesta!",
+      {
+        variant: "error",
+      }
+    );
   }
   return data;
 };
@@ -91,9 +97,12 @@ export const getMonthlyProfit = async (notification, navigator) => {
   } else if (response.status === 401) {
     logout(notification, navigator);
   } else {
-    notification.add("The server could not handle the request!", {
-      variant: "error",
-    });
+    notification.add(
+      "Il server non è stato in grado di gestire la richiesta!",
+      {
+        variant: "error",
+      }
+    );
   }
   const profit = data.reduce((acc, stat) => {
     return parseFloat(acc) + parseFloat(stat.profit.$numberDecimal);
@@ -123,9 +132,12 @@ export const getMonthlyCost = async (notification, navigator) => {
   } else if (response.status === 401) {
     logout(notification, navigator);
   } else {
-    notification.add("The server could not handle the request!", {
-      variant: "error",
-    });
+    notification.add(
+      "Il server non è stato in grado di gestire la richiesta!",
+      {
+        variant: "error",
+      }
+    );
   }
   const cost = data.reduce((acc, stat) => {
     return parseFloat(acc) + parseFloat(stat.productionCost.$numberDecimal);

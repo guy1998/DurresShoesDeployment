@@ -32,7 +32,7 @@ function ChangePasswordModal() {
         <Icon color="secondary" fontSize="large" style={{ marginRight: "5px" }}>
           password
         </Icon>
-        Change password
+        Modificare la password
       </TriggerButton>
       <Modal
         open={open}
@@ -43,7 +43,14 @@ function ChangePasswordModal() {
       >
         <ModalContent sx={style}>
           <h3 className="modal-title">Change your password</h3>
-          <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center"}}>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <TextField
               id="outlined-password-input"
               label="Current password"
@@ -51,7 +58,7 @@ function ChangePasswordModal() {
               autoComplete="current-password"
               fullWidth
               value={oldPassword}
-              onChange={(event)=>setOldPassword(event.target.value)}
+              onChange={(event) => setOldPassword(event.target.value)}
             />
             <TextField
               id="outlined-password-input"
@@ -59,17 +66,25 @@ function ChangePasswordModal() {
               type="password"
               fullWidth
               value={newPassword}
-              onChange={(event)=>setNewPassword(event.target.value)}
+              onChange={(event) => setNewPassword(event.target.value)}
               sx={{ marginTop: "15px", marginBottom: "15px" }}
             />
             <MDButton
               color="info"
               width="60%"
               onClick={() => {
-                if(!newPassword || !oldPassword){
-                    notification.add("Both fields are requested!", { variant: "error" });
+                if (!newPassword || !oldPassword) {
+                  notification.add("Both fields are requested!", {
+                    variant: "error",
+                  });
                 } else {
-                    changePassword(notification, navigator, newPassword, oldPassword, handleClose);
+                  changePassword(
+                    notification,
+                    navigator,
+                    newPassword,
+                    oldPassword,
+                    handleClose
+                  );
                 }
               }}
             >

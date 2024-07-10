@@ -1,5 +1,5 @@
 import Icon from "@mui/material/Icon";
-import EmployeesContent from "../pages/admin/content/employees/index.js"
+import EmployeesContent from "../pages/admin/content/employees/index.js";
 import DashboardContent from "../pages/admin/content/dashboard/index.js";
 import ProductContent from "../pages/admin/content/products/index.js";
 import FinancialContent from "../pages/admin/content/financial/index.js";
@@ -16,7 +16,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Employees",
+    name: "Operai",
     key: "employees",
     icon: <Icon fontSize="small">worker</Icon>,
     route: "/employees*",
@@ -24,7 +24,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Products",
+    name: "Articoli",
     key: "products",
     icon: <Icon fontSize="small">inventory_2</Icon>,
     route: "/products*",
@@ -32,7 +32,7 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Financial reports",
+    name: "Relazioni finanziarie",
     key: "financial",
     icon: <Icon fontSize="small">analytics</Icon>,
     route: "/financial*",
@@ -40,7 +40,23 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "User management",
+    name: "Fier",
+    key: "fier",
+    icon: <Icon fontSize="small">analytics</Icon>,
+    route: "/fier*",
+    //component: <FinancialContent />,
+  },
+  {
+    type: "collapse",
+    name: "Spese",
+    key: "spese",
+    icon: <Icon fontSize="small">analytics</Icon>,
+    route: "/spese*",
+    //component: <FinancialContent />,
+  },
+  {
+    type: "collapse",
+    name: "Gestione degli utenti",
     key: "user",
     icon: <Icon fontSize="small">person</Icon>,
     route: "/user*",

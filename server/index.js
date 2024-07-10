@@ -10,8 +10,7 @@ const articleRouter = require("./routers/articleRouter.js");
 const employerRouter = require("./routers/workerRouter.js");
 const dailyStatisticRouter = require("./routers/dailyStatisticRouter.js");
 const monthlyStatisticsRouter = require("./routers/monthlyStatisticsRouter.js");
-const authorizationRouter = require('./routers/authorization.js');
-const { createUser } = require("./controllers/UserProxy.js")
+const authorizationRouter = require("./routers/authorization.js"); 
 
 const allowedOrigins = ["http://localhost:3000", "postman://app"];
 
@@ -34,9 +33,9 @@ app.use("/signUp", signUpRouter);
 app.use("/article", articleRouter);
 app.use("/employers", employerRouter);
 app.use("/dailyStatistics", dailyStatisticRouter);
-app.use('/login', logInRouter);
+app.use("/login", logInRouter);
 app.use("/monthlyStatistics", monthlyStatisticsRouter);
-app.use('/auth', authorizationRouter);
+app.use("/auth", authorizationRouter);
 
 const port = 8003;
 
@@ -45,7 +44,6 @@ connectToDb(async (err) => {
     console.log("Sth went wrong with the server");
   } else {
     app.listen(port, () => {
-      // createUser({ body: { name: "Aldrin", surname: "Cifliku", username: "guy1989", password: "Juve/123", status: "active" }})
       console.log(`Listening to HTTPS on port ${port}`);
     });
   }

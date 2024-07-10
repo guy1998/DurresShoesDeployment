@@ -45,14 +45,14 @@ const CustomNumberInput = React.forwardRef((props, ref) => {
 
 const calculateEarned = (products) => {
   return products.reduce((acc, product) => {
-    if(product.cost.$numberDecimal)
-        return acc + product.cost.$numberDecimal * product.quantity;
+    if (product.cost.$numberDecimal)
+      return acc + product.cost.$numberDecimal * product.quantity;
     return acc + product.cost * product.quantity;
   }, 0);
 };
 
 function FinancialEditContent() {
-  const isMobile = useMediaQuery('(max-width: 599px)')
+  const isMobile = useMediaQuery("(max-width: 599px)");
   const { id } = useParams();
   const [stat, setStat] = useState(null);
   const [products, setProducts] = useState([]);
@@ -86,7 +86,13 @@ function FinancialEditContent() {
           </MDTypography>
         </MDBox>
       ),
-      cost: <MDTypography>{`${product.cost.$numberDecimal ? product.cost.$numberDecimal : product.cost} Lek`}</MDTypography>,
+      cost: (
+        <MDTypography>{`${
+          product.cost.$numberDecimal
+            ? product.cost.$numberDecimal
+            : product.cost
+        } Lek`}</MDTypography>
+      ),
       quantity: (
         <CustomNumberInput
           aria-label="Demo number input"
@@ -98,7 +104,11 @@ function FinancialEditContent() {
       ),
       subtotal: (
         <MDTypography>
-          {`${(product.cost.$numberDecimal ? product.cost.$numberDecimal : product.cost) * product.quantity } Lek`}
+          {`${
+            (product.cost.$numberDecimal
+              ? product.cost.$numberDecimal
+              : product.cost) * product.quantity
+          } Lek`}
         </MDTypography>
       ),
       remove: (
@@ -114,17 +124,19 @@ function FinancialEditContent() {
     };
   });
   const columns = [
-    { Header: "Code", accessor: "code", align: "left" },
-    { Header: "Cost", accessor: "cost", align: "center" },
-    { Header: "Quantity", accessor: "quantity", align: "center" },
-    { Header: "Subtotal", accessor: "subtotal", align: "center" },
+    { Header: "Codice", accessor: "code", align: "left" },
+    { Header: "Costo", accessor: "cost", align: "center" },
+    { Header: "Quantità", accessor: "quantity", align: "center" },
+    { Header: "Subtotale", accessor: "subtotal", align: "center" },
     { Header: "", accessor: "remove", align: "center" },
   ];
   const onSelectProduct = (event) => {
     const code = event.target.value;
     if (code) {
       setTempCode(code);
-      const preSelected = {...products.filter((product) => product.code === code)[0],}
+      const preSelected = {
+        ...products.filter((product) => product.code === code)[0],
+      };
       const selected = {
         code: preSelected.code,
         cost: preSelected.costPerArticle,
@@ -142,18 +154,18 @@ function FinancialEditContent() {
         setSelectedProducts(newlySelectedProducts);
       }
     } else {
-      setTempCode('default')
+      setTempCode("default");
     }
   };
 
   useEffect(() => {
-    getStatisticById(notification, navigate, id).then(data=>{
-        if(data) {
-            setStat(data);
-            setProductionCost(data.productionCost.$numberDecimal);
-            setSelectedProducts(data.products);
-        }
-    })
+    getStatisticById(notification, navigate, id).then((data) => {
+      if (data) {
+        setStat(data);
+        setProductionCost(data.productionCost.$numberDecimal);
+        setSelectedProducts(data.products);
+      }
+    });
     getProducts(notification, navigate).then((data) => {
       if (data) setProducts(data);
     });
@@ -172,29 +184,33 @@ function FinancialEditContent() {
           borderRadius="lg"
           coloredShadow="info"
           display="flex"
-          flexDirection={isMobile ? "column" : "row"} 
+          flexDirection={isMobile ? "column" : "row"}
           justifyContent="space-between"
           alignItems="flex-start"
         >
           <MDTypography variant="h6" color="white">
-            Select products
+            Seleziona i prodotti
           </MDTypography>
-          <FormControl style={{ width: isMobile ? "100%": "400px", height: "50px" }}>
+          <FormControl
+            style={{ width: isMobile ? "100%" : "400px", height: "50px" }}
+          >
             <InputLabel
               id="demo-simple-select-label"
               style={{ color: "white" }}
             >
-              Products
+              Prodotti
             </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Products"
-              style={{ width: isMobile ? "100%": "400px", height: "50px" }}
+              style={{ width: isMobile ? "100%" : "400px", height: "50px" }}
               value={tempCode}
               onChange={onSelectProduct}
             >
-              <MenuItem key={"default"} value={""}>None</MenuItem>
+              <MenuItem key={"default"} value={""}>
+                None
+              </MenuItem>
               {products.map((product) => {
                 return (
                   <MenuItem key={product.code} value={product.code}>
@@ -222,7 +238,7 @@ function FinancialEditContent() {
                 justifyContent: "center",
               }}
             >
-              No products selected yet
+              Nessun prodotto ancora selezionato
             </div>
           )}
         </MDBox>
@@ -236,7 +252,7 @@ function FinancialEditContent() {
           borderRadius: "10px",
           padding: isMobile ? "0 40px 15px 20px" : "0 40px 0 20px",
           display: "flex",
-          flexDirection: isMobile ? "column" : "row", 
+          flexDirection: isMobile ? "column" : "row",
           justifyContent: "space-between",
           alignItems: isMobile ? "flex-start" : "center",
         }}
@@ -244,12 +260,15 @@ function FinancialEditContent() {
         {productionCost ? (
           <>
             <MDBox>
-              <MDTypography color='black'>
-                Total earned: {calculateEarned(selectedProducts)}
+              <MDTypography color="black">
+                Totale guadagnato: {calculateEarned(selectedProducts)}
               </MDTypography>
-              <MDTypography color='black'>Total expense: {productionCost}</MDTypography>
-              <MDTypography color='black'>
-                Total profit: {calculateEarned(selectedProducts) - productionCost}
+              <MDTypography color="black">
+                Spesa totale: {productionCost}
+              </MDTypography>
+              <MDTypography color="black">
+                Profitto totale:{" "}
+                {calculateEarned(selectedProducts) - productionCost}
               </MDTypography>
             </MDBox>
             <MDButton
@@ -258,14 +277,14 @@ function FinancialEditContent() {
                 if (selectedProducts.length) {
                   editStatistic(notification, navigate, selectedProducts, id);
                 } else {
-                  notification.add("Please select products to proceed!", {
+                  notification.add("Seleziona i prodotti per procedere!", {
                     variant: "info",
                   });
                 }
               }}
             >
               <Icon style={{ marginRight: "5px" }}>check</Icon>
-              Confirm
+              Conferma
             </MDButton>
           </>
         ) : (

@@ -41,7 +41,7 @@ function ConfirmModal({ confirmAction }) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Are you sure?
+            Sei sicuro?
           </Typography>
           <div
             style={{
@@ -59,7 +59,7 @@ function ConfirmModal({ confirmAction }) {
               }}
             >
               <Icon style={{ marginRight: "5px" }}>check</Icon>
-              Yes
+              Si
             </MDButton>
             <MDButton color="primary" onClick={handleClose}>
               <Icon style={{ marginRight: "5px" }}>close</Icon>

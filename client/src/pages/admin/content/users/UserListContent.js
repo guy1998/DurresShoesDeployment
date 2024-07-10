@@ -11,7 +11,7 @@ import { useMediaQuery } from "@mui/material";
 import { getUsers, changeUserStatus } from "./scripts/user-scripts";
 
 function UserListContent() {
-  const isMobile = useMediaQuery('(max-width: 599px)')
+  const isMobile = useMediaQuery("(max-width: 599px)");
   const [users, setUsers] = useState([]);
   const [usersUpdated, setUsersUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -26,7 +26,13 @@ function UserListContent() {
         <MDBox style={{ display: "flex" }}>
           <ConfirmModal
             confirmAction={() => {
-              changeUserStatus(notification, navigate, user._id, { status: user.status === 'active' ? 'banned' : 'active' }, setUsersUpdated);
+              changeUserStatus(
+                notification,
+                navigate,
+                user._id,
+                { status: user.status === "active" ? "banned" : "active" },
+                setUsersUpdated
+              );
             }}
             status={user.status}
           />
@@ -35,10 +41,10 @@ function UserListContent() {
     };
   });
   const columns = [
-    { Header: "Name", accessor: "name", align: "center" },
-    { Header: "Surname", accessor: "surname", align: "center" },
+    { Header: "Nome", accessor: "name", align: "center" },
+    { Header: "Cognome", accessor: "surname", align: "center" },
     { Header: "Username", accessor: "username", align: "center" },
-    { Header: "Actions", accessor: "actions", align: "center" },
+    { Header: "Azioni", accessor: "actions", align: "center" },
   ];
 
   useEffect(() => {
@@ -63,7 +69,7 @@ function UserListContent() {
         justifyContent="space-between"
       >
         <MDTypography variant="h6" color="white">
-          Users
+          Gli utenti
         </MDTypography>
         <MDButton
           onClick={() => {
@@ -71,7 +77,7 @@ function UserListContent() {
           }}
         >
           <Icon style={{ marginRight: "5px" }}>person_add</Icon>
-          {isMobile ? "" : "Create new"}
+          {isMobile ? "" : "Crea nuovo"}
         </MDButton>
       </MDBox>
       <MDBox pt={3}>

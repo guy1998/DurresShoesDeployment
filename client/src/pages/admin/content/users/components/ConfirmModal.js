@@ -1,14 +1,14 @@
 import React from "react";
 import MDButton from "../../../../../components/MDButton";
 import { Icon } from "@mui/material";
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { useMediaQuery } from "@mui/material";
 import { useMaterialUIController } from "../../../../../context";
-import Modal from '@mui/material/Modal';
+import Modal from "@mui/material/Modal";
 
 function ConfirmModal({ confirmAction, status }) {
-  const isMobile = useMediaQuery('(max-width: 599px)')
+  const isMobile = useMediaQuery("(max-width: 599px)");
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
   const [open, setOpen] = React.useState(false);
@@ -21,7 +21,7 @@ function ConfirmModal({ confirmAction, status }) {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: isMobile ? 300 : 400,
-    bgcolor: darkMode ? 'rgba(255, 255, 255, 0.08)' : "background.paper",
+    bgcolor: darkMode ? "rgba(255, 255, 255, 0.08)" : "background.paper",
     border: "2px solid #000",
     borderRadius: "10px",
     boxShadow: 24,
@@ -30,8 +30,13 @@ function ConfirmModal({ confirmAction, status }) {
 
   return (
     <div>
-      <MDButton onClick={handleOpen} color={ status === 'active' ? 'primary' : 'info' }>
-        <Icon>{ status === 'active' ? 'block' : 'switch_access_shortcut_add' }</Icon>
+      <MDButton
+        onClick={handleOpen}
+        color={status === "active" ? "primary" : "info"}
+      >
+        <Icon>
+          {status === "active" ? "block" : "switch_access_shortcut_add"}
+        </Icon>
       </MDButton>
       <Modal
         open={open}
@@ -41,19 +46,29 @@ function ConfirmModal({ confirmAction, status }) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Are you sure?
+            Sei sicuro?
           </Typography>
-          <div style={{ display: "flex", justifyContent: "space-between", margin: "15px auto", width: isMobile ? "80%" : "56%" }}>
-            <MDButton color="info" onClick={()=>{
-              confirmAction();
-              handleClose();
-            }}>
-                <Icon style={{ marginRight: "5px" }}>check</Icon>
-                Yes
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              margin: "15px auto",
+              width: isMobile ? "80%" : "56%",
+            }}
+          >
+            <MDButton
+              color="info"
+              onClick={() => {
+                confirmAction();
+                handleClose();
+              }}
+            >
+              <Icon style={{ marginRight: "5px" }}>check</Icon>
+              Si
             </MDButton>
             <MDButton color="primary" onClick={handleClose}>
-                <Icon style={{ marginRight: "5px" }}>close</Icon>
-                No
+              <Icon style={{ marginRight: "5px" }}>close</Icon>
+              No
             </MDButton>
           </div>
         </Box>

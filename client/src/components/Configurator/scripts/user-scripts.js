@@ -1,72 +1,89 @@
 import { logout } from "../../../pages/login/login-scripts";
-const url = 'http://localhost:8003/login/'
+const url = "http://localhost:8003/login/";
 
+export const getUserInfo = async (notification, navigator) => {
+  const response = await fetch(`${url}user-info`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+  let user = null;
+  if (response.status === 200) {
+    user = response.json();
+  } else if (response.status === 401) {
+    logout(notification, navigator);
+  } else {
+    notification.add(
+      "Il server non è stato in grado di gestire la richiesta!",
+      { variant: "error" }
+    );
+  }
+  return user;
+};
 
-export const getUserInfo = async (notification, navigator)=>{
-    const response = await fetch(`${url}user-info`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        credentials: "include"
+const validateUserInfo = (notification, newInfo) => {
+  if ((!newInfo.name || !newInfo.surname, !newInfo.username)) {
+    notification.add("Ci sono alcune informazioni mancanti!", {
+      variant: "error",
     });
-    let user = null;
-    if(response.status === 200){
-        user = response.json();
-    } else if(response.status === 401){
-        logout(notification, navigator)
-    } else {
-        notification.add("The server failed to serve a request!", { variant: "error" });
-    }
-    return user;
-}
+    return false;
+  }
+  return true;
+};
 
-const validateUserInfo = (notification, newInfo)=>{
-    if(!newInfo.name || !newInfo.surname, !newInfo.username){
-        notification.add("There is missing information!", { variant: "error" });
-        return false;
-    }
-    return true;
-}
-
-export const editUser = async (notification, navigator, newInfo, successAction)=>{
-    const verified = validateUserInfo(notification, newInfo);
-    if(verified){
-        const response = await fetch(`${url}edit-user`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ newInfo }),
-            credentials: "include"
-        });
-        if(response.status === 200){
-            notification.add("Edited successfully!", { variant: "success" });
-            successAction();
-        } else if(response.status === 401){
-            logout(notification, navigator)
-        } else {
-            notification.add("The server failed to serve a request!", { variant: "error" });
-        }
-    }
-}
-
-export const changePassword = async(notification, navigator, newPassword, oldPassword, successAction)=>{
-    const response = await fetch(`${url}change-password`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ newPassword, oldPassword }),
-        credentials: "include"
+export const editUser = async (
+  notification,
+  navigator,
+  newInfo,
+  successAction
+) => {
+  const verified = validateUserInfo(notification, newInfo);
+  if (verified) {
+    const response = await fetch(`${url}edit-user`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ newInfo }),
+      credentials: "include",
     });
-    if(response.status === 200){
-        notification.add("Password changed successfully!", { variant: "success" });
-        successAction();
-    } else if(response.status === 401){
-        logout(notification, navigator)
+    if (response.status === 200) {
+      notification.add("Modificato con successo!", { variant: "success" });
+      successAction();
+    } else if (response.status === 401) {
+      logout(notification, navigator);
     } else {
-        const message = await response.json()
-        notification.add(message.message, { variant: "error" });
+      notification.add("Il server non è stato in grado di gestire la richiesta!", {
+        variant: "error",
+      });
     }
-}
+  }
+};
+
+export const changePassword = async (
+  notification,
+  navigator,
+  newPassword,
+  oldPassword,
+  successAction
+) => {
+  const response = await fetch(`${url}change-password`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ newPassword, oldPassword }),
+    credentials: "include",
+  });
+  if (response.status === 200) {
+    notification.add("La password è stata modificata con successo!", { variant: "success" });
+    successAction();
+  } else if (response.status === 401) {
+    logout(notification, navigator);
+  } else {
+    const message = await response.json();
+    notification.add(message.message, { variant: "error" });
+  }
+};

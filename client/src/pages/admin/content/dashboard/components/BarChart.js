@@ -55,9 +55,9 @@ function BarChart() {
           {!isMobile ? (
             <ReportsBarChart
               color="info"
-              title="Profit statistics"
-              description="This week's performance"
-              date="updated daily"
+              title="Statistiche sui profitti"
+              description="L'andamento di questa settimana"
+              date="aggiornato quotidianamente"
               chart={reportsBarChartData}
             />
           ) : (

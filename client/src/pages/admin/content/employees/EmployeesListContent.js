@@ -4,7 +4,7 @@ import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 import DataTable from "../../../../components/Tables/DataTable";
 import { useSnackbar } from "notistack";
-import { useMediaQuery } from "@mui/material"
+import { useMediaQuery } from "@mui/material";
 import MDButton from "../../../../components/MDButton";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "./components/ConfirmModal";
@@ -12,7 +12,7 @@ import ConfirmModal from "./components/ConfirmModal";
 import { getEmployees, deleteEmployee } from "./scripts/employee-scripts";
 
 function EmployeesListContent() {
-  const isMobile = useMediaQuery('(max-width: 599px)');
+  const isMobile = useMediaQuery("(max-width: 599px)");
   const [employees, setEmployees] = useState([]);
   const [employeesUpdated, setEmployeesUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -56,9 +56,9 @@ function EmployeesListContent() {
     };
   });
   const columns = [
-    { Header: "Name", accessor: "name", align: "left" },
-    { Header: "Cost per day", accessor: "cost", align: "center" },
-    { Header: "Actions", accessor: "actions", align: "center" },
+    { Header: "Nome", accessor: "name", align: "left" },
+    { Header: "Costo al giorno", accessor: "cost", align: "center" },
+    { Header: "Azioni", accessor: "actions", align: "center" },
   ];
 
   useEffect(() => {
@@ -83,7 +83,7 @@ function EmployeesListContent() {
         justifyContent="space-between"
       >
         <MDTypography variant="h6" color="white">
-          Employees
+          Operai
         </MDTypography>
         <MDButton
           onClick={() => {
@@ -91,7 +91,7 @@ function EmployeesListContent() {
           }}
         >
           <Icon style={{ marginRight: "5px" }}>person_add</Icon>
-          { isMobile ? "" : "Create new"}
+          {isMobile ? "" : "Crea nuovo"}
         </MDButton>
       </MDBox>
       <MDBox pt={3}>

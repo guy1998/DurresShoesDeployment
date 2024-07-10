@@ -21,13 +21,15 @@ const checkIfToday = (stats) => {
   });
 };
 
-const sortByDate = (stats)=>{
-  stats.sort((a, b) => new Date(b.date.slice(0, 10)) - new Date(a.date.slice(0, 10)));
-  return stats
-}
+const sortByDate = (stats) => {
+  stats.sort(
+    (a, b) => new Date(b.date.slice(0, 10)) - new Date(a.date.slice(0, 10))
+  );
+  return stats;
+};
 
 function FinancialListContent() {
-  const isMobile = useMediaQuery('(max-width: 599px)')
+  const isMobile = useMediaQuery("(max-width: 599px)");
   const [stats, setStats] = useState([]);
   const [statsUpdated, setStatsUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -53,23 +55,29 @@ function FinancialListContent() {
       actions: (
         <MDBox style={{ display: "flex" }}>
           <ViewProductsModal products={stat.products} />
-          <MDButton color='success' style={{ marginRight: '5px'}} onClick={()=>{
-            navigate('/app/financial/edit/' + stat._id);
-          }}>
+          <MDButton
+            color="success"
+            style={{ marginRight: "5px" }}
+            onClick={() => {
+              navigate("/app/financial/edit/" + stat._id);
+            }}
+          >
             <Icon>edit</Icon>
           </MDButton>
-          <ConfirmModal confirmAction={() => {
-            deleteStat(notification, navigate, stat._id, setStatsUpdated);
-          }} />
+          <ConfirmModal
+            confirmAction={() => {
+              deleteStat(notification, navigate, stat._id, setStatsUpdated);
+            }}
+          />
         </MDBox>
       ),
     };
   });
   const columns = [
-    { Header: "Date of report", accessor: "date", align: "left" },
-    { Header: "Profit", accessor: "profit", align: "center" },
-    { Header: "Cost of production", accessor: "cost", align: "center" },
-    { Header: "Actions", accessor: "actions", align: "center" },
+    { Header: "Data della relazione", accessor: "date", align: "left" },
+    { Header: "Profitto", accessor: "profit", align: "center" },
+    { Header: "Costo di produzione", accessor: "cost", align: "center" },
+    { Header: "Azioni", accessor: "actions", align: "center" },
   ];
 
   useEffect(() => {
@@ -94,12 +102,12 @@ function FinancialListContent() {
         justifyContent="space-between"
       >
         <MDTypography variant="h6" color="white">
-          Financial reports
+          Relazioni finanziarie
         </MDTypography>
         <MDButton
           onClick={() => {
             if (checkIfToday(stats)) {
-              notification.add("A report has already been issued today!", {
+              notification.add("Oggi è già stato pubblicato un rapporto!", {
                 variant: "info",
               });
             } else {
@@ -108,7 +116,7 @@ function FinancialListContent() {
           }}
         >
           <Icon style={{ marginRight: "5px" }}>analytics</Icon>
-          {isMobile ? "" : "Create new"}
+          {isMobile ? "" : "Crea nuovo"}
         </MDButton>
       </MDBox>
       <MDBox pt={3}>

@@ -15,16 +15,19 @@ export const getProducts = async (notification, navigator) => {
   } else if (response.status === 401) {
     logout(notification, navigator);
   } else {
-    notification.add("The server could not handle the request!", {
-      variant: "error",
-    });
+    notification.add(
+      "Il server non è stato in grado di gestire la richiesta!",
+      {
+        variant: "error",
+      }
+    );
   }
   return data;
 };
 
 const validateProduct = (notification, product) => {
   if (!product.code || !product.costPerArticle) {
-    notification.add("There is some missing information!", {
+    notification.add("Ci sono alcune informazioni mancanti!", {
       variant: "error",
     });
     return false;
@@ -44,16 +47,19 @@ export const createProduct = async (notification, navigator, product) => {
       credentials: "include",
     });
     if (response.status === 201) {
-      notification.add("Product was added successfully!", {
+      notification.add("Il prodotto è stato aggiunto con successo!", {
         variant: "success",
       });
       navigator("/app/products");
     } else if (response.status === 401) {
       logout(notification, navigator);
     } else {
-      notification.add("The server could not handle the request!", {
-        variant: "error",
-      });
+      notification.add(
+        "Il server non è stato in grado di gestire la richiesta!",
+        {
+          variant: "error",
+        }
+      );
     }
   }
 };
@@ -72,16 +78,19 @@ export const deleteProduct = async (
     credentials: "include",
   });
   if (response.status === 200) {
-    notification.add("Product was deleted successfully!", {
+    notification.add("Il prodotto è stato eliminato con successo!", {
       variant: "success",
     });
     dependency(true);
   } else if (response.status === 401) {
     logout(notification, navigator);
   } else {
-    notification.add("The server could not handle the request!", {
-      variant: "error",
-    });
+    notification.add(
+      "Il server non è stato in grado di gestire la richiesta!",
+      {
+        variant: "error",
+      }
+    );
   }
 };
 
@@ -99,7 +108,7 @@ export const getProductInfo = async (notification, navigator, productId) => {
   } else if (response.status === 401) {
     logout(notification, navigator);
   } else {
-    notification.add("The product does not exist!", {
+    notification.add("Il prodotto non esiste!", {
       variant: "error",
     });
     navigator("/app/products");
@@ -107,23 +116,33 @@ export const getProductInfo = async (notification, navigator, productId) => {
   return data;
 };
 
-export const editProduct = async (notification, navigator, productId, product)=>{
-    if(validateProduct(notification, product)){
-        const response = await fetch(`${url}updateProduct`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ itemId: productId, newInfo: product }),
-            credentials:"include"
-        })
-        if (response.status === 200) {
-            notification.add("The product was updated successfully!", { variant: "success" });
-            navigator("/app/products/")
-        } else if (response.status === 401) {
-            logout(notification, navigator);
-        } else {
-            notification.add("The server could not handle the request!", { variant: "error" });
-        }
+export const editProduct = async (
+  notification,
+  navigator,
+  productId,
+  product
+) => {
+  if (validateProduct(notification, product)) {
+    const response = await fetch(`${url}updateProduct`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ itemId: productId, newInfo: product }),
+      credentials: "include",
+    });
+    if (response.status === 200) {
+      notification.add("Il prodotto è stato aggiornato con successo!", {
+        variant: "success",
+      });
+      navigator("/app/products/");
+    } else if (response.status === 401) {
+      logout(notification, navigator);
+    } else {
+      notification.add(
+        "Il server non è stato in grado di gestire la richiesta!",
+        { variant: "error" }
+      );
     }
-}
+  }
+};

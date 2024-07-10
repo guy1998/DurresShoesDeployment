@@ -17,7 +17,10 @@ import {
 import { styled } from "@mui/system";
 import { useMediaQuery } from "@mui/material";
 import { getProducts } from "../products/scripts/product-scripts";
-import { getProductionCost, createStatistic } from "./scripts/financial-scripts";
+import {
+  getProductionCost,
+  createStatistic,
+} from "./scripts/financial-scripts";
 
 const CustomNumberInput = React.forwardRef((props, ref) => {
   return (
@@ -49,7 +52,7 @@ const calculateEarned = (products) => {
 };
 
 function FinancialCreateContent() {
-  const isMobile = useMediaQuery('(max-width: 599px)')
+  const isMobile = useMediaQuery("(max-width: 599px)");
   const [products, setProducts] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [tempCode, setTempCode] = useState("");
@@ -109,10 +112,10 @@ function FinancialCreateContent() {
     };
   });
   const columns = [
-    { Header: "Code", accessor: "code", align: "left" },
-    { Header: "Cost", accessor: "cost", align: "center" },
-    { Header: "Quantity", accessor: "quantity", align: "center" },
-    { Header: "Subtotal", accessor: "subtotal", align: "center" },
+    { Header: "Codice", accessor: "code", align: "left" },
+    { Header: "Costo", accessor: "cost", align: "center" },
+    { Header: "Quantità", accessor: "quantity", align: "center" },
+    { Header: "Subtotale", accessor: "subtotal", align: "center" },
     { Header: "", accessor: "remove", align: "center" },
   ];
   const onSelectProduct = (event) => {
@@ -127,7 +130,7 @@ function FinancialCreateContent() {
         (product) => product.code === selected.code
       );
       if (exists.length)
-        notification.add("This product is already selected!", {
+        notification.add("Questo prodotto è già selezionato!", {
           variant: "info",
         });
       else {
@@ -135,7 +138,7 @@ function FinancialCreateContent() {
         setSelectedProducts(newlySelectedProducts);
       }
     } else {
-      setTempCode('default')
+      setTempCode("default");
     }
   };
 
@@ -147,7 +150,7 @@ function FinancialCreateContent() {
       if (data) setProductionCost(data);
       else
         notification.add(
-          "It seems like there is no information regarding employees and their cost yet. Update employees to continue",
+          "Sembra che non ci siano ancora informazioni sui operai e sui loro costi. Aggiorna i operai per continuare",
           { variant: "info" }
         );
     });
@@ -166,29 +169,33 @@ function FinancialCreateContent() {
           borderRadius="lg"
           coloredShadow="info"
           display="flex"
-          flexDirection={isMobile ? "column" : "row"} 
+          flexDirection={isMobile ? "column" : "row"}
           justifyContent="space-between"
           alignItems="flex-start"
         >
           <MDTypography variant="h6" color="white">
-            Select products
+            Seleziona i prodotti
           </MDTypography>
-          <FormControl style={{ width: isMobile ? "100%": "400px", height: "50px" }}>
+          <FormControl
+            style={{ width: isMobile ? "100%" : "400px", height: "50px" }}
+          >
             <InputLabel
               id="demo-simple-select-label"
               style={{ color: "white" }}
             >
-              Products
+              Prodotti
             </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="Products"
-              style={{ width: isMobile ? "100%": "400px", height: "50px" }}
+              style={{ width: isMobile ? "100%" : "400px", height: "50px" }}
               value={tempCode}
               onChange={onSelectProduct}
             >
-              <MenuItem key={"default"} value={""}>None</MenuItem>
+              <MenuItem key={"default"} value={""}>
+                None
+              </MenuItem>
               {products.map((product) => {
                 return (
                   <MenuItem key={product.code} value={product.code}>
@@ -216,7 +223,7 @@ function FinancialCreateContent() {
                 justifyContent: "center",
               }}
             >
-              No products selected yet
+              Nessun prodotto ancora selezionato
             </div>
           )}
         </MDBox>
@@ -230,7 +237,7 @@ function FinancialCreateContent() {
           borderRadius: "10px",
           padding: isMobile ? "0 40px 15px 20px" : "0 40px 0 20px",
           display: "flex",
-          flexDirection: isMobile ? "column" : "row", 
+          flexDirection: isMobile ? "column" : "row",
           justifyContent: "space-between",
           alignItems: isMobile ? "flex-start" : "center",
         }}
@@ -238,12 +245,15 @@ function FinancialCreateContent() {
         {productionCost ? (
           <>
             <MDBox>
-              <MDTypography color='black'>
-                Total earned: {calculateEarned(selectedProducts)}
+              <MDTypography color="black">
+                Totale guadagnato: {calculateEarned(selectedProducts)}
               </MDTypography>
-              <MDTypography color='black'>Total expense: {productionCost}</MDTypography>
-              <MDTypography color='black'>
-                Total profit: {calculateEarned(selectedProducts) - productionCost}
+              <MDTypography color="black">
+                Spesa totale: {productionCost}
+              </MDTypography>
+              <MDTypography color="black">
+                Profitto totale:{" "}
+                {calculateEarned(selectedProducts) - productionCost}
               </MDTypography>
             </MDBox>
             <MDButton
@@ -252,14 +262,14 @@ function FinancialCreateContent() {
                 if (selectedProducts.length) {
                   createStatistic(notification, navigate, selectedProducts);
                 } else {
-                  notification.add("Please select products to proceed!", {
+                  notification.add("Seleziona gli articoli per procedere!", {
                     variant: "info",
                   });
                 }
               }}
             >
               <Icon style={{ marginRight: "5px" }}>check</Icon>
-              Confirm
+              Conferma
             </MDButton>
           </>
         ) : (

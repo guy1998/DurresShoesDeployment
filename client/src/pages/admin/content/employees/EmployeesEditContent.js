@@ -15,35 +15,33 @@ import { useMaterialUIController } from "../../../../context";
 import { getEmployeeInfo, editEmployee } from "./scripts/employee-scripts";
 
 function EmployeesEditContent() {
-  const isMobile = useMediaQuery('(max-width: 599px)');
+  const isMobile = useMediaQuery("(max-width: 599px)");
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
   const navigator = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const notification = {add: enqueueSnackbar, close: closeSnackbar};
+  const notification = { add: enqueueSnackbar, close: closeSnackbar };
   const { id } = useParams();
   const [employee, setEmployee] = useState(null);
   const [newInfo, setNewInfo] = useState({
     name: "",
     surname: "",
-    costPerDay: 0
-  })
-  const updateCost = (event)=>{
-    if(!event.target.value)
-      setNewInfo({ ...newInfo, costPerDay: 0 })
+    costPerDay: 0,
+  });
+  const updateCost = (event) => {
+    if (!event.target.value) setNewInfo({ ...newInfo, costPerDay: 0 });
     const newCost = parseFloat(event.target.value);
-    if (isNaN(newCost) || newCost < 0){
-        
+    if (isNaN(newCost) || newCost < 0) {
     } else {
-        setNewInfo({ ...newInfo, costPerDay: newCost })
+      setNewInfo({ ...newInfo, costPerDay: newCost });
     }
-  }
+  };
 
-  useEffect(()=>{
-    getEmployeeInfo(notification, navigator, id).then(data=>{
-      if(data){
-          setEmployee(data)
-          setNewInfo(data);
+  useEffect(() => {
+    getEmployeeInfo(notification, navigator, id).then((data) => {
+      if (data) {
+        setEmployee(data);
+        setNewInfo(data);
       }
     });
   }, []);
@@ -52,9 +50,9 @@ function EmployeesEditContent() {
     <MDBox
       style={{
         margin: "0 auto",
-        width: isMobile ? "100%" :"70%",
+        width: isMobile ? "100%" : "70%",
         height: "90%",
-        backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.08)' :"#F4F4F4",
+        backgroundColor: darkMode ? "rgba(255, 255, 255, 0.08)" : "#F4F4F4",
         borderRadius: "15px",
         boxShadow:
           "0px 10px 15px rgba(0, 0, 0, 0.3), 0px 15px 30px rgba(0, 0, 0, 0.22)",
@@ -66,43 +64,43 @@ function EmployeesEditContent() {
           width: "90%",
           borderBottom: "2px solid gainsboro",
           margin: "5px auto 15px auto",
-          color: darkMode ? 'white' : 'black'
+          color: darkMode ? "white" : "black",
         }}
       >
-        <h3>Edit worker</h3>
+        <h3>Modifico operaio</h3>
       </div>
       {employee ? (
         <div style={{ width: "90%", margin: "0 auto" }}>
           <TextField
             id="outlined-basic"
-            label="Name"
+            label="Nome"
             variant="outlined"
             fullWidth
             value={newInfo.name}
-            onChange={(event)=>{ 
+            onChange={(event) => {
               setNewInfo({
                 ...newInfo,
-                name: event.target.value
-              })
+                name: event.target.value,
+              });
             }}
             style={{ margin: "10px 0" }}
           />
           <TextField
             id="outlined-basic"
-            label="Surname"
+            label="Cognome"
             variant="outlined"
             fullWidth
             value={newInfo.surname}
-            onChange={(event)=>{ 
+            onChange={(event) => {
               setNewInfo({
                 ...newInfo,
-                surname: event.target.value
-              })
+                surname: event.target.value,
+              });
             }}
             style={{ margin: "10px 0" }}
           />
           <FormControl fullWidth style={{ margin: "10px 0" }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Cost</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-amount">Costo</InputLabel>
             <OutlinedInput
               id="outlined-adornment-amount"
               value={newInfo.costPerDay}
@@ -115,7 +113,19 @@ function EmployeesEditContent() {
           </FormControl>
         </div>
       ) : (
-        <div style={{ width: "90%", margin: "0 auto", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}> <CircularProgress /> </div>
+        <div
+          style={{
+            width: "90%",
+            margin: "0 auto",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {" "}
+          <CircularProgress />{" "}
+        </div>
       )}
       <div
         style={{
@@ -128,11 +138,15 @@ function EmployeesEditContent() {
           height: "70px",
         }}
       >
-        <MDButton style={{ marginRight: "8px" }} color="info" onClick={()=>{
-          editEmployee(notification, navigator, newInfo, id);
-        }}>
+        <MDButton
+          style={{ marginRight: "8px" }}
+          color="info"
+          onClick={() => {
+            editEmployee(notification, navigator, newInfo, id);
+          }}
+        >
           <Icon style={{ marginRight: "5px" }}>check</Icon>
-          Confirm
+          Conferma
         </MDButton>
         <MDButton
           color="primary"
@@ -141,7 +155,7 @@ function EmployeesEditContent() {
           }}
         >
           <Icon style={{ marginRight: "5px" }}>close</Icon>
-          Cancel
+          Annulla
         </MDButton>
       </div>
     </MDBox>

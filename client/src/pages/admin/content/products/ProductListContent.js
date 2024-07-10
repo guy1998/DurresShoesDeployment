@@ -12,7 +12,7 @@ import { getProducts, deleteProduct } from "./scripts/product-scripts";
 
 function ProductListContent() {
   const [articles, setArticles] = useState([]);
-  const isMobile = useMediaQuery('(max-width: 599px)');
+  const isMobile = useMediaQuery("(max-width: 599px)");
   const [articlesUpdated, setArticlesUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
@@ -55,9 +55,9 @@ function ProductListContent() {
     };
   });
   const columns = [
-    { Header: "Product code", accessor: "name", align: "left" },
-    { Header: "Cost per article", accessor: "cost", align: "center" },
-    { Header: "Actions", accessor: "actions", align: "center" },
+    { Header: "Codice articolo", accessor: "name", align: "left" },
+    { Header: "Costo per articolo", accessor: "cost", align: "center" },
+    { Header: "Azioni", accessor: "actions", align: "center" },
   ];
 
   useEffect(() => {
@@ -82,7 +82,7 @@ function ProductListContent() {
         justifyContent="space-between"
       >
         <MDTypography variant="h6" color="white">
-          Products
+          Prodotto
         </MDTypography>
         <MDButton
           onClick={() => {
@@ -90,7 +90,7 @@ function ProductListContent() {
           }}
         >
           <Icon style={{ marginRight: "5px" }}>category</Icon>
-          { isMobile ? "" : "Create new" }
+          {isMobile ? "" : "Crea nuovo"}
         </MDButton>
       </MDBox>
       <MDBox pt={3}>

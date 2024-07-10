@@ -10,7 +10,7 @@ import { useMediaQuery } from "@mui/material";
 import { useMaterialUIController } from "../../../../../context";
 
 function ViewProductsModal({ products }) {
-  const isMobile = useMediaQuery('(max-width: 599px)')
+  const isMobile = useMediaQuery("(max-width: 599px)");
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
   const [open, setOpen] = useState(false);
@@ -28,7 +28,7 @@ function ViewProductsModal({ products }) {
     borderRadius: "10px",
     boxShadow: 24,
     p: 4,
-    overflow: "scroll"
+    overflow: "scroll",
   };
 
   const rows = products.map((product) => {
@@ -41,20 +41,26 @@ function ViewProductsModal({ products }) {
         </MDBox>
       ),
       quantity: <MDTypography>{`${product.quantity}`}</MDTypography>,
-      price: <MDTypography>{`${product.cost.$numberDecimal} Lek`}</MDTypography>,
+      price: (
+        <MDTypography>{`${product.cost.$numberDecimal} Lek`}</MDTypography>
+      ),
     };
   });
   const columns = [
-    { Header: "Code", accessor: "code", align: "left" },
-    { Header: "Qunatity", accessor: "quantity", align: "center" },
-    { Header: "Article price", accessor: "price", align: "center" },
+    { Header: "Codice", accessor: "code", align: "left" },
+    { Header: "Quantità", accessor: "quantity", align: "center" },
+    { Header: "Prezzo dell'articolo", accessor: "price", align: "center" },
   ];
 
   return (
     <div>
-      <MDButton color={darkMode ? 'dark' :"light"} style={{ marginRight: "5px" }} onClick={handleOpen}>
+      <MDButton
+        color={darkMode ? "dark" : "light"}
+        style={{ marginRight: "5px" }}
+        onClick={handleOpen}
+      >
         <Icon style={{ marginRight: "5px" }}>manage_search</Icon>
-        View products
+        Visualizza i articoli{" "}
       </MDButton>
       <Modal
         open={open}
@@ -77,7 +83,7 @@ function ViewProductsModal({ products }) {
               justifyContent="space-between"
             >
               <MDTypography variant="h6" color="white">
-                Products
+                Articoli
               </MDTypography>
             </MDBox>
             <MDBox pt={3}>

@@ -17,7 +17,7 @@ import { editProduct, getProductInfo } from "./scripts/product-scripts";
 function ProductEditContent() {
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
-  const isMobile = useMediaQuery('(max-width: 599px)');
+  const isMobile = useMediaQuery("(max-width: 599px)");
   const navigator = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
@@ -51,7 +51,7 @@ function ProductEditContent() {
         margin: "0 auto",
         width: isMobile ? "100%" : "70%",
         height: "90%",
-        backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.08)' :"#F4F4F4",
+        backgroundColor: darkMode ? "rgba(255, 255, 255, 0.08)" : "#F4F4F4",
         borderRadius: "15px",
         boxShadow:
           "0px 10px 15px rgba(0, 0, 0, 0.3), 0px 15px 30px rgba(0, 0, 0, 0.22)",
@@ -63,16 +63,16 @@ function ProductEditContent() {
           width: "90%",
           borderBottom: "2px solid gainsboro",
           margin: "5px auto 15px auto",
-          color: darkMode ? 'white' : 'black'
+          color: darkMode ? "white" : "black",
         }}
       >
-        <h3>Edit product</h3>
+        <h3>Modifica prodotto</h3>
       </div>
       {product ? (
         <div style={{ width: "90%", margin: "0 auto" }}>
           <TextField
             id="outlined-basic"
-            label="Product code"
+            label="Codice prodotto"
             variant="outlined"
             fullWidth
             style={{ margin: "10px 0" }}
@@ -80,7 +80,7 @@ function ProductEditContent() {
             onChange={(event) => setCode(event.target.value)}
           />
           <FormControl fullWidth style={{ margin: "10px 0" }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Cost</InputLabel>
+            <InputLabel htmlFor="outlined-adornment-amount">Costo</InputLabel>
             <OutlinedInput
               id="outlined-adornment-amount"
               startAdornment={
@@ -118,14 +118,18 @@ function ProductEditContent() {
           height: "70px",
         }}
       >
-        <MDButton style={{ marginRight: "8px" }} color="info" onClick={()=>{
-          editProduct(notification, navigator, product._id, {
-            code,
-            costPerArticle: cost
-          })
-        }}>
+        <MDButton
+          style={{ marginRight: "8px" }}
+          color="info"
+          onClick={() => {
+            editProduct(notification, navigator, product._id, {
+              code,
+              costPerArticle: cost,
+            });
+          }}
+        >
           <Icon style={{ marginRight: "5px" }}>check</Icon>
-          Confirm
+          Conferma
         </MDButton>
         <MDButton
           color="primary"
@@ -134,7 +138,7 @@ function ProductEditContent() {
           }}
         >
           <Icon style={{ marginRight: "5px" }}>close</Icon>
-          Cancel
+          Annulla
         </MDButton>
       </div>
     </MDBox>
