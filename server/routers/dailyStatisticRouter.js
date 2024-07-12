@@ -38,7 +38,7 @@ router.get("/profit", (req, res) => {
   });
 });
 
-router.get("/timeRange", (req, res) => {
+router.post("/timeRange", (req, res) => {
   login_controller.authorize(req, res, () => {
     dailyStatisticController.getStatisticByTimeRange(req, res);
   });

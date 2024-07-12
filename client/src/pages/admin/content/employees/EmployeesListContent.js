@@ -10,6 +10,13 @@ import { useNavigate } from "react-router-dom";
 import ConfirmModal from "./components/ConfirmModal";
 
 import { getEmployees, deleteEmployee } from "./scripts/employee-scripts";
+import TotalMoney from "./components/TotalMoney";
+
+const calculateTotalCost = (employees)=>{
+  return employees.reduce((acc, employee)=>{
+    return acc + employee.costPerDay;
+  }, 0)
+}
 
 function EmployeesListContent() {
   const isMobile = useMediaQuery("(max-width: 599px)");
@@ -103,6 +110,7 @@ function EmployeesListContent() {
           noEndBorder
         />
       </MDBox>
+      <TotalMoney value={calculateTotalCost(employees)}/>
     </Card>
   );
 }

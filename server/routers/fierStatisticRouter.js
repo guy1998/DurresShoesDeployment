@@ -4,18 +4,15 @@ const fierStatisticsController = require("../controllers/fierStatisticsControlle
 const login_controller = require("../controllers/userProxy");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const FierStatistics = require("../models/fierStatistics");
 
 router.use(bodyParser.json());
 router.use(cookieParser());
 
-router.post(
-  "/create", //(req, res) => {
-  //login_controller.authorize(req, res, () => {
-  fierStatisticsController.createFierStatistic //(req, res);
-  //}
-);
-//});
+router.post("/create", (req, res) => {
+  login_controller.authorize(req, res, () => {
+    fierStatisticsController.createFierStatistic(req, res);
+  });
+});
 
 router.put("/edit", (req, res) => {
   login_controller.authorize(req, res, () => {
@@ -53,12 +50,10 @@ router.get("/all", (req, res) => {
   });
 });
 
-router.delete(
-  "/deleteById/:statisticId", //(req, res) => {
-  //login_controller.authorize(req, res, () => {
-  fierStatisticsController.deleteStatisticById //(req, res);
-  //}
-);
-//});
+router.delete("/deleteById/:statisticId", (req, res) => {
+  login_controller.authorize(req, res, () => {
+    fierStatisticsController.deleteStatisticById(req, res);
+  });
+});
 
 module.exports = router;
