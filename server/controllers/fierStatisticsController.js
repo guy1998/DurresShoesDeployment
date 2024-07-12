@@ -10,20 +10,16 @@ const createFierStatistic = async (req, res) => {
     const { products } = req.body;
 
     products.forEach((product) => {
-      const costPerArticle = parseFloat(product.costPerArticle.toString());
+      const costPerArticle = parseFloat(product.price.toString());
       totalEarned += product.quantity * costPerArticle;
       costFier += product.cost * product.quantity;
     });
 
     const profit = totalEarned - parseFloat(costFier.toString());
 
-    const newFierStatistic = new FierStatistics({    
-      products: products.map((product) => ({
-        code: product.code,
-        quantity: product.quantity,
-        price: Decimal128.fromString(product.costPerArticle.toString()),
-        cost: Decimal128.fromString(product.cost.toString()),
-      })),
+    const newFierStatistic = new FierStatistics({
+      products: products,
+      earned: totalEarned,
       totalCost: Decimal128.fromString(costFier.toString()),
       profit: Decimal128.fromString(profit.toString()),
     });
@@ -40,18 +36,18 @@ const editFierStatistics = async (req, res) => {
     const { products, statId } = req.body;
 
     products.forEach((product) => {
-      const cost1 = parseFloat(
-        product.cost.$numberDecimal
-          ? product.cost.$numberDecimal.toString()
-          : product.cost.toString()
-      );
+      const cost1 = parseFloat(product.price.toString());
       totalEarned += product.quantity * cost1;
     });
-    const stat = await DailyStatistics.findById(statId);
+    const stat = await FierStatistics.findById(statId);
 
-    const profit = totalEarned - parseFloat(stat.productionCost.toString());
+    const totalCost = products.reduce((acc, product) => {
+      return acc + product.quantity * product.cost;
+    }, 0);
+    const profit = totalEarned - totalCost;
     stat.profit = profit;
     stat.products = products;
+    stat.totalCost = totalCost;
     stat.earned = totalEarned;
     await stat.save();
     res.status(200).json("Saved successfully!");
@@ -152,5 +148,5 @@ module.exports = {
   getStatisticByProductCode,
   getStatisticByTimeRange,
   deleteStatisticById,
-  editFierStatistics, 
+  editFierStatistics,
 };

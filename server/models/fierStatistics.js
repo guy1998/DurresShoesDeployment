@@ -7,6 +7,7 @@ const fierStatisticsSchema = new Schema(
     products: [
       { code: String, quantity: Number, price: Decimal128, cost: Decimal128 },
     ],
+    earned: { type: Decimal128, required: true },
     profit: { type: Decimal128, required: true },
     totalCost: { type: Decimal128, required: true },
     date: {
