@@ -14,11 +14,11 @@ router.post("/create", (req, res) => {
   });
 });
 
-router.put('/edit', (req, res)=>{
-  login_controller.authorize(req, res, ()=>{
+router.put("/edit", (req, res) => {
+  login_controller.authorize(req, res, () => {
     dailyStatisticController.editDailyStatistics(req, res);
-  })
-})
+  });
+});
 
 router.get("/statistics/:statisticId", (req, res) => {
   login_controller.authorize(req, res, () => {
@@ -38,7 +38,7 @@ router.get("/profit", (req, res) => {
   });
 });
 
-router.post("/timeRange", (req, res) => {
+router.get("/timeRange", (req, res) => {
   login_controller.authorize(req, res, () => {
     dailyStatisticController.getStatisticByTimeRange(req, res);
   });
@@ -50,17 +50,17 @@ router.get("/all", (req, res) => {
   });
 });
 
-router.get("/productionCost", (req, res)=>{
-  login_controller.authorize(req, res, ()=>{
-    try{
-      dailyStatisticController.getTotalWorkersCost().then(cost=>{
+router.get("/productionCost", (req, res) => {
+  login_controller.authorize(req, res, () => {
+    try {
+      dailyStatisticController.getTotalWorkersCost().then((cost) => {
         res.status(200).json(cost);
       });
-    } catch(err) {
+    } catch (err) {
       res.status(500).json({ message: "Internal server error!" });
     }
-  })
-})
+  });
+});
 
 router.delete("/deleteById/:statisticId", (req, res) => {
   login_controller.authorize(req, res, () => {

@@ -2,10 +2,13 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const { Decimal128 } = require("mongodb");
 
-const additionalCostsSchema = new Schema(
+const fierStatisticsSchema = new Schema(
   {
-    name: { type: String, required: true },
-    quantity: { type: Decimal128, required: true },
+    products: [
+      { code: String, quantity: Number, price: Decimal128, cost: Decimal128 },
+    ],
+    profit: { type: Decimal128, required: true },
+    totalCost: { type: Decimal128, required: true },
     date: {
       type: Date,
       required: true,
@@ -27,9 +30,6 @@ const additionalCostsSchema = new Schema(
   { timestamps: true }
 );
 
-const AdditionalCosts = mongoose.model(
-  "Additional Costs",
-  additionalCostsSchema
-);
+const FierStatistics = mongoose.model("Fier Statistics", fierStatisticsSchema);
 
-module.exports = AdditionalCosts;
+module.exports = FierStatistics;
