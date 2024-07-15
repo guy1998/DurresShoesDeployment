@@ -71,11 +71,11 @@ function ListContent() {
   ];
 
   useEffect(() => {
-    getAllExpenses(notification, navigate).then((data) => {
+    getAllExpenses(notification, navigate, startDate, endDate).then((data) => {
       if (data) setExpenses(data);
     });
     setExpensesUpdated(false);
-  }, [expensesUpdated]);
+  }, [expensesUpdated, startDate, endDate]);
 
   return (
     <Card>

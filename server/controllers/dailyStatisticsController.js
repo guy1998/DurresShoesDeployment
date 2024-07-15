@@ -125,7 +125,7 @@ const getStatisticByTimeRange = async (req, res) => {
     const { startDate, endDate } = req.body;
     
     const statistic = await DailyStatistics.find({
-      createdAt: {
+      date: {
         $gte: new Date(startDate),
         $lte: new Date(endDate),
       },

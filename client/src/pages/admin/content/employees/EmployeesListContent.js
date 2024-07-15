@@ -11,21 +11,31 @@ import ConfirmModal from "./components/ConfirmModal";
 
 import { getEmployees, deleteEmployee } from "./scripts/employee-scripts";
 import TotalMoney from "./components/TotalMoney";
+import MDInput from "../../../../components/MDInput";
 
-const calculateTotalCost = (employees)=>{
-  return employees.reduce((acc, employee)=>{
+const calculateTotalCost = (employees) => {
+  return employees.reduce((acc, employee) => {
     return acc + employee.costPerDay;
-  }, 0)
-}
+  }, 0);
+};
+
+const filterEmployees = (employees, prompt) => {
+  return employees.filter((employee) => {
+    const fullName = employee.name + " " + employee.surname;
+    return fullName.toLocaleUpperCase().includes(prompt.toLocaleUpperCase());
+  });
+};
 
 function EmployeesListContent() {
   const isMobile = useMediaQuery("(max-width: 599px)");
   const [employees, setEmployees] = useState([]);
+  const [prompt, setPrompt] = useState("");
+  const [tableData, setTableData] = useState([]);
   const [employeesUpdated, setEmployeesUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
   const navigate = useNavigate();
-  const rows = employees.map((employee) => {
+  const rows = tableData.map((employee) => {
     return {
       name: (
         <MDBox>
@@ -70,7 +80,10 @@ function EmployeesListContent() {
 
   useEffect(() => {
     getEmployees(notification, navigate).then((data) => {
-      if (data) setEmployees(data);
+      if (data) {
+        setEmployees(data);
+        setTableData(data);
+      }
     });
     setEmployeesUpdated(false);
   }, [employeesUpdated]);
@@ -92,14 +105,33 @@ function EmployeesListContent() {
         <MDTypography variant="h6" color="white">
           Operai
         </MDTypography>
-        <MDButton
-          onClick={() => {
-            navigate("/app/employees/create");
+        <div
+          style={{
+            width: isMobile ? "200px" : "355px",
+            display: "flex",
+            justifyContent: "space-between",
+            flexDirection: isMobile ? "column" : "row",
+            height: isMobile ? "90px" : "auto",
           }}
         >
-          <Icon style={{ marginRight: "5px" }}>person_add</Icon>
-          {isMobile ? "" : "Crea nuovo"}
-        </MDButton>
+          <MDInput
+            label="Search"
+            color="white"
+            value={prompt}
+            onChange={(event) => {
+              setPrompt(event.target.value);
+              setTableData(filterEmployees(employees, event.target.value));
+            }}
+          />
+          <MDButton
+            onClick={() => {
+              navigate("/app/employees/create");
+            }}
+          >
+            <Icon style={{ marginRight: "5px" }}>person_add</Icon>
+            {"Crea nuovo"}
+          </MDButton>
+        </div>
       </MDBox>
       <MDBox pt={3}>
         <DataTable
@@ -110,7 +142,7 @@ function EmployeesListContent() {
           noEndBorder
         />
       </MDBox>
-      <TotalMoney value={calculateTotalCost(employees)}/>
+      <TotalMoney value={calculateTotalCost(employees)} />
     </Card>
   );
 }

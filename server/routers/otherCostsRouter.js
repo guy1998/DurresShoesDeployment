@@ -40,10 +40,10 @@ router.get("/allCosts", (req, res) => {
   });
 });
 
-router.get(
+router.post(
   "/costByTimeRange", (req, res) => {
     login_controller.authorize(req, res, () => {
-      otherCostsControllers.getTotalCosts(req, res)
+      otherCostsControllers.getCostsByTimeRange(req, res)
     }
     );
   });

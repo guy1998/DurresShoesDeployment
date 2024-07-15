@@ -32,12 +32,13 @@ export const createAdditionalCost = async (notification, navigator, expense)=>{
     }
 }
 
-export const getAllExpenses = async (notification, navigator)=>{
-    const response = await fetch(`${url}allCosts`, {
-        method: 'GET',
+export const getAllExpenses = async (notification, navigator, startDate, endDate)=>{
+    const response = await fetch(`${url}costByTimeRange`, {
+        method: 'POST',
         headers: {
             "Content-Type": 'application/json'
         },
+        body: JSON.stringify({ startDate: new Date(Date.UTC(startDate.year(), startDate.month(),startDate.date(),  0, 0, 0)), endDate: new Date(Date.UTC(endDate.year(), endDate.month(), endDate.date(), 23, 59, 59)) }),
         credentials: 'include'
     })
     let data = []

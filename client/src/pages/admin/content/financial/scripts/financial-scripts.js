@@ -1,5 +1,6 @@
 import { logout } from "../../../../login/login-scripts";
 const url = "http://localhost:8003/dailyStatistics/";
+const expensesUrl = "http://localhost:8003/additionalCosts/";
 
 export const getAllFinancials = async (notification, navigator, startDate, endDate) => {
   const response = await fetch(`${url}timeRange`, {
@@ -25,6 +26,30 @@ export const getAllFinancials = async (notification, navigator, startDate, endDa
   }
   return data;
 };
+
+export const getAllExpenses = async (notification, navigator, startDate, endDate)=>{
+  const response = await fetch(`${expensesUrl}costByTimeRange`, {
+      method: 'POST',
+      headers: {
+          "Content-Type": 'application/json'
+      },
+      body: JSON.stringify({ startDate: new Date(Date.UTC(startDate.year(), startDate.month(),startDate.date(),  0, 0, 0)), endDate: new Date(Date.UTC(endDate.year(), endDate.month(), endDate.date(), 23, 59, 59)) }),
+      credentials: 'include'
+  })
+  let data = []
+  if(response.status === 200){
+      data = await response.json();
+  } else if(response.status === 401){
+      notification.add('Session is expired!', { variant: 'info' });
+      logout(notification, navigator);
+  } else {
+      notification.add('La richiesta e\' stata respinta!', { variant: 'error' });
+  }
+  const expense = data.reduce((acc, expense)=>{
+    return parseFloat(acc) + parseFloat(expense.quantity.$numberDecimal);
+  }, 0);
+  return expense
+}
 
 export const createStatistic = async (notification, navigator, products) => {
   const response = await fetch(`${url}create`, {

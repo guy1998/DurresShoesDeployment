@@ -53,6 +53,31 @@ const getAllCosts = async (req, res) => {
   }
 };
 
+const getCostsByTimeRange = async (req, res)=>{
+  try {
+    const { startDate, endDate } = req.body;
+    console.log(startDate);
+    console.log(endDate);
+    const statistic = await AdditionalCosts.find({
+      date: {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate),
+      },
+      isMonthly: { $ne: true },
+    });
+    const monthlyExpenses = await AdditionalCosts.find({
+      isMonthly: true
+    });
+    if (!statistic || !monthlyExpenses) {
+      return res.status(404).json({ error: "Statistic not found" });
+    }
+    res.status(200).json([...statistic, ...monthlyExpenses]);
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({ error: error.message });
+  }
+}
+
 const getTotalCosts = async (req, res) => {
   try {
     const result = await AdditionalCosts.aggregate([
@@ -173,5 +198,6 @@ module.exports = {
   deleteCostById,
   getTotalCosts,
   getTotalCostsByTimeRange,
-  updateCost
+  updateCost,
+  getCostsByTimeRange
 };

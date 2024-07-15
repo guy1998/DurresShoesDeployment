@@ -10,7 +10,11 @@ import MDButton from "../../../../components/MDButton";
 import { useNavigate } from "react-router-dom";
 import ConfirmModal from "./components/ConfirmModal";
 import ViewProductsModal from "./components/ViewProductsModal";
-import { getAllFinancials, deleteStat } from "./scripts/financial-scripts";
+import {
+  getAllFinancials,
+  deleteStat,
+  getAllExpenses,
+} from "./scripts/financial-scripts";
 import TotalMoney from "./components/TotalMoney";
 
 const checkIfToday = (stats) => {
@@ -31,9 +35,17 @@ const sortByDate = (stats) => {
   return stats;
 };
 
+const calculateTotal = (stats, expenses) => {
+  const profit = stats.reduce((acc, stat) => {
+    return parseFloat(acc) + parseFloat(stat.profit.$numberDecimal);
+  }, 0);
+  return parseFloat(profit) - parseFloat(expenses);
+};
+
 function FinancialListContent() {
   const isMobile = useMediaQuery("(max-width: 599px)");
   const [stats, setStats] = useState([]);
+  const [expenses, setExpenses] = useState(0);
   const [statsUpdated, setStatsUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [startDate, setStartDate] = useState(dayjs().startOf("month"));
@@ -91,6 +103,11 @@ function FinancialListContent() {
         if (data) setStats(sortByDate(data));
       }
     );
+    getAllExpenses(notification, navigate, startDate, endDate).then(
+      (amount) => {
+        if (amount) setExpenses(amount);
+      }
+    );
     setStatsUpdated(false);
   }, [statsUpdated, startDate, endDate]);
 
@@ -116,7 +133,7 @@ function FinancialListContent() {
             display: "flex",
             justifyContent: "space-between",
             width: isMobile ? "65px" : "220px",
-            height: isMobile ? "90px" : 'auto',
+            height: isMobile ? "90px" : "auto",
             flexDirection: isMobile ? "column" : "row",
           }}
         >
@@ -151,9 +168,9 @@ function FinancialListContent() {
           noEndBorder
         />
         <TotalMoney
-          value={stats.reduce((acc, stat) => {
-            return parseFloat(acc) + parseFloat(stat.profit.$numberDecimal);
-          }, 0)}
+          value={
+           calculateTotal(stats, expenses)
+          }
         />
       </MDBox>
     </Card>
