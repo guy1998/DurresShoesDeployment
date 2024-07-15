@@ -5,6 +5,7 @@ import ProductContent from "../pages/admin/content/products/index.js";
 import FinancialContent from "../pages/admin/content/financial/index.js";
 import UserContent from "../pages/admin/content/users/index.js";
 import FierContent from "../pages/admin/content/fier/index.js";
+import ExpensesContent from "../pages/admin/content/expenses/index.js";
 
 const routes = [
   {
@@ -51,9 +52,9 @@ const routes = [
     type: "collapse",
     name: "Spese",
     key: "spese",
-    icon: <Icon fontSize="small">analytics</Icon>,
+    icon: <Icon fontSize="small">credit_card_off</Icon>,
     route: "/spese*",
-    //component: <FinancialContent />,
+    component: <ExpensesContent />,
   },
   {
     type: "collapse",

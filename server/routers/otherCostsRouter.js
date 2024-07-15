@@ -9,12 +9,12 @@ router.use(bodyParser.json());
 router.use(cookieParser());
 
 router.post(
-  "/create", // (req, res) => {
-  //login_controller.authorize(req, res, () => {
-  otherCostsControllers.createCost //(req, res);
-  // }
-);
-//});
+  "/create", (req, res) => {
+    login_controller.authorize(req, res, () => {
+      otherCostsControllers.createCost(req, res);
+    }
+    );
+  });
 
 router.get("/getByName/:name", (req, res) => {
   login_controller.authorize(req, res, () => {
@@ -41,12 +41,12 @@ router.get("/allCosts", (req, res) => {
 });
 
 router.get(
-  "/costByTimeRange", //(req,res)) => {
-  //login_controller.authorize(req, res, () => {
-  otherCostsControllers.getTotalCosts //(req, res)
-  //}
-);
-//})
+  "/costByTimeRange", (req, res) => {
+    login_controller.authorize(req, res, () => {
+      otherCostsControllers.getTotalCosts(req, res)
+    }
+    );
+  });
 
 router.put("/updateQuantity", (req, res) => {
   login_controller.authorize(req, res, () => {
@@ -59,6 +59,12 @@ router.put("/updateName", (req, res) => {
     otherCostsControllers.updateCostName(req, res);
   });
 });
+
+router.put('/edit', (req, res)=>{
+  login_controller.authorize(req, res, ()=>{
+    otherCostsControllers.updateCost(req, res);
+  })
+})
 
 router.delete("/deleteById/:id", (req, res) => {
   login_controller.authorize(req, res, () => {

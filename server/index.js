@@ -1,7 +1,5 @@
 const express = require("express");
 const app = express();
-const https = require("https");
-const fs = require("fs");
 const cors = require("cors");
 const { connectToDb } = require("./database/db.js");
 const logInRouter = require("./routers/loginRouter.js");
