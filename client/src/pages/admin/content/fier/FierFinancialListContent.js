@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Icon, useMediaQuery } from "@mui/material";
+import dayjs from "dayjs";
+import FilterModal from "../../../../components/DatePickerFilter";
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 import DataTable from "../../../../components/Tables/DataTable";
@@ -31,6 +33,8 @@ const sortByDate = (stats) => {
 function FierFinancialListContent() {
   const isMobile = useMediaQuery("(max-width: 599px)");
   const [stats, setStats] = useState([]);
+  const [startDate, setStartDate] = useState(dayjs().startOf('month'));
+  const [endDate, setEndDate] = useState(dayjs());
   const [statsUpdated, setStatsUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
@@ -85,11 +89,11 @@ function FierFinancialListContent() {
   ];
 
   useEffect(() => {
-    getAllFierFinancials(notification, navigate).then((data) => {
+    getAllFierFinancials(notification, navigate, startDate, endDate).then((data) => {
       if (data) setStats(sortByDate(data));
     });
     setStatsUpdated(false);
-  }, [statsUpdated]);
+  }, [statsUpdated, startDate, endDate]);
 
   return (
     <Card>
@@ -106,8 +110,9 @@ function FierFinancialListContent() {
         justifyContent="space-between"
       >
         <MDTypography variant="h6" color="white">
-          Relazioni finanziarie
+          Relazioni finanziarie Fier
         </MDTypography>
+        <div style={{ display: 'flex', justifyContent: 'space-between', width: '25%' }}>
         <MDButton
           onClick={() => {
             if (checkIfToday(stats)) {
@@ -122,6 +127,8 @@ function FierFinancialListContent() {
           <Icon style={{ marginRight: "5px" }}>analytics</Icon>
           {isMobile ? "" : "Crea nuovo"}
         </MDButton>
+          <FilterModal startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate} />
+        </div>
       </MDBox>
       <MDBox pt={3}>
         <DataTable

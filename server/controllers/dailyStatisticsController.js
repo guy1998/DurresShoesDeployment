@@ -123,6 +123,7 @@ const getStatisticByProfit = async (req, res) => {
 const getStatisticByTimeRange = async (req, res) => {
   try {
     const { startDate, endDate } = req.body;
+    
     const statistic = await DailyStatistics.find({
       createdAt: {
         $gte: new Date(startDate),
@@ -134,7 +135,8 @@ const getStatisticByTimeRange = async (req, res) => {
     }
     res.status(200).json(statistic);
   } catch (error) {
-    res.status(400).json({ error: err.message });
+    console.log(error)
+    res.status(400).json({ error: error.message });
   }
 };
 

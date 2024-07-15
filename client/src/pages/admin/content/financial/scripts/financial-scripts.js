@@ -1,12 +1,13 @@
 import { logout } from "../../../../login/login-scripts";
 const url = "http://localhost:8003/dailyStatistics/";
 
-export const getAllFinancials = async (notification, navigator) => {
-  const response = await fetch(`${url}all`, {
-    method: "GET",
+export const getAllFinancials = async (notification, navigator, startDate, endDate) => {
+  const response = await fetch(`${url}timeRange`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({ startDate: new Date(Date.UTC(startDate.year(), startDate.month(),startDate.date(),  0, 0, 0)), endDate: new Date(Date.UTC(endDate.year(), endDate.month(), endDate.date(), 23, 59, 59)) }),
     credentials: "include",
   });
   let data = [];

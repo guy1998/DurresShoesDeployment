@@ -111,7 +111,7 @@ const getStatisticByTimeRange = async (req, res) => {
   try {
     const { startDate, endDate } = req.body;
     const statistic = await FierStatistics.find({
-      createdAt: {
+      date: {
         $gte: new Date(startDate),
         $lte: new Date(endDate),
       },
@@ -121,7 +121,7 @@ const getStatisticByTimeRange = async (req, res) => {
     }
     res.status(200).json(statistic);
   } catch (error) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
