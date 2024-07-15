@@ -5,6 +5,9 @@ import TextField from "@mui/material/TextField";
 import { useSnackbar } from "notistack";
 import MDBox from "../../../../components/MDBox";
 import FormControl from "@mui/material/FormControl";
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import InputLabel from "@mui/material/InputLabel";
 import { useMediaQuery } from "@mui/material";
 import dayjs from 'dayjs';
@@ -31,6 +34,7 @@ function CreateContent() {
     const [cost, setCost] = useState(0);
     const [name, setName] = useState("");
     const [date, setDate] = useState(dayjs());
+    const [isMonthly, setIsMonthly] = useState(false);
 
     const updateCost = (event) => {
         if (!event.target.value) setCost(0);
@@ -84,13 +88,16 @@ function CreateContent() {
                         onChange={updateCost}
                     />
                 </FormControl>
-                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='it'>
+                <FormGroup>
+                    <FormControlLabel control={<Checkbox value={isMonthly} onChange={()=>setIsMonthly(!isMonthly)}/>} label="Seleziona questa casella se si tratta di una spesa mensile." />
+                </FormGroup>
+                {!isMonthly && <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='it'>
                     <DemoContainer components={['DateCalendar']}>
                         <DemoItem label="La data della spesa">
                             <DateCalendar value={date} onChange={(newValue) => setDate(newValue)} />
                         </DemoItem>
                     </DemoContainer>
-                </LocalizationProvider>
+                </LocalizationProvider>}
             </div>
             <div
                 style={{
@@ -110,7 +117,8 @@ function CreateContent() {
                         createAdditionalCost(notification, navigator, {
                             name: name,
                             quantity: cost,
-                            date: date
+                            date: date,
+                            isMonthly
                         });
                     }}
                 >

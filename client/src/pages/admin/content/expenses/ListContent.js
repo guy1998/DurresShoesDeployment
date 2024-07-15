@@ -26,7 +26,7 @@ function ListContent() {
         </MDBox>
       ),
       date: (
-        <MDTypography>{expense.date.slice(0, 10)}</MDTypography>
+        <MDTypography>{expense.isMonthly ? "Spese mensile" :expense.date.slice(0, 10)}</MDTypography>
       ),
       amount: (
         <MDTypography>{`${expense.quantity.$numberDecimal} Lek`}</MDTypography>

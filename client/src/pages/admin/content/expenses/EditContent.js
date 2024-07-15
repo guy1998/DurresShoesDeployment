@@ -32,6 +32,7 @@ function EditContent() {
     const [cost, setCost] = useState(0);
     const [name, setName] = useState("");
     const [date, setDate] = useState(dayjs());
+    const [isMonthly, setIsMonthly] = useState(true);
 
     const updateCost = (event) => {
         if (!event.target.value) setCost(0);
@@ -42,12 +43,13 @@ function EditContent() {
         }
     };
 
-    useEffect(()=>{
-        getExpenseById(notification, navigator, id).then(data=>{
-            if(data){
+    useEffect(() => {
+        getExpenseById(notification, navigator, id).then(data => {
+            if (data) {
                 setCost(data.quantity.$numberDecimal);
                 setName(data.name);
                 setDate(dayjs(data.date.slice(0, 10)));
+                setIsMonthly(data.isMonthly);
             }
         })
     }, [])
@@ -95,13 +97,13 @@ function EditContent() {
                         onChange={updateCost}
                     />
                 </FormControl>
-                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='it'>
+                {!isMonthly && <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='it'>
                     <DemoContainer components={['DateCalendar']}>
                         <DemoItem label="La data della spesa">
                             <DateCalendar value={date} onChange={(newValue) => setDate(newValue)} />
                         </DemoItem>
                     </DemoContainer>
-                </LocalizationProvider>
+                </LocalizationProvider>}
             </div>
             <div
                 style={{

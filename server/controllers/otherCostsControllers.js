@@ -2,11 +2,12 @@ const AdditionalCosts = require("../models/otherCosts");
 
 const createCost = async (req, res) => {
   try {
-    const { name, quantity, date } = req.body;
+    const { name, quantity, date, isMonthly } = req.body;
     const newCost = new AdditionalCosts({
       name: name,
       quantity: quantity,
-      date: date
+      date: date,
+      isMonthly: isMonthly
     });
 
     const savedCost = await newCost.save();
@@ -152,8 +153,6 @@ const deleteCostById = async (req, res) => {
 const updateCost = async (req, res)=>{
   try{
     const { costId, costInfo } = req.body;
-    console.log(costId);
-    console.log(costInfo)
     const updatedCost = await AdditionalCosts.findByIdAndUpdate(costId, { ...costInfo });
     if(!updatedCost){
       throw new Error('This cost does not exist!');
