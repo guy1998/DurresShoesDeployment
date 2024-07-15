@@ -2,14 +2,15 @@ const AdditionalCosts = require("../models/otherCosts");
 
 const createCost = async (req, res) => {
   try {
-    const { name, quantity } = req.body;
+    const { name, quantity, date } = req.body;
     const newCost = new AdditionalCosts({
       name: name,
       quantity: quantity,
+      date: date
     });
 
     const savedCost = await newCost.save();
-    res.status(201).json(savedCost);
+    res.status(200).json(savedCost);
   } catch (err) {
     res.status(400).json({ error: "Error to create cost" });
   }
@@ -148,6 +149,21 @@ const deleteCostById = async (req, res) => {
   }
 };
 
+const updateCost = async (req, res)=>{
+  try{
+    const { costId, costInfo } = req.body;
+    console.log(costId);
+    console.log(costInfo)
+    const updatedCost = await AdditionalCosts.findByIdAndUpdate(costId, { ...costInfo });
+    if(!updatedCost){
+      throw new Error('This cost does not exist!');
+    }
+    res.status(200).json({ message: 'Cost was updated successfully!' });
+  } catch(err) {
+    res.status(400).json({ error: err.message });
+  }
+}
+
 module.exports = {
   createCost,
   getCostById,
@@ -158,4 +174,5 @@ module.exports = {
   deleteCostById,
   getTotalCosts,
   getTotalCostsByTimeRange,
+  updateCost
 };
