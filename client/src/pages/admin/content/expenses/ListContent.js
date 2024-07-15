@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Icon, useMediaQuery } from "@mui/material";
-import dayjs from 'dayjs';
-import "dayjs/locale/it"
+import dayjs from "dayjs";
+import "dayjs/locale/it";
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 import DataTable from "../../../../components/Tables/DataTable";
@@ -16,7 +16,7 @@ function ListContent() {
   const isMobile = useMediaQuery("(max-width: 599px)");
   const [expenses, setExpenses] = useState([]);
   const [expensesUpdated, setExpensesUpdated] = useState(false);
-  const [startDate, setStartDate] = useState(dayjs().startOf('month'));
+  const [startDate, setStartDate] = useState(dayjs().startOf("month"));
   const [endDate, setEndDate] = useState(dayjs());
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
@@ -31,7 +31,9 @@ function ListContent() {
         </MDBox>
       ),
       date: (
-        <MDTypography>{expense.isMonthly ? "Spese mensile" : expense.date.slice(0, 10)}</MDTypography>
+        <MDTypography>
+          {expense.isMonthly ? "Spese mensile" : expense.date.slice(0, 10)}
+        </MDTypography>
       ),
       amount: (
         <MDTypography>{`${expense.quantity.$numberDecimal} Lek`}</MDTypography>
@@ -49,7 +51,12 @@ function ListContent() {
           </MDButton>
           <ConfirmModal
             confirmAction={() => {
-              deleteExpense(notification, navigate, expense._id, setExpensesUpdated)
+              deleteExpense(
+                notification,
+                navigate,
+                expense._id,
+                setExpensesUpdated
+              );
             }}
           />
         </MDBox>
@@ -59,15 +66,14 @@ function ListContent() {
   const columns = [
     { Header: "Nome della spesa", accessor: "name", align: "left" },
     { Header: "Data", accessor: "date", align: "center" },
-    { Header: 'Quantita', accessor: 'amount', align: 'center' },
+    { Header: "Quantita", accessor: "amount", align: "center" },
     { Header: "Azioni", accessor: "actions", align: "center" },
   ];
 
   useEffect(() => {
-    getAllExpenses(notification, navigate).then(data => {
-      if (data)
-        setExpenses(data)
-    })
+    getAllExpenses(notification, navigate).then((data) => {
+      if (data) setExpenses(data);
+    });
     setExpensesUpdated(false);
   }, [expensesUpdated]);
 
@@ -88,17 +94,29 @@ function ListContent() {
         <MDTypography variant="h6" color="white">
           Spese
         </MDTypography>
-        <div style={{ display: 'flex', justifyContent: 'space-between', width: '25%' }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: isMobile ? "65px" : "220px",
+            height: isMobile ? "90px" : "auto",
+            flexDirection: isMobile ? "column" : "row",
+          }}
+        >
           <MDButton
             onClick={() => {
               navigate("/app/spese/create");
             }}
-            
           >
             <Icon style={{ marginRight: "5px" }}>paid</Icon>
             {isMobile ? "" : "Crea nuovo"}
           </MDButton>
-          <FilterModal startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate} />
+          <FilterModal
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+          />
         </div>
       </MDBox>
       <MDBox pt={3}>

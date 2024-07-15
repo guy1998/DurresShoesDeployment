@@ -55,7 +55,7 @@ function FilterModal({ startDate, setStartDate, endDate, setEndDate }) {
 
     return (
         <div>
-            <MDButton onClick={handleOpen} color="secondary">
+            <MDButton onClick={handleOpen} color="light">
                 <Icon>filter_alt</Icon>
             </MDButton>
             <Modal

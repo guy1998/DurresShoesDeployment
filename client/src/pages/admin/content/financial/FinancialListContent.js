@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import ConfirmModal from "./components/ConfirmModal";
 import ViewProductsModal from "./components/ViewProductsModal";
 import { getAllFinancials, deleteStat } from "./scripts/financial-scripts";
+import TotalMoney from "./components/TotalMoney";
 
 const checkIfToday = (stats) => {
   const now = new Date();
@@ -35,7 +36,7 @@ function FinancialListContent() {
   const [stats, setStats] = useState([]);
   const [statsUpdated, setStatsUpdated] = useState(false);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [startDate, setStartDate] = useState(dayjs().startOf('month'));
+  const [startDate, setStartDate] = useState(dayjs().startOf("month"));
   const [endDate, setEndDate] = useState(dayjs());
   const notification = { add: enqueueSnackbar, close: closeSnackbar };
   const navigate = useNavigate();
@@ -85,9 +86,11 @@ function FinancialListContent() {
   ];
 
   useEffect(() => {
-    getAllFinancials(notification, navigate, startDate, endDate).then((data) => {
-      if (data) setStats(sortByDate(data));
-    });
+    getAllFinancials(notification, navigate, startDate, endDate).then(
+      (data) => {
+        if (data) setStats(sortByDate(data));
+      }
+    );
     setStatsUpdated(false);
   }, [statsUpdated, startDate, endDate]);
 
@@ -108,22 +111,35 @@ function FinancialListContent() {
         <MDTypography variant="h6" color="white">
           Relazioni finanziarie
         </MDTypography>
-        <div style={{ display: 'flex', justifyContent: 'space-between', width: '25%' }}>
-        <MDButton
-          onClick={() => {
-            if (checkIfToday(stats)) {
-              notification.add("Oggi è già stato pubblicato un rapporto!", {
-                variant: "info",
-              });
-            } else {
-              navigate("/app/financial/create");
-            }
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: isMobile ? "65px" : "220px",
+            height: isMobile ? "90px" : 'auto',
+            flexDirection: isMobile ? "column" : "row",
           }}
         >
-          <Icon style={{ marginRight: "5px" }}>analytics</Icon>
-          {isMobile ? "" : "Crea nuovo"}
-        </MDButton>
-          <FilterModal startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate} />
+          <MDButton
+            onClick={() => {
+              if (checkIfToday(stats)) {
+                notification.add("Oggi è già stato pubblicato un rapporto!", {
+                  variant: "info",
+                });
+              } else {
+                navigate("/app/financial/create");
+              }
+            }}
+          >
+            <Icon style={{ marginRight: "5px" }}>analytics</Icon>
+            {isMobile ? "" : "Crea nuovo"}
+          </MDButton>
+          <FilterModal
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+          />
         </div>
       </MDBox>
       <MDBox pt={3}>
@@ -133,6 +149,11 @@ function FinancialListContent() {
           entriesPerPage={false}
           showTotalEntries={false}
           noEndBorder
+        />
+        <TotalMoney
+          value={stats.reduce((acc, stat) => {
+            return parseFloat(acc) + parseFloat(stat.profit.$numberDecimal);
+          }, 0)}
         />
       </MDBox>
     </Card>
