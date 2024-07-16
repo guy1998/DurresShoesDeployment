@@ -1,32 +1,53 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const https = require('https');
-const fs = require('fs');
 const cors = require("cors");
-const {connectToDb} = require('./database/db.js')
+const { connectToDb } = require("./database/db.js");
+const logInRouter = require("./routers/loginRouter.js");
+const signUpRouter = require("./routers/signUpRouter.js");
+const articleRouter = require("./routers/articleRouter.js");
+const employerRouter = require("./routers/workerRouter.js");
+const dailyStatisticRouter = require("./routers/dailyStatisticRouter.js");
+const monthlyStatisticsRouter = require("./routers/monthlyStatisticsRouter.js");
+const authorizationRouter = require("./routers/authorization.js");
+const additionalCostsRouter = require("./routers/otherCostsRouter.js");
+const fierStatisticsRouter = require("./routers/fierStatisticRouter.js");
+const { createUser } = require("./controllers/UserProxy.js");
 
-const allowedOrigins = ['https://localhost:3000'];
+const allowedOrigins = ["http://localhost:3000", "postman://app"];
 
-app.use(cors({
+app.use(
+  cors({
     origin: (origin, callback) => {
-        if (allowedOrigins.includes(origin) || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
+      if (allowedOrigins.includes(origin) || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
     },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204,
-}));
+  })
+);
 
-const options = {
-    key: fs.readFileSync('./localhost.key'),
-    cert: fs.readFileSync('./localhost.crt'),
-};
+app.use("/signUp", signUpRouter);
+app.use("/article", articleRouter);
+app.use("/employers", employerRouter);
+app.use("/dailyStatistics", dailyStatisticRouter);
+app.use("/login", logInRouter);
+app.use("/monthlyStatistics", monthlyStatisticsRouter);
+app.use("/auth", authorizationRouter);
+app.use("/additionalCosts", additionalCostsRouter);
+app.use("/fierStatistics", fierStatisticsRouter);
 
-const port = 5443;
-const server = https.createServer(options, app);
-server.listen(port, () => {
-  console.log(`Listening to HTTPS on port ${port}`);
+const port = 8003;
+
+connectToDb(async (err) => {
+  if (err) {
+    console.log("Sth went wrong with the server");
+  } else {
+    app.listen(port, () => {
+      console.log(`Listening to HTTPS on port ${port}`);
+    });
+  }
 });

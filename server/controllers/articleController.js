@@ -1,12 +1,13 @@
 const Article = require("../models/article");
+const { Decimal128 } = require("mongodb");
 
 async function createArticle(req, res) {
   try {
-    const { code, quantity, costPerArticle } = req.body;
+    const { code, costPerArticle } = req.body;
+    const cost = Decimal128.fromString(costPerArticle.toString());
     const newArticle = new Article({
       code: code,
-      quantity: quantity,
-      costPerArticle: costPerArticle,
+      costPerArticle: cost,
     });
     const savedArticle = await newArticle.save();
     res.status(201).json(savedArticle);
@@ -17,7 +18,7 @@ async function createArticle(req, res) {
 
 const getArticleById = async (req, res) => {
   try {
-    const articleId = req.params.debtId;
+    const articleId = req.params.articleId;
     const article = await Article.findById(articleId);
     if (!article) {
       return res.status(404).json({ error: "Article not found" });
@@ -30,7 +31,7 @@ const getArticleById = async (req, res) => {
 
 const getArticleByCode = async (req, res) => {
   try {
-    const code = req.body;
+    const { code } = req.body;
     const article = await Article.find({ code: code });
     if (!article) {
       return res.status(404).json({ err: "Article not found" });
@@ -43,11 +44,12 @@ const getArticleByCode = async (req, res) => {
 
 const getArticleByCost = async (req, res) => {
   try {
-    const cost = req.body;
-    const article = await Article.find({ cost: cost });
+    const { cost } = req.body;
+    const article = await Article.find({ costPerArticle: cost });
     if (!article) {
       return res.status(404).json({ err: "Article not found" });
     }
+
     res.status(200).json(article);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -67,7 +69,22 @@ const updateCost = async (req, res) => {
   try {
     const { itemId, cost } = req.body;
     const updatedItem = await Article.findByIdAndUpdate(itemId, {
-      cost: cost,
+      costPerArticle: cost,
+    });
+    if (!updatedItem) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+    res.status(200).json(updatedItem);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+const updateProduct = async (req, res) => {
+  try {
+    const { itemId, newInfo } = req.body;
+    const updatedItem = await Article.findByIdAndUpdate(itemId, {
+      ...newInfo,
     });
     if (!updatedItem) {
       return res.status(404).json({ error: "Item not found" });
@@ -93,8 +110,8 @@ const deleteArticleById = async (req, res) => {
 
 const deleteArticleByCode = async (req, res) => {
   try {
-    const articleCode = req.body;
-    const deletedArticle = await Article.deleteOne({ code: articleCode });
+    const { code } = req.body;
+    const deletedArticle = await Article.deleteOne({ code: code });
     if (!deletedArticle) {
       return res.status(404).json({ error: "Article not found" });
     }
@@ -113,4 +130,5 @@ module.exports = {
   updateCost,
   deleteArticleById,
   deleteArticleByCode,
+  updateProduct,
 };
