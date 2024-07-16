@@ -7,7 +7,7 @@ import StastisticsCard from "./components/StatisticsCard.js";
 import {
   getMonthlyCost,
   getMonthlyProfit,
-  getProductsManufactured,
+  getFierMonthlyProfit,
 } from "./scripts/stats-scripts.js";
 
 function DashboardContent() {
@@ -17,18 +17,18 @@ function DashboardContent() {
         <Grid container justifyContent="center" spacing={6}>
           <Grid item xs={12} md={6} lg={4}>
             <StastisticsCard
-              color="info"
-              icon="inventory"
-              title="Prodotti realizzati"
-              request={getProductsManufactured}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={4}>
-            <StastisticsCard
               color="success"
               icon="attach_money"
               title="Profitto mensile"
               request={getMonthlyProfit}
+            />
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <StastisticsCard
+              color="info"
+              icon="inventory"
+              title="Profitto mensile Fier"
+              request={getFierMonthlyProfit}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
