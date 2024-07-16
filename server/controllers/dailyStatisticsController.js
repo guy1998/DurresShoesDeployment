@@ -19,7 +19,7 @@ const createDailyStatistic = async (req, res) => {
     const { products } = req.body;
 
     products.forEach((product) => {
-      const cost1 = parseFloat(product.costPerArticle.toString());
+      const cost1 = parseFloat(product.costPerArticle.$numberDecimal.toString());
       totalEarned += product.quantity * cost1;
     });
 
@@ -30,7 +30,7 @@ const createDailyStatistic = async (req, res) => {
       products: products.map((product) => ({
         code: product.code,
         quantity: product.quantity,
-        cost: Decimal128.fromString(product.costPerArticle.toString()),
+        cost: Decimal128.fromString(product.costPerArticle.$numberDecimal.toString()),
       })),
       productionCost: Decimal128.fromString(productionCost.toString()),
       profit: Decimal128.fromString(profit.toString()),

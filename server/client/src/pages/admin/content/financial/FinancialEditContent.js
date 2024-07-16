@@ -139,7 +139,7 @@ function FinancialEditContent() {
       };
       const selected = {
         code: preSelected.code,
-        cost: preSelected.costPerArticle,
+        cost: preSelected.costPerArticle.$numberDecimal,
         quantity: 1,
       };
       const exists = selectedProducts.filter(
