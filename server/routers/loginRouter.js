@@ -16,7 +16,7 @@ app.post("/login", async (req, res) => {
     res.cookie("tokenCookie", login_result.token_obj, {
       maxAge: 3600000,
       httpOnly: true,
-      secure: false, //when true it implies https
+      secure: true, //when true it implies https
       sameSite: "none",
     });
     res.status(200).json("User authenticated successfully!");
