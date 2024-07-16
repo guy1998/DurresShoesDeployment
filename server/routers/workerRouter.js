@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express();
 const workerController = require("../controllers/workersController");
-const login_controller = require("../controllers/serProxy");
+const login_controller = require("../controllers/UserProxy");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
