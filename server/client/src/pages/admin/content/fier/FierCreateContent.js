@@ -208,7 +208,7 @@ function FierCreateContent() {
           variant: "info",
         });
       else {
-        const newlySelectedProducts = [...selectedProducts, { code: selected.code, quantity: selected.quantity, price: selected.costPerArticle, cost: 1 }];
+        const newlySelectedProducts = [...selectedProducts, { code: selected.code, quantity: selected.quantity, price: selected.costPerArticle.$numberDecimal, cost: 1 }];
         setSelectedProducts(newlySelectedProducts);
       }
     } else {

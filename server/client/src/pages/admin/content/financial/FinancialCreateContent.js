@@ -47,7 +47,7 @@ const CustomNumberInput = React.forwardRef((props, ref) => {
 
 const calculateEarned = (products) => {
   return products.reduce((acc, product) => {
-    return acc + product.costPerArticle * product.quantity;
+    return acc + product.costPerArticle.$numberDecimal * product.quantity;
   }, 0);
 };
 
@@ -84,7 +84,7 @@ function FinancialCreateContent() {
           </MDTypography>
         </MDBox>
       ),
-      cost: <MDTypography>{`${product.costPerArticle} Lek`}</MDTypography>,
+      cost: <MDTypography>{`${product.costPerArticle.$numberDecimal} Lek`}</MDTypography>,
       quantity: (
         <CustomNumberInput
           aria-label="Demo number input"
@@ -96,7 +96,7 @@ function FinancialCreateContent() {
       ),
       subtotal: (
         <MDTypography>
-          {`${product.costPerArticle * product.quantity} Lek`}
+          {`${product.costPerArticle.$numberDecimal * product.quantity} Lek`}
         </MDTypography>
       ),
       remove: (
