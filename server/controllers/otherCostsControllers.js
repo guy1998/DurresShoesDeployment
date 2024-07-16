@@ -56,8 +56,6 @@ const getAllCosts = async (req, res) => {
 const getCostsByTimeRange = async (req, res)=>{
   try {
     const { startDate, endDate } = req.body;
-    console.log(startDate);
-    console.log(endDate);
     const statistic = await AdditionalCosts.find({
       date: {
         $gte: new Date(startDate),
