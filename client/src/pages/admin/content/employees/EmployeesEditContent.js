@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { NumericFormat } from "react-number-format";
+import PropTypes from "prop-types";
 import { useNavigate, useParams } from "react-router-dom";
 import { Icon } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -13,6 +15,34 @@ import InputAdornment from "@mui/material/InputAdornment";
 import MDButton from "../../../../components/MDButton";
 import { useMaterialUIController } from "../../../../context";
 import { getEmployeeInfo, editEmployee } from "./scripts/employee-scripts";
+
+const NumericFormatCustom = React.forwardRef((props, ref) => {
+  const { onChange, ...other } = props;
+
+  return (
+    <NumericFormat
+      {...other}
+      getInputRef={ref}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator
+      valueIsNumericString
+      min={0}
+      prefix="Lek "
+    />
+  );
+});
+
+NumericFormatCustom.propTypes = {
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 function EmployeesEditContent() {
   const isMobile = useMediaQuery("(max-width: 599px)");
@@ -99,18 +129,20 @@ function EmployeesEditContent() {
             }}
             style={{ margin: "10px 0" }}
           />
-          <FormControl fullWidth style={{ margin: "10px 0" }}>
-            <InputLabel htmlFor="outlined-adornment-amount">Costo</InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-amount"
-              value={newInfo.costPerDay}
-              onChange={updateCost}
-              startAdornment={
-                <InputAdornment position="start">L</InputAdornment>
-              }
-              label="Amount"
-            />
-          </FormControl>
+          <TextField
+            label="Costo"
+            value={newInfo.costPerDay}
+            disabled={false}
+            onChange={updateCost}
+            name="numberformat"
+            InputProps={{
+              inputComponent: NumericFormatCustom,
+            }}
+            variant="outlined"
+            min="0"
+            sx={{ minWidth: "100px" }}
+            fullWidth
+          />
         </div>
       ) : (
         <div

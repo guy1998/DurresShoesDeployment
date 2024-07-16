@@ -1,17 +1,44 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
 import { Icon } from "@mui/material";
 import { useSnackbar } from "notistack";
 import TextField from "@mui/material/TextField";
+import { NumericFormat } from "react-number-format";
 import MDBox from "../../../../components/MDBox";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import { useMediaQuery } from "@mui/material";
-import InputAdornment from "@mui/material/InputAdornment";
 import { useMaterialUIController } from "../../../../context";
 import MDButton from "../../../../components/MDButton";
 import { createProduct } from "./scripts/product-scripts";
+
+const NumericFormatCustom = React.forwardRef((props, ref) => {
+  const { onChange, ...other } = props;
+
+  return (
+    <NumericFormat
+      {...other}
+      getInputRef={ref}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator
+      valueIsNumericString
+      min={0}
+      prefix="Lek "
+    />
+  );
+});
+
+NumericFormatCustom.propTypes = {
+  name: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+
 
 function ProductCreateContent() {
   const navigator = useNavigate();
@@ -65,16 +92,20 @@ function ProductCreateContent() {
           value={code}
           onChange={(event) => setCode(event.target.value)}
         />
-        <FormControl fullWidth style={{ margin: "10px 0" }}>
-          <InputLabel htmlFor="outlined-adornment-amount">Costo</InputLabel>
-          <OutlinedInput
-            id="outlined-adornment-amount"
-            startAdornment={<InputAdornment position="start">L</InputAdornment>}
-            label="Amount"
-            value={cost}
-            onChange={updateCost}
-          />
-        </FormControl>
+        <TextField
+          label="Costo"
+          value={cost}
+          disabled={false}
+          onChange={updateCost}
+          name="numberformat"
+          InputProps={{
+            inputComponent: NumericFormatCustom,
+          }}
+          variant="outlined"
+          min='0'
+          sx={{ minWidth: "100px" }}
+          fullWidth
+        />
       </div>
       <div
         style={{

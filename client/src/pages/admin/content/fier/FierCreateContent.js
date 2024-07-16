@@ -63,6 +63,7 @@ const NumericFormatCustom = React.forwardRef((props, ref) => {
       }}
       thousandSeparator
       valueIsNumericString
+      min={0}
       prefix="Lek "
     />
   );
