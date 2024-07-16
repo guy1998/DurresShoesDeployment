@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express();
 const otherCostsControllers = require("../controllers/otherCostsControllers");
-const login_controller = require("../controllers/userProxy");
+const login_controller = require("../controllers/UserProxy");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
