@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const path = require("path");
+__dirname = path.resolve();
 const cors = require("cors");
 const { connectToDb } = require("./database/db.js");
 const logInRouter = require("./routers/loginRouter.js");
@@ -11,7 +13,6 @@ const monthlyStatisticsRouter = require("./routers/monthlyStatisticsRouter.js");
 const authorizationRouter = require("./routers/authorization.js");
 const additionalCostsRouter = require("./routers/otherCostsRouter.js");
 const fierStatisticsRouter = require("./routers/fierStatisticRouter.js");
-const { createUser } = require("./controllers/UserProxy.js");
 
 const allowedOrigins = ["http://localhost:3000", "postman://app"];
 
@@ -40,14 +41,22 @@ app.use("/auth", authorizationRouter);
 app.use("/additionalCosts", additionalCostsRouter);
 app.use("/fierStatistics", fierStatisticsRouter);
 
-const port = 8003;
+// Use the client app
+app.use(express.static(path.join(__dirname, "/client/build")));
+
+// Render client for any path
+app.get("*", (req, res) =>
+  res.sendFile(path.join(__dirname, "/client/build/index.html"))
+);
+
+const PORT = process.env.PORT || 1989;
 
 connectToDb(async (err) => {
   if (err) {
-    console.log("Sth went wrong with the server");
+    console.log("Failed to connect to db: " + err.message);
   } else {
-    app.listen(port, () => {
-      console.log(`Listening to HTTPS on port ${port}`);
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on port ${PORT}`);
     });
   }
 });
