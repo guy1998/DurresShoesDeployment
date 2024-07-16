@@ -1,6 +1,6 @@
 import { logout } from "../../../../login/login-scripts";
-const url = "http://localhost:8003/login/";
-const authUrl = "http://localhost:8003/auth/";
+const url = "https://durresshoesdeployment.onrender.com/login/";
+const authUrl = "https://durresshoesdeployment.onrender.com/auth/";
 
 export const getUsers = async (notification, navigator) => {
   const response = await fetch(`${url}get-users`, {

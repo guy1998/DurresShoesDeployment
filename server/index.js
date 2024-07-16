@@ -14,7 +14,7 @@ const authorizationRouter = require("./routers/authorization.js");
 const additionalCostsRouter = require("./routers/otherCostsRouter.js");
 const fierStatisticsRouter = require("./routers/fierStatisticRouter.js");
 
-const allowedOrigins = ["http://localhost:3000", "postman://app", 'http://localhost:8003'];
+const allowedOrigins = ["http://localhost:3000", "postman://app", 'http://localhost:8003', 'https://durresshoesdeployment.onrender.com'];
 
 app.use(
   cors({

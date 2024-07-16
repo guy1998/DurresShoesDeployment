@@ -1,7 +1,7 @@
 import { logout } from "../../../../login/login-scripts";
-const url = "http://localhost:8003/dailyStatistics/";
-const fierUrl = "http://localhost:8003/fierStatistics/";
-const otherCostUrl = "http://localhost:8003/additionalCosts/";
+const url = "https://durresshoesdeployment.onrender.com/dailyStatistics/";
+const fierUrl = "https://durresshoesdeployment.onrender.com/fierStatistics/";
+const otherCostUrl = "https://durresshoesdeployment.onrender.com/additionalCosts/";
 
 export const getProductsManufactured = async (notification, navigator) => {
   const now = new Date();

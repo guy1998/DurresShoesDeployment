@@ -1,5 +1,5 @@
 import { logout } from "../../../../login/login-scripts";
-const url = "http://localhost:8003/article/";
+const url = "https://durresshoesdeployment.onrender.com/article/";
 
 export const getProducts = async (notification, navigator) => {
   const response = await fetch(`${url}allArticles`, {

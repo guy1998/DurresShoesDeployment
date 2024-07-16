@@ -82,7 +82,7 @@ const authorize = (req, res, action) => {
           {
             maxAge: 3600000,
             httpOnly: true,
-            secure: false,
+            secure: true,
             sameSite: "none",
           }
         );
@@ -149,7 +149,7 @@ async function logOut(res) {
   res.cookie("tokenCookie", "", {
     expires: new Date(0),
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: "none",
   });
   res.status(200).json("Logging out");

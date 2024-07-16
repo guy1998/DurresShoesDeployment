@@ -1,6 +1,6 @@
 import { logout } from "../../../../login/login-scripts";
-const url = "http://localhost:8003/dailyStatistics/";
-const expensesUrl = "http://localhost:8003/additionalCosts/";
+const url = "https://durresshoesdeployment.onrender.com/dailyStatistics/";
+const expensesUrl = "https://durresshoesdeployment.onrender.com/additionalCosts/";
 
 export const getAllFinancials = async (notification, navigator, startDate, endDate) => {
   const response = await fetch(`${url}timeRange`, {

@@ -1,4 +1,4 @@
-const url = 'http://localhost:8003/auth/authorize'
+const url = 'https://durresshoesdeployment.onrender.com/auth/authorize'
 
 export const authorize = async (navigator, pathname)=>{
     const response = await fetch(url, {

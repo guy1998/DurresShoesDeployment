@@ -1,4 +1,4 @@
-const url = 'http://localhost:8003/login/'
+const url = 'https://durresshoesdeployment.onrender.com/login/'
 
 const verifyCredentials = (username, password, notification)=>{
     if(username && password)
