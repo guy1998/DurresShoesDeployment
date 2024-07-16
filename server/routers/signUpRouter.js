@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express();
-const loginController = require("../controllers/userProxy");
+const loginController = require("../controllers/UserProxy");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
