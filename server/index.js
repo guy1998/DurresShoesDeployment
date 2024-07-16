@@ -11,6 +11,7 @@ const monthlyStatisticsRouter = require("./routers/monthlyStatisticsRouter.js");
 const authorizationRouter = require("./routers/authorization.js");
 const additionalCostsRouter = require("./routers/otherCostsRouter.js");
 const fierStatisticsRouter = require("./routers/fierStatisticRouter.js");
+const { createUser } = require("./controllers/UserProxy.js");
 
 const allowedOrigins = ["http://localhost:3000", "postman://app"];
 
