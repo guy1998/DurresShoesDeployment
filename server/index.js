@@ -14,7 +14,7 @@ const authorizationRouter = require("./routers/authorization.js");
 const additionalCostsRouter = require("./routers/otherCostsRouter.js");
 const fierStatisticsRouter = require("./routers/fierStatisticRouter.js");
 
-const allowedOrigins = ["http://localhost:3000", "postman://app"];
+const allowedOrigins = ["http://localhost:3000", "postman://app", 'http://localhost:8003'];
 
 app.use(
   cors({
@@ -49,7 +49,7 @@ app.get("*", (req, res) =>
   res.sendFile(path.join(__dirname, "/client/build/index.html"))
 );
 
-const PORT = process.env.PORT || 1989;
+const PORT = process.env.PORT || 8003;
 
 connectToDb(async (err) => {
   if (err) {
