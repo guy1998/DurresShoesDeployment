@@ -12,6 +12,12 @@ import ConfirmModal from "./components/ConfirmModal";
 import { getAllExpenses, deleteExpense } from "./scripts/expenses-scripts";
 import FilterModal from "../../../../components/DatePickerFilter";
 
+const totalCost = (expenses) => {
+  return expenses.reduce((acc, expense) => {
+    return acc + expense.quantity;
+  }, 0);
+};
+
 function ListContent() {
   const isMobile = useMediaQuery("(max-width: 599px)");
   const [expenses, setExpenses] = useState([]);

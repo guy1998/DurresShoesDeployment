@@ -26,7 +26,9 @@ function ProductListContent() {
           </MDTypography>
         </MDBox>
       ),
-      cost: <MDTypography>{`${article.costPerArticle} Lek`}</MDTypography>,
+      cost: (
+        <MDTypography>{`${article.costPerArticle.$numberDecimal} Lek`}</MDTypography>
+      ),
       actions: (
         <MDBox style={{ display: "flex" }}>
           <MDButton

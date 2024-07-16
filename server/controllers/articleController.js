@@ -1,11 +1,13 @@
 const Article = require("../models/article");
+const { Decimal128 } = require("mongodb");
 
 async function createArticle(req, res) {
   try {
     const { code, costPerArticle } = req.body;
+    const cost = Decimal128.fromString(costPerArticle.toString());
     const newArticle = new Article({
       code: code,
-      costPerArticle: costPerArticle,
+      costPerArticle: cost,
     });
     const savedArticle = await newArticle.save();
     res.status(201).json(savedArticle);
@@ -47,6 +49,7 @@ const getArticleByCost = async (req, res) => {
     if (!article) {
       return res.status(404).json({ err: "Article not found" });
     }
+
     res.status(200).json(article);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -77,11 +80,11 @@ const updateCost = async (req, res) => {
   }
 };
 
-const updateProduct = async (req, res)=>{
+const updateProduct = async (req, res) => {
   try {
     const { itemId, newInfo } = req.body;
     const updatedItem = await Article.findByIdAndUpdate(itemId, {
-      ...newInfo
+      ...newInfo,
     });
     if (!updatedItem) {
       return res.status(404).json({ error: "Item not found" });
@@ -90,7 +93,7 @@ const updateProduct = async (req, res)=>{
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-}
+};
 
 const deleteArticleById = async (req, res) => {
   try {
@@ -127,5 +130,5 @@ module.exports = {
   updateCost,
   deleteArticleById,
   deleteArticleByCode,
-  updateProduct
+  updateProduct,
 };
