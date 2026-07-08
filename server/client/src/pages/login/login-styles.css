@@ -2,9 +2,114 @@
 @import url("https://fonts.googleapis.com/css2?family=Playwrite+NL:wght@100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
+/* ── Page Layout ─────────────────────────────────────────── */
+
+.login-page {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── Brand Panel (left) ───────────────────────────────────── */
+
+.brand-panel {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #0c4a6e 0%, #0369a1 50%, #0ea5e9 100%);
+  overflow: hidden;
+}
+
+.brand-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+}
+
+.brand-circle-1 {
+  width: 480px;
+  height: 480px;
+  top: -140px;
+  right: -120px;
+}
+
+.brand-circle-2 {
+  width: 300px;
+  height: 300px;
+  bottom: 20px;
+  left: -80px;
+}
+
+.brand-circle-3 {
+  width: 200px;
+  height: 200px;
+  top: 38%;
+  left: 24px;
+}
+
+.brand-circle-4 {
+  width: 140px;
+  height: 140px;
+  bottom: 100px;
+  right: 48px;
+}
+
+.brand-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px;
+}
+
+.brand-name {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 96pt;
+  color: white;
+  line-height: 0.9;
+  margin: 0;
+  letter-spacing: 6px;
+}
+
+.brand-name-sub {
+  font-family: "Playwrite NL", cursive;
+  font-size: 38pt;
+  font-weight: 200;
+  color: rgba(186, 230, 253, 0.9);
+  margin: 12px 0 0 0;
+}
+
+.brand-tagline {
+  font-family: Poppins, sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 28px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+/* ── Form Panel (right) ───────────────────────────────────── */
+
+.form-panel {
+  width: 520px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f9ff;
+  box-shadow: -20px 0 60px rgba(3, 105, 161, 0.12);
+}
+
+/* ── Login Card ───────────────────────────────────────────── */
+
 .container {
-  width: 450px;
-  height: 600px;
+  width: 420px;
   background: #f8f9fd;
   background: linear-gradient(
     0deg,
@@ -15,10 +120,9 @@
   padding: 25px 35px;
   border: 5px solid rgb(255, 255, 255);
   box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 30px 30px -20px;
-  margin: 20px;
   font-family: Poppins;
-  position: absolute;
-  z-index: 1000;
+  position: relative;
+  z-index: 10;
   animation: flyIn 1s ease-out forwards;
 }
 
@@ -147,247 +251,118 @@
   font-size: 9px;
 }
 
-.login-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  background-image: url("../../assets/images/durres_bg.jpg");
-  background-repeat: no-repeat;
-  background-size: 100%;
-  background-position: cover;
-  overflow: scroll;
-}
-
-.frosted-glass {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 72vw;
-  height: 40vh;
-  box-shadow: 0 0.3px 0.7px rgba(0, 0, 0, 0.126),
-    0 0.9px 1.7px rgba(0, 0, 0, 0.179), 0 1.8px 3.5px rgba(0, 0, 0, 0.224),
-    0 3.7px 7.3px rgba(0, 0, 0, 0.277), 0 10px 20px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(20px);
-  transition: 0.5s ease;
-  margin-top: 25px;
-}
-
-.shoes {
-  font-family: "Playwrite NL", cursive;
-  font-optical-sizing: auto;
-  font-style: normal;
-  color: darkorchid;
-  font-size: 105pt;
-  margin-right: 5px;
-  animation: flyInTop 1s ease-out forwards;
-}
-
-.durres {
-  font-family: "Bebas Neue", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 120pt;
-  color: white;
-  margin-left: 5px;
-  animation: flyInBottom 1s ease-out forwards;
-}
+/* ── Animations ───────────────────────────────────────────── */
 
 @keyframes flyIn {
   from {
-    transform: translateX(-100%);
+    transform: translateX(60px);
+    opacity: 0;
   }
   to {
     transform: translateX(0);
+    opacity: 1;
   }
 }
 
-@keyframes flyInBottom {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
+/* ── Responsive ───────────────────────────────────────────── */
 
-@keyframes flyInTop {
-  from {
-    transform: translateY(-100%);
+@media screen and (max-width: 900px) {
+  .login-page {
+    flex-direction: column;
+    overflow-y: auto;
   }
-  to {
-    transform: translateY(0);
-  }
-}
 
-@media screen and (max-width: 1300px) {
+  .brand-panel {
+    flex: none;
+    height: 220px;
+    width: 100%;
+  }
+
+  .brand-name {
+    font-size: 52pt;
+  }
+
+  .brand-name-sub {
+    font-size: 22pt;
+    margin-top: 6px;
+  }
+
+  .brand-tagline {
+    display: none;
+  }
+
+  .brand-circle-1 {
+    width: 260px;
+    height: 260px;
+    top: -80px;
+    right: -60px;
+  }
+
+  .brand-circle-2 {
+    width: 180px;
+    height: 180px;
+    bottom: -40px;
+    left: -40px;
+  }
+
+  .brand-circle-3,
+  .brand-circle-4 {
+    display: none;
+  }
+
+  .form-panel {
+    width: 100%;
+    flex: 1;
+    box-shadow: none;
+    padding: 40px 20px;
+  }
+
   .container {
-    height: 465px;
-    width: 350px;
-    animation: flyInBottom 1s ease-out forwards;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .social-account-container {
+    margin-top: 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .brand-panel {
+    height: 180px;
+  }
+
+  .brand-name {
+    font-size: 40pt;
+  }
+
+  .brand-name-sub {
+    font-size: 18pt;
+  }
+
+  .container {
+    max-width: 320px;
   }
 
   .social-account-container {
     margin-top: 10px;
   }
-
-  .frosted-glass {
-    width: 80vw;
-  }
 }
 
-@media screen and (max-width: 599px) {
-  .login-page {
-    background-image: url("../../assets/images/mobile_bg.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+@media screen and (max-width: 1100px) and (min-width: 901px) {
+  .form-panel {
+    width: 440px;
   }
 
   .container {
-    height: 465px;
-    width: 300px;
-    margin-top: -100px;
+    width: 380px;
   }
 
-  .social-account-container {
-    margin-top: 5px;
+  .brand-name {
+    font-size: 72pt;
   }
 
-  .frosted-glass {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 810px) and (min-width: 600px) {
-  .login-page {
-    background-image: url("../../assets/images/durres_bg.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    overflow: scroll;
-  }
-
-  .container {
-    height: 465px;
-    width: 300px;
-    animation: flyIn 1s ease-out forwards;
-  }
-
-  .social-account-container {
-    margin-top: 5px;
-  }
-
-  .frosted-glass {
-    width: 95vw;
-    height: 20vh;
-  }
-
-  .shoes {
-    font-size: 52pt;
-  }
-
-  .durres {
-    font-size: 60pt;
-  }
-}
-
-@media screen and (max-width: 1080px) and (min-width: 811px) {
-  .login-page {
-    background-image: url("../../assets/images/durres_bg.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    overflow: scroll;
-  }
-
-  .container {
-    height: 465px;
-    width: 350px;
-    animation: flyIn 1s ease-out forwards;
-  }
-
-  .social-account-container {
-    margin-top: 5px;
-  }
-
-  .frosted-glass {
-    width: 95vw;
-    height: 30vh;
-  }
-
-  .shoes {
-    font-size: 70pt;
-  }
-
-  .durres {
-    font-size: 85pt;
-  }
-}
-
-@media screen and (max-width: 1440px) and (min-width: 1281px) {
-  .login-page {
-    background-image: url("../../assets/images/durres_bg.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    overflow: scroll;
-  }
-
-  .container {
-    height: 465px;
-    width: 350px;
-    animation: flyIn 1s ease-out forwards;
-  }
-
-  .social-account-container {
-    margin-top: 5px;
-  }
-
-  .frosted-glass {
-    width: 88vw;
-    height: 30vh;
-  }
-
-  .shoes {
-    font-size: 85pt;
-  }
-
-  .durres {
-    font-size: 110pt;
-  }
-}
-
-@media screen and (max-width: 1280px) and (min-width: 1081px) {
-  .login-page {
-    background-image: url("../../assets/images/durres_bg.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    overflow: scroll;
-  }
-
-  .container {
-    height: 465px;
-    width: 350px;
-    animation: flyIn 1s ease-out forwards;
-  }
-
-  .social-account-container {
-    margin-top: 5px;
-  }
-
-  .frosted-glass {
-    width: 88vw;
-    height: 30vh;
-  }
-
-  .shoes {
-    font-size: 85pt;
-  }
-
-  .durres {
-    font-size: 100pt;
+  .brand-name-sub {
+    font-size: 30pt;
   }
 }

@@ -118,7 +118,7 @@ async function createUser(req, res) {
 }
 
 const verify_credentials = async (username, password) => {
-  const user = await User.findOne({ username: username });
+  const user = await User.findOne({ username });
   if (user) {
     if (passwordVerifier(user.password, password) && user.status === "active")
       return { code: 1, user: user };

@@ -5,11 +5,20 @@ import LoginForm from "./login";
 function LoginPage(){
     return(
         <div className="login-page">
-            <div className="frosted-glass">
-                <h1 className="durres">Tenerife</h1>
-                <h1 className="shoes">Shoes</h1>
+            <div className="brand-panel">
+                <div className="brand-circle brand-circle-1"></div>
+                <div className="brand-circle brand-circle-2"></div>
+                <div className="brand-circle brand-circle-3"></div>
+                <div className="brand-circle brand-circle-4"></div>
+                <div className="brand-content">
+                    <h1 className="brand-name">Tenerife</h1>
+                    <h2 className="brand-name-sub">Shoes</h2>
+                    <p className="brand-tagline">Your premium footwear destination</p>
+                </div>
             </div>
-            <LoginForm />
+            <div className="form-panel">
+                <LoginForm />
+            </div>
         </div>
     )
 }
